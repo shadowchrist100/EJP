@@ -210,7 +210,7 @@ function App() {
           <div className="text-center space-y-4">
             <div className="space-y-1">
               <h2 className="text-2xl md:text-3xl font-bold text-black">
-                EGLISE JEUNES PRODIGES
+                MOUVEMENT JEUNES PRODIGES
               </h2>
               <p className="text-base text-gray-700">IMPACT CENTRE CHRETIEN DE PORTO-NOVO</p>
             </div>
@@ -308,7 +308,7 @@ function App() {
         </div>
       </section>
 
-     {/* <section id="evenements" className="py-16 bg-black bg-opacity-70 backdrop-blur-sm text-white">
+      {/* <section id="evenements" className="py-16 bg-black bg-opacity-70 backdrop-blur-sm text-white">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl font-bold text-center mb-8">Événements à Venir</h2>
           <div className="grid md:grid-cols-3 gap-5">
