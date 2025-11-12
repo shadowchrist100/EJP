@@ -25,6 +25,7 @@ const Nav = () => {
             <li><a href="#evenements" className="nav-link">Événements</a></li>
             <li><a href="#galerie" className="nav-link">Galerie</a></li>
             <li><a href="#contact" className="nav-link">Contact</a></li>
+            <li><a href="#contact" className="nav-link">Je souhaite rejoindre une FIJ</a></li>
           </ul>
 
           {isMenuOpen && (
@@ -35,6 +36,7 @@ const Nav = () => {
                 <li><a href="#evenements" className="block text-white hover:text-gray-300 py-2 font-medium">Événements</a></li>
                 <li><a href="#galerie" className="block text-white hover:text-gray-300 py-2 font-medium">Galerie</a></li>
                 <li><a href="#contact" className="block text-white hover:text-gray-300 py-2 font-medium">Contact</a></li>
+                <li><a href="#" className="block text-white hover:text-gray-300 py-2 font-medium">Je souhaite rejoindre une FIJ</a></li>
               </ul>
             </div>
           )}
@@ -106,7 +108,6 @@ const CountdownSection = () => {
             }
           }
         }
-        
         return { days, hours, minutes, seconds };
       });
     }, 1000);
