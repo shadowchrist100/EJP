@@ -1,50 +1,103 @@
 import React, { useState, useEffect, Component } from 'react';
 import logo from "./assets/logo.jpeg";  
+import { User, ChevronDown, ChevronUp } from 'lucide-react'
 
 const Nav = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const [isAuthOpen, setIsAuthOpen] = useState(false);
     
     return (
-        <nav className="navbar-dark">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-center h-14 relative">
-                    <button 
-                        onClick={() => setIsMenuOpen(!isMenuOpen)}
-                        className="lg:hidden absolute left-4 text-white p-2"
-                        aria-label="Toggle navigation"
-                    >
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                    </button>
+            <nav className="navbar-dark">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-20 relative">
+            <button 
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="lg:hidden text-white p-2 hover:bg-white/10 rounded-lg transition-all"
+                aria-label="Toggle navigation"
+            >
+                <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
 
-                    <ul className="hidden lg:flex space-x-8">
-                        <li><a href="/" className="nav-link">Accueil</a></li>
-                        <li><a href="#apropos" className="nav-link">À Propos</a></li>
-                        <li><a href="/evenements" className="nav-link">Événements</a></li>
-                        <li><a href="#galerie" className="nav-link">Galerie</a></li>
-                        <li><a href="#contact" className="nav-link">Contact</a></li>
-                        <li><a href="/Fij" className="nav-link">Je souhaite rejoindre une FIJ</a></li>
-                    </ul>
-
-                    {isMenuOpen && (
-                        <div className="lg:hidden absolute top-14 left-0 right-0 bg-black/70 backdrop-blur-sm border-b border-white/20">
-                            <ul className="py-4 space-y-2 px-4">
-                                <li><a href="#accueil" className="block text-white hover:text-gray-300 py-2 font-medium">Accueil</a></li>
-                                <li><a href="#apropos" className="block text-white hover:text-gray-300 py-2 font-medium">À Propos</a></li>
-                                <li><a href="#evenements" className="block text-white hover:text-gray-300 py-2 font-medium">Événements</a></li>
-                                <li><a href="#galerie" className="block text-white hover:text-gray-300 py-2 font-medium">Galerie</a></li>
-                                <li><a href="#contact" className="block text-white hover:text-gray-300 py-2 font-medium">Contact</a></li>
-                                <li><a href="#" className="block text-white hover:text-gray-300 py-2 font-medium">Je souhaite rejoindre une FIJ</a></li>
-                            </ul>
-                        </div>
-                    )}
-                </div>
+            <div className="hidden lg:flex items-center justify-center flex-1">
+                <ul className="flex items-center space-x-1">
+                    <li><a href="/" className="text-white hover:text-black px-5 py-3 rounded-lg hover:bg-white/5 transition-all duration-200 text-base font-medium">Accueil</a></li>
+                    <li><a href="#apropos" className="text-white hover:text-black px-5 py-3 rounded-lg hover:bg-white/5 transition-all duration-200 text-base font-medium">À Propos</a></li>
+                    <li><a href="/evenements" className="text-white hover:text-black px-5 py-3 rounded-lg hover:bg-white/5 transition-all duration-200 text-base font-medium">Événements</a></li>
+                    <li><a href="#galerie" className="text-white hover:text-black px-5 py-3 rounded-lg hover:bg-white/5 transition-all duration-200 text-base font-medium">Galerie</a></li>
+                    <li><a href="#contact" className="text-white hover:text-black px-5 py-3 rounded-lg hover:bg-white/5 transition-all duration-200 text-base font-medium">Contact</a></li>
+                    <li><a href="/Fij" className="text-white hover:text-black px-5 py-3 rounded-lg hover:bg-white/5 transition-all duration-200 text-base font-medium">Rejoindre une FIJ</a></li>
+                    
+                    <li className="relative ml-2">
+                        <button
+                            onClick={() => setIsAuthOpen(!isAuthOpen)}
+                            className="text-white hover:text-black px-5 py-3 rounded-lg hover:bg-white/5 transition-all duration-200 flex items-center gap-2 text-base font-medium border border-white/20"
+                        >
+                            <User className="w-5 h-5" />
+                            <span>Mon Compte</span>
+                            {isAuthOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                        </button>
+                        
+                        {isAuthOpen && (
+                            <div className="absolute right-0 mt-3 w-56 bg-black/80 backdrop-blur-sm rounded-md shadow-lg py-3 z-50 border border-white/20">
+                                <a href="#inscription" className="block px-4 py-3 text-white hover:text-black hover:bg-white/10 transition-colors">
+                                    S'inscrire
+                                </a>
+                                <a href="#connexion" className="block px-4 py-3 text-white hover:text-black hover:bg-white/10 transition-colors">
+                                    Se connecter
+                                </a>
+                            </div>
+                        )}
+                    </li>
+                </ul>
             </div>
-        </nav>
+
+            {isMenuOpen && (
+                <div className="lg:hidden absolute top-20 left-0 right-0 bg-black/70 backdrop-blur-sm border-b border-white/20 z-50">
+                    <ul className="py-4 space-y-2 px-4">
+                        <li><a href="/" className="block text-white hover:text-gray-300 py-4 px-4 font-medium rounded-lg hover:bg-white/5 transition-all text-base">Accueil</a></li>
+                        <li><a href="#apropos" className="block text-white hover:text-gray-300 py-4 px-4 font-medium rounded-lg hover:bg-white/5 transition-all text-base">À Propos</a></li>
+                        <li><a href="/evenements" className="block text-white hover:text-gray-300 py-4 px-4 font-medium rounded-lg hover:bg-white/5 transition-all text-base">Événements</a></li>
+                        <li><a href="#galerie" className="block text-white hover:text-gray-300 py-4 px-4 font-medium rounded-lg hover:bg-white/5 transition-all text-base">Galerie</a></li>
+                        <li><a href="#contact" className="block text-white hover:text-gray-300 py-4 px-4 font-medium rounded-lg hover:bg-white/5 transition-all text-base">Contact</a></li>
+                        <li><a href="/Fij" className="block text-white hover:text-gray-300 py-4 px-4 font-medium rounded-lg hover:bg-white/5 transition-all text-base">Rejoindre une FIJ</a></li>
+                        
+                        <li className="border-t border-white/20 pt-4 mt-4">
+                            <button
+                                onClick={() => setIsAuthOpen(!isAuthOpen)}
+                                className="w-full flex items-center justify-between text-white hover:text-gray-300 hover:bg-white/5 py-4 px-4 font-medium rounded-lg transition-all"
+                            >
+                                <div className="flex items-center gap-3">
+                                    <User className="w-5 h-5" />
+                                    <span className="text-base">Mon Compte</span>
+                                </div>
+                                {isAuthOpen ? (
+                                    <ChevronUp className="w-5 h-5" />
+                                ) : (
+                                    <ChevronDown className="w-5 h-5" />
+                                )}
+                            </button>
+                            
+                            {isAuthOpen && (
+                                <div className="mt-2 ml-4 space-y-2">
+                                    <a href="#inscription" className="block text-gray-300 hover:text-white py-3 pl-4 border-l-2 border-white/30 hover:border-white transition-colors text-base">
+                                        S'inscrire
+                                    </a>
+                                    <a href="#connexion" className="block text-gray-300 hover:text-white py-3 pl-4 border-l-2 border-white/30 hover:border-white transition-colors text-base">
+                                        Se connecter
+                                    </a>
+                                </div>
+                            )}
+                        </li>
+                    </ul>
+                </div>
+            )}
+        </div>
+    </div>
+            </nav>
     );
 };
-
 const Banner = () => {
     return (
         <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto mt-6">
@@ -294,11 +347,12 @@ const Index = () =>{
             </div>
         </section>
 
-        {/* <section id="evenements" className="py-16 bg-black bg-opacity-70 backdrop-blur-sm text-white">
+        <section id="evenements" className="py-16 bg-white bg-opacity-70 backdrop-blur-sm text-black">
             <div className="container mx-auto px-4">
-            <h2 className="text-3xl font-bold text-center mb-8">Événements à Venir</h2>
+            <h2 className="text-3xl font-bold text-center mb-8">Cultes à Venir de l'EJP </h2>
+            <h3 className="text-2x1 font-bold text-center mb-6">Retrouve les derniers cultes de l’église des jeunes prodiges de l'Impact Centre Chrétien de PORTO-NOVO</h3>
             <div className="grid md:grid-cols-3 gap-5">
-                {[1, 2, 3].map(item => (
+                {[1, 2, 3,].map(item => (
                 <div key={item} className="bg-[#0a0a0a] rounded-lg overflow-hidden hover:scale-105 transition border border-[#222]">
                     <div className="bg-[#111] h-40 flex items-center justify-center">
                     <span className="text-[#aaa]">Image {item}</span>
@@ -317,9 +371,29 @@ const Index = () =>{
                 ))}
             </div>
             </div>
-        </section> */}
+        </section> 
 
-        {/* <section id="galerie" className="py-16 bg-black bg-opacity-70 backdrop-blur-sm text-white">
+        <section id="premierpas" className="py-16 bg-gray-200 bg-opacity-70 backdrop-blur-sm text-gray-700">
+            <div className="container mx-auto px-4 text-center">
+                <h2 className="text-3xl font-bold text-center mb-8">MES PREMIERS PAS AVEC JESUS</h2>
+                <h3 className="text-2xl font-bold text-center mb-6">
+                Tu commences ta marche avec Jésus et tu veux être guidé et bâti dans tes premiers pas avec Lui ou tu veux revoir certains fondements de la foi ? Rejoins la formation : « Mes premiers pas avec Jésus »
+                </h3>
+                <div className="flex justify-center">
+                <button className="bg-white hover:bg-[#ddd] text-black px-5 py-2 rounded-lg transition font-semibold">
+                    Inscris-toi
+                </button>
+                </div>
+            </div>
+        </section>
+
+        <div className="w-full bg-white py-0">
+            <div className="container mx-auto px-4">
+            <div className="w-full h-px bg-black"></div>
+            </div>
+        </div>
+
+        <section id="galerie" className="py-16 bg-gray-200 bg-opacity-70 backdrop-blur-sm text-gray-650">
             <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold text-center mb-8">Galerie</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
@@ -330,7 +404,80 @@ const Index = () =>{
                 ))}
             </div>
             </div>
-        </section> */}
+        </section> 
+
+        <section className="relative min-h-screen bg-linear-gradient-to-br from-gray-950 via-gray-900 to-gray-950 flex items-center justify-center px-6 py-20 overflow-hidden">
+            {/* Background overlay with darker pattern */}
+            <div className="absolute inset-0 bg-black/70"></div>
+            
+            {/* Decorative watermark - maintained visibility */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-10 select-none pointer-events-none">
+                <div className="text-[20rem] font-bold text-white transform rotate-[-15deg] whitespace-nowrap">
+                    JESUS
+                </div>
+            </div>
+
+            {/* Content container */}
+            <div className="relative z-10 max-w-5xl mx-auto text-center text-white space-y-8">
+                {/* Title */}
+                <div className="space-y-4">
+                    <h1 className="text-5xl md:text-6xl font-bold tracking-wide">
+                        FAIRE UN DON
+                    </h1>
+                    <div className="w-32 h-1 bg-white mx-auto"></div>
+                </div>
+
+                {/* Subtitle */}
+                <p className="text-xl md:text-2xl text-gray-300 font-light">
+                    Merci beaucoup pour ton désir de soutenir la vision de l'EJP.
+                </p>
+
+                {/* Main message */}
+                <p className="text-lg md:text-xl text-gray-200 leading-relaxed max-w-4xl mx-auto">
+                    C'est l'opportunité de contribuer à répandre l'Évangile à travers le monde et à transformer des vies.
+                </p>
+
+                {/* Bible verse */}
+                <div className="text-base md:text-lg text-gray-300 leading-relaxed max-w-4xl mx-auto py-4">
+                    Lorsque tu donnes, fais-le en toute conscience et liberté,{' '}
+                    <span className="font-semibold text-white">avec joie</span>,{' '}
+                    <span className="font-semibold text-white">sans contrainte</span>, ni{' '}
+                    <span className="font-semibold text-white">regret</span>{' '}
+                    <span className="text-gray-400 italic">(2 Corinthiens 9:7)</span>
+                </div>
+
+                {/* Description */}
+                <p className="text-base md:text-lg text-gray-200 leading-relaxed max-w-4xl mx-auto pt-4">
+                    Par ton soutien occasionnel ou régulier, tu contribues de manière significative à impacter les vies et à ramener les cœurs vers Dieu en nous aidant à{' '}
+                    <span className="font-semibold text-white">diffuser la bonne nouvelle du Royaume de Dieu.</span>
+                </p>
+
+                {/* Notice */}
+                <p className="text-sm md:text-base text-gray-400 italic">
+                    Aucuns biens ou services ne seront fournis en échange de ta contribution.
+                </p>
+
+                {/* Blessing */}
+                <p className="text-2xl md:text-3xl font-semibold text-white pt-6">
+                    Sois béni(e) !
+                </p>
+
+                {/* CTA Button */}
+                <div className="pt-8">
+                    <button className="group relative inline-flex items-center gap-3 px-8 py-4 text-lg font-medium text-white border-2 border-white hover:bg-white hover:text-gray-900 transition-all duration-300 ease-in-out">
+                        <span>Faire un don</span>
+                        <svg 
+                            className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300" 
+                            fill="none" 
+                            stroke="currentColor" 
+                            viewBox="0 0 24 24"
+                        >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </section>
 
         <section id="contact" className="py-12 bg-white relative">
             <div className="absolute right-0 top-0 bottom-0 w-1/2 bg-cover bg-center opacity-10 hidden md:block" 
