@@ -1,5 +1,8 @@
 import React, { useState, useEffect, Component } from 'react';
 import logo from "./assets/logo.jpeg";  
+import banner from "./assets/immg.jpeg";
+import unesœur from "./assets/unesœur.webp";
+import unfrère from "./assets/unfrère.webp";
 import { User, ChevronDown, ChevronUp } from 'lucide-react'
 
 const Nav = () => {
@@ -26,8 +29,9 @@ const Nav = () => {
                         <li><a href="/evenements" className="nav-link">Événements</a></li>
                         <li><a href="#galerie" className="nav-link">Galerie</a></li>
                         <li><a href="#contact" className="nav-link">Contact</a></li>
-                        <li><a href="/dons" className="nav-link">Faire un Don</a></li>
+                        <li><a href="/don" className="nav-link">Faire un Don</a></li>
                         <li><a href="/Fij" className="nav-link">Rejoindre une FIJ</a></li>
+                        
                     </ul>
 
             {isMenuOpen && (
@@ -39,7 +43,8 @@ const Nav = () => {
                         <li><a href="#galerie" className="block text-white hover:text-gray-300 py-4 px-4 font-medium rounded-lg hover:bg-white/5 transition-all text-base">Galerie</a></li>
                         <li><a href="#contact" className="block text-white hover:text-gray-300 py-4 px-4 font-medium rounded-lg hover:bg-white/5 transition-all text-base">Contact</a></li>
                         <li><a href="/Fij" className="block text-white hover:text-gray-300 py-4 px-4 font-medium rounded-lg hover:bg-white/5 transition-all text-base">Rejoindre une FIJ</a></li>
-                        
+                        <li><a href="/don" className="block text-white hover:text-gray-300 py-4 px-4 font-medium rounded-lg hover:bg-white/5 transition-all text-base">Faire un Don</a></li>
+
                         <li className="border-t border-white/20 pt-4 mt-4">
                             <button
                                 onClick={() => setIsAuthOpen(!isAuthOpen)}
@@ -542,6 +547,129 @@ const Index = () =>{
                 </div>
             </div>
         </section>
+
+            <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+                {/* Background */}
+                <div className="absolute inset-0 z-0">
+                    <img 
+                        src={banner}
+                        alt="Background" 
+                        className="w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-linear-gradient-to-br from-black/40 via-black/30 to-black/50"></div>
+                </div>
+                {/* Content */}
+                <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto py-20">
+                    <h3 className="text-4xl sm:text-3xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-tight">
+                    REJOINDRE UNE FAMILLE D'IMPACT JEUNES
+                    </h3>
+        
+                    {/* Decorative golden line */}
+                    <div className="w-24 sm:w-32 h-1 bg-amber-600 mx-auto mb-12"></div>
+        
+                    <p className="text-xl sm:text-2xl md:text-3xl text-white mb-8 font-light">
+                    Les FIJ sont des cellules de l'Église des Jeunes Prodiges.
+                    </p>
+        
+                    <p className="text-base sm:text-lg md:text-xl text-white mb-16 max-w-5xl mx-auto leading-relaxed px-4">
+                    Les membres de l'église se réunissent <span className="font-bold">tous les mardis de 19h15 à 20h30</span> dans les maisons hôtes pour s'édifier et influencer leurs villes avec les valeurs de Christ. (Actes 5:42)
+                    </p>
+        
+                    {/* Buttons */}
+                    <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-6 px-4">
+                        <button className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 border-2 border-white text-white rounded-full hover:bg-white hover:text-gray-900 transition-all duration-300 font-medium text-base sm:text-lg shadow-lg hover:shadow-xl">
+                            Rejoindre une FIJ
+                        </button>
+                
+                        <button className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-white text-amber-600 rounded-full hover:bg-amber-50 transition-all duration-300 font-semibold text-base sm:text-lg shadow-lg hover:shadow-xl">
+                            Ouvrir ma maison
+                        </button>
+                
+                        <button className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 border-2 border-amber-600 text-white rounded-full hover:bg-amber-600 transition-all duration-300 font-medium text-base sm:text-lg shadow-lg hover:shadow-xl">
+                            Carte des FIJ
+                        </button>
+                    </div>
+                </div>
+            </section>  
+
+        <section id="nosministères" className="py-16 bg-gray-100 bg-opacity-70 backdrop-blur-sm text-gray-700">
+            <div className="container mx-auto px-4 text-center">
+                <h2 className="text-3xl font-bold text-center mb-8">NOS MINISTÈRES</h2>
+                <h3 className="text-2xl font-bold text-center mb-6">
+                Tu retrouveras ici la liste de tous nos ministères, à toi de choisir 
+                </h3>
+                <div className="flex justify-center">
+                <button className="bg-white hover:bg-[#ddd] text-black px-5 py-2 rounded-lg transition font-semibold">
+                    Voir les ministères
+                </button>
+                </div>
+            </div>
+        </section>
+
+        
+        <div className="w-full bg-white py-0">
+            <div className="container mx-auto px-4">
+            <div className="w-full h-px bg-black"></div>
+            </div>
+        </div>
+
+            <section className="grid grid-cols-1 lg:grid-cols-2">
+                        {/* Kumi section - Left */}
+                        <div className="relative min-h-[600px] lg:min-h-[700px] bg-linear-gradient-to-br from-blue-900 via-blue-800 to-blue-900 flex flex-col items-center justify-between py-12 px-8">
+                            {/* Title */}
+                            <div className="text-center mb-8">
+                            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
+                                TU ES UNE SŒUR ?<br />
+                                REJOINS LES KUMI !
+                            </h2>
+                            </div>
+
+                            {/* Image */}
+                            <div className="flex-1 w-full max-w-2xl mb-8">
+                            <img 
+                                src={unesœur} 
+                                alt="Les Kumi" 
+                                className="w-full h-full object-cover rounded-lg shadow-2xl"
+                            />
+                            </div>
+
+                            {/* Button */}
+                            <button className="px-8 py-4 border-2 border-white text-white rounded-md hover:bg-white hover:text-blue-900 transition-all duration-300 font-medium text-lg flex items-center gap-2">
+                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                            </svg>
+                            Rejoindre ici
+                            </button>
+                        </div>
+
+                        {/* Eagles section - Right */}
+                        <div className="relative min-h-[600px] lg:min-h-[700px] bg-linear-gradient-to-br from-purple-900 via-purple-800 to-purple-900 flex flex-col items-center justify-between py-12 px-8">
+                            {/* Title */}
+                            <div className="text-center mb-8">
+                            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
+                                TU ES UN FRÈRE ?<br />
+                                REJOINS LES EAGLES !
+                            </h2>
+                            </div>
+
+                            {/* Image */}
+                            <div className="flex-1 w-full max-w-2xl mb-8">
+                            <img 
+                                src={unfrère} 
+                                alt="Les Eagles" 
+                                className="w-full h-full object-cover rounded-lg shadow-2xl"
+                            />
+                            </div>
+
+                            {/* Button */}
+                            <button className="px-8 py-4 border-2 border-white text-white rounded-md hover:bg-white hover:text-purple-900 transition-all duration-300 font-medium text-lg flex items-center gap-2">
+                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/>
+                            </svg>
+                            Rejoindre ici
+                            </button>
+                        </div>
+                    </section>
 
         <section id="contact" className="py-12 bg-white relative">
             <Contact />
