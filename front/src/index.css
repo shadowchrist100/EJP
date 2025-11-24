@@ -30,7 +30,7 @@
     perspective: 1000px;
 }
 
-.thecard {
+/* .thecard {
     transform-style: preserve-3d;
     transition: all 0.5s ease;
 }
@@ -45,5 +45,21 @@
 
 .theback {
     backface-visibility: hidden;
+    transform: rotateY(180deg); 
+} 
+    */
+.perspective-1000 {
+    perspective: 1000px;
+    }
+
+    .thecard {
+    transform-style: preserve-3d;
+    }
+
+    .backface-hidden {
+    backface-visibility: hidden;
+    }
+
+    .rotate-y-180 {
     transform: rotateY(180deg);
-}
+    }
