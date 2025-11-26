@@ -3,37 +3,66 @@ import logo from "./assets/logo.jpeg";
 import banner from "./assets/immg.jpeg";
 import unesœur from "./assets/unesœur.webp";
 import unfrère from "./assets/unfrère.webp";
-import { User, ChevronDown, ChevronUp } from 'lucide-react'
+import { User, ChevronDown, ChevronUp, ChevronLeft, ChevronRight } from 'lucide-react'
 
 const Nav = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isAuthOpen, setIsAuthOpen] = useState(false);
+
+    const [currentIndex, setCurrentIndex] = useState(0);
     
     return (
-        <nav className="navbar-dark">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-                <div className="flex items-center justify-between h-20 relative">
-                    <button 
-                        onClick={() => setIsMenuOpen(!isMenuOpen)}
-                        className="lg:hidden text-white p-2 hover:bg-white/10 rounded-lg transition-all"
-                        aria-label="Toggle navigation"
-                    >
-                        <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                    </button>
+            <nav className="navbar-dark">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-20 relative">
 
-                    <ul className="hidden lg:flex space-x-8">
-                        <li><a href="/" className="nav-link">Accueil</a></li>
-                        <li><a href="#apropos" className="nav-link">À Propos</a></li>
-                        <li><a href="/evenements" className="nav-link">Événements</a></li>
-                        <li><a href="#galerie" className="nav-link">Galerie</a></li>
-                        <li><a href="#contact" className="nav-link">Contact</a></li>
-                        <li><a href="/don" className="nav-link">Faire un Don</a></li>
-                        <li><a href="/Fij" className="nav-link">Rejoindre une FIJ</a></li>
+            {/* MENU BURGER MOBILE */}
+            <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="lg:hidden text-white p-2 hover:bg-white/10 rounded-lg transition-all"
+                aria-label="Toggle navigation"
+            >
+                <svg className="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+
+            {/* MENU PC */}
+            <div className="hidden lg:flex items-center justify-center flex-1">
+                <ul className="flex items-center gap-2">
+                    <li><a href="/" className="nav-link">Accueil</a></li>
+                    <li><a href="#apropos" className="nav-link">À Propos</a></li>
+                    <li><a href="/evenements" className="nav-link">Événements</a></li>
+                    <li><a href="#galerie" className="nav-link">Galerie</a></li>
+                    <li><a href="#contact" className="nav-link">Contact</a></li>
+                    <li><a href="/don" className="nav-link">Faire un Don</a></li>
+                    <li><a href="/Fij" className="nav-link">Rejoindre une FIJ</a></li>
+                    
+                    <li className="relative">
+                        <button
+                            onClick={() => setIsAuthOpen(!isAuthOpen)}
+                            className="nav-link flex items-center gap-1.5"
+                        >
+                            <User className="w-3.5 h-3.5" />
+                            <span>Mon Compte</span>
+                            {isAuthOpen ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+                        </button>
                         
-                    </ul>
+                        {isAuthOpen && (
+                            <div className="absolute right-0 mt-2 w-44 bg-black/90 backdrop-blur-sm rounded-lg shadow-xl py-2 z-50 border border-white/20">
+                                <a href="#inscription" className="block px-4 py-2.5 text-sm text-white hover:text-gray-300 hover:bg-white/10 transition-colors">
+                                    S'inscrire
+                                </a>
+                                <a href="#connexion" className="block px-4 py-2.5 text-sm text-white hover:text-gray-300 hover:bg-white/10 transition-colors">
+                                    Se connecter
+                                </a>
+                            </div>
+                        )}
+                    </li>
+                </ul>
+            </div>
 
+            {/* MENU MOBILE */}
             {isMenuOpen && (
                 <div className="lg:hidden absolute top-20 left-0 right-0 bg-black/70 backdrop-blur-sm border-b border-white/20 z-50">
                     <ul className="py-4 space-y-2 px-4">
@@ -44,7 +73,7 @@ const Nav = () => {
                         <li><a href="#contact" className="block text-white hover:text-gray-300 py-4 px-4 font-medium rounded-lg hover:bg-white/5 transition-all text-base">Contact</a></li>
                         <li><a href="/Fij" className="block text-white hover:text-gray-300 py-4 px-4 font-medium rounded-lg hover:bg-white/5 transition-all text-base">Rejoindre une FIJ</a></li>
                         <li><a href="/don" className="block text-white hover:text-gray-300 py-4 px-4 font-medium rounded-lg hover:bg-white/5 transition-all text-base">Faire un Don</a></li>
-
+                        
                         <li className="border-t border-white/20 pt-4 mt-4">
                             <button
                                 onClick={() => setIsAuthOpen(!isAuthOpen)}
@@ -288,6 +317,128 @@ const Contact = ()=>{
 }
 
 
+const TestimonialSection = () => {
+    const testimonials = [
+        {
+          name: "Audrey",
+          title: "L'Église de mes rêves",
+          text: "Je n'aurais pas pu rêver d'une meilleure église, franchement, l'église de mes rêves. Moi qui me sentais seule et qui avais l'impression que Dieu m'avait abandonnée, je me sens tellement mieux maintenant que je suis à l'EJP ! Merci ma famille !"
+        },
+        {
+          name: "Owen",
+          title: "J'aime tellement mon église !",
+          text: "Avant je pensais que j'allais aller à l'église quand je serais plus grand, mais Dieu en a décidé autrement. Honnêtement je n'aurai jamais imaginé vivre cette vie là et depuis que je suis à l'EJP j'attends dimanche après dimanche ! Merci Seigneur pour Ta grâce 🙏"
+        },
+        {
+          name: "Joël",
+          title: "Réponse à mes prières",
+          text: "Le MJP a été la réponse à ma prière. Je voulais une maison spirituelle où j'allais grandir avec Christ en étant libre d'exprimer mon amour pour Jésus. Le MJP a été et est l'une de mes plus grandes bénédictions !"
+        },
+        {
+          name: "Stella",
+          title: "Hâte d'être dimanche prochain",
+          text: "Chaque dimanche est une nouvelle occasion de grandir et de découvrir l'amour de Dieu. Cette communauté est vraiment exceptionnelle. Merci !"
+        }
+      ];
+    
+      const [currentIndex, setCurrentIndex] = useState(0);
+    
+      const goToPrevious = () => {
+        setCurrentIndex((prevIndex) => 
+          prevIndex === 0 ? testimonials.length - 1 : prevIndex - 1
+        );
+      };
+    
+      const goToNext = () => {
+        setCurrentIndex((prevIndex) => 
+          prevIndex === testimonials.length - 1 ? 0 : prevIndex + 1
+        );
+      };
+    
+      const goToSlide = (index) => {
+        setCurrentIndex(index);
+      };
+    
+      return (
+        <section id="apropos" className="py-16 bg-gray-50">
+          <div className="container mx-auto px-4">
+            <div className="max-w-5xl mx-auto relative">
+              
+              {/* Flèche gauche - ÉLOIGNÉE */}
+              <button
+                onClick={goToPrevious}
+                className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-8 md:-translate-x-16 z-10 bg-white hover:bg-gray-100 rounded-full p-3 shadow-lg transition-all duration-300 hover:scale-110"
+                aria-label="Témoignage précédent"
+              >
+                <ChevronLeft className="w-6 h-6 text-gray-700" />
+              </button>
+    
+              {/* Contenu du carousel */}
+              <div className="bg-white rounded-2xl p-8 md:p-12 shadow-xl overflow-hidden">
+                <div className="relative min-h-[300px] flex items-center justify-center">
+                  {testimonials.map((testimonial, index) => (
+                    <div
+                      key={index}
+                      className={`absolute inset-0 transition-all duration-500 ease-in-out ${
+                        index === currentIndex
+                          ? 'opacity-100 translate-x-0'
+                          : index < currentIndex
+                          ? 'opacity-0 -translate-x-full'
+                          : 'opacity-0 translate-x-full'
+                      }`}
+                    >
+                      <div className="flex flex-col items-center justify-center h-full">
+                        <p className="text-center text-gray-500 italic mb-4 text-lg">
+                          {testimonial.name}
+                        </p>
+                        
+                        <div className="text-center mb-6">
+                          <span className="text-6xl text-gray-800">"</span>
+                        </div>
+                        
+                        <h3 className="text-2xl md:text-3xl font-bold text-gray-900 text-center mb-6">
+                          {testimonial.title}
+                        </h3>
+                        
+                        <p className="text-gray-700 leading-relaxed text-center text-base md:text-lg max-w-3xl">
+                          {testimonial.text}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+    
+                {/* Pagination dots */}
+                <div className="flex justify-center gap-2 mt-8">
+                  {testimonials.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => goToSlide(index)}
+                      className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                        index === currentIndex
+                          ? 'bg-gray-900 w-8'
+                          : 'bg-gray-300 hover:bg-gray-400'
+                      }`}
+                      aria-label={`Aller au témoignage ${index + 1}`}
+                    />
+                  ))}
+                </div>
+              </div>
+    
+              {/* Flèche droite - ÉLOIGNÉE */}
+              <button
+                onClick={goToNext}
+                className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-8 md:translate-x-16 z-10 bg-white hover:bg-gray-100 rounded-full p-3 shadow-lg transition-all duration-300 hover:scale-110"
+                aria-label="Témoignage suivant"
+              >
+                <ChevronRight className="w-6 h-6 text-gray-700" />
+              </button>
+            </div>
+          </div>
+        </section>
+      );
+}
+
 const Index = () =>{
     return (
         <div className="font-['Inter','Segoe_UI',sans-serif]">
@@ -344,82 +495,12 @@ const Index = () =>{
         </section>
 
         {/* Section - Témoignages */}
-        <section id="apropos" className="py-16 bg-black">
-            <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto">
-                <div className="bg-white rounded-xl p-8 shadow-2xl">
-                {/* Témoignage 1 - Audrey */}
-                <div className="testimonial-slide">
-                    <p className="text-center text-gray-500 italic mb-2">Audrey</p>
-                    <div className="text-center mb-4">
-                    <span className="text-5xl text-black">"</span>
-                    </div>
-                    <h3 className="text-2xl font-bold text-black text-center mb-6">
-                    L'Église de mes rêves
-                    </h3>
-                    <p className="text-gray-700 leading-relaxed text-center">
-                    Je n'aurais pas pu rêver d'une meilleure église, franchement, l'église de mes rêves. Moi qui me sentais seule et qui avais l'impression que Dieu m'avait abandonnée, je me sens tellement mieux maintenant que je suis à l'EJP ! Merci ma famille !
-                    </p>
-                </div>
-                
-                {/* Pagination dots */}
-                <div className="flex justify-center gap-2 mt-8">
-                    <div className="w-2 h-2 rounded-full bg-black"></div>
-                    <div className="w-2 h-2 rounded-full bg-gray-300"></div>
-                    <div className="w-2 h-2 rounded-full bg-gray-300"></div>
-                    <div className="w-2 h-2 rounded-full bg-gray-300"></div>
-                </div>
-                </div>
-
-                {/* Témoignage 2 - Owen (caché pour l'instant) */}
-                <div className="bg-white rounded-xl p-8 shadow-2xl hidden">
-                <p className="text-center text-gray-500 italic mb-2">Owen</p>
-                <div className="text-center mb-4">
-                    <span className="text-5xl text-black">"</span>
-                </div>
-                <h3 className="text-2xl font-bold text-black text-center mb-6">
-                    J'aime tellement mon église !
-                </h3>
-                <p className="text-gray-700 leading-relaxed text-center">
-                    Avant je pensais que j'allais aller à l'église quand je serais plus grand, mais Dieu en a décidé autrement. Honnêtement je n'aurai jamais imaginé vivre cette vie là et depuis que je suis à l'EJP j'attends dimanche après dimanche ! Merci Seigneur pour Ta grâce 🙏
-                </p>
-                </div>
-
-                {/* Témoignage 3 - Joël (caché pour l'instant) */}
-                <div className="bg-white rounded-xl p-8 shadow-2xl hidden">
-                <p className="text-center text-gray-500 italic mb-2">Joël</p>
-                <div className="text-center mb-4">
-                    <span className="text-5xl text-black">"</span>
-                </div>
-                <h3 className="text-2xl font-bold text-black text-center mb-6">
-                    Réponse à mes prières
-                </h3>
-                <p className="text-gray-700 leading-relaxed text-center">
-                    Le MJP a été la réponse à ma prière. Je voulais une maison spirituelle où j'allais grandir avec Christ en étant libre d'exprimer mon amour pour Jésus. Le MJP a été et est l'une de mes plus grandes bénédictions !
-                </p>
-                </div>
-
-                {/* Témoignage 4 - Stella (caché pour l'instant) */}
-                <div className="bg-white rounded-xl p-8 shadow-2xl hidden">
-                <p className="text-center text-gray-500 italic mb-2">Stella</p>
-                <div className="text-center mb-4">
-                    <span className="text-5xl text-black">"</span>
-                </div>
-                <h3 className="text-2xl font-bold text-black text-center mb-6">
-                    Hâte d'être dimanche prochain
-                </h3>
-                <p className="text-gray-700 leading-relaxed text-center">
-                    Chaque dimanche est une nouvelle occasion de grandir et de découvrir l'amour de Dieu. Cette communauté est vraiment exceptionnelle. Merci !
-                </p>
-                </div>
-            </div>
-            </div>
-        </section>
+        <TestimonialSection />
 
         <section id="evenements" className="py-16 bg-white bg-opacity-70 backdrop-blur-sm text-black">
             <div className="container mx-auto px-4">
             <h2 className="text-3xl font-bold text-center mb-8">Cultes à Venir de l'EJP </h2>
-            <h3 className="text-2x1 font-bold text-center mb-6">Retrouve les derniers cultes de l’église des jeunes prodiges ICC PORTO-NOVO</h3>
+            <h3 className="text-2x1 font-bold text-center mb-6">Retrouve les derniers cultes de l'église des jeunes prodiges ICC PORTO-NOVO</h3>
             <div className="grid md:grid-cols-3 gap-5">
                 {[1, 2, 3,].map(item => (
                 <div key={item} className="bg-[#0a0a0a] rounded-lg overflow-hidden hover:scale-105 transition border border-[#222]">
@@ -641,7 +722,7 @@ const Index = () =>{
                     Rejoindre ici
                     </button><br />
                     <h2 className="text-2xl md:text-2xl lg:text-2xl font-bold text-gray-600 leading-tight drop-shadow-lg">
-                        Kumi – du grec « lève-toi » est la plateforme des soeurs de l’EJP Croissy
+                        Kumi – du grec « lève-toi » est la plateforme des soeurs de l'EJP Croissy
                     </h2>
                 </div>
 
@@ -672,7 +753,7 @@ const Index = () =>{
                     Rejoindre ici
                     </button><br />
                     <h2 className="text-2xl md:text-2xl lg:text-2x1 font-bold text-gray-600 leading-tight drop-shadow-lg">
-                        Eagles – de l’anglais « aigle » est la plateforme des jeunes hommes de l’EJP Croissy
+                        Eagles – de l'anglais « aigle » est la plateforme des jeunes hommes de l'EJP Croissy
                     </h2>
                 </div>
             </section>
@@ -759,7 +840,7 @@ const Index = () =>{
                         aria-label="Whatsapp"
                     >
                         <svg className="w-6 h-6 text-gray-700 group-hover:text-red-600 transition-colors" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="100" height="100" viewBox="0 0 48 48">
-                            <path fill="#fff" d="M4.9,43.3l2.7-9.8C5.9,30.6,5,27.3,5,24C5,13.5,13.5,5,24,5c5.1,0,9.8,2,13.4,5.6	C41,14.2,43,18.9,43,24c0,10.5-8.5,19-19,19c0,0,0,0,0,0h0c-3.2,0-6.3-0.8-9.1-2.3L4.9,43.3z"></path><path fill="#fff" d="M4.9,43.8c-0.1,0-0.3-0.1-0.4-0.1c-0.1-0.1-0.2-0.3-0.1-0.5L7,33.5c-1.6-2.9-2.5-6.2-2.5-9.6	C4.5,13.2,13.3,4.5,24,4.5c5.2,0,10.1,2,13.8,5.7c3.7,3.7,5.7,8.6,5.7,13.8c0,10.7-8.7,19.5-19.5,19.5c-3.2,0-6.3-0.8-9.1-2.3	L5,43.8C5,43.8,4.9,43.8,4.9,43.8z"></path><path fill="#cfd8dc" d="M24,5c5.1,0,9.8,2,13.4,5.6C41,14.2,43,18.9,43,24c0,10.5-8.5,19-19,19h0c-3.2,0-6.3-0.8-9.1-2.3	L4.9,43.3l2.7-9.8C5.9,30.6,5,27.3,5,24C5,13.5,13.5,5,24,5 M24,43L24,43L24,43 M24,43L24,43L24,43 M24,4L24,4C13,4,4,13,4,24	c0,3.4,0.8,6.7,2.5,9.6L3.9,43c-0.1,0.3,0,0.7,0.3,1c0.2,0.2,0.4,0.3,0.7,0.3c0.1,0,0.2,0,0.3,0l9.7-2.5c2.8,1.5,6,2.2,9.2,2.2	c11,0,20-9,20-20c0-5.3-2.1-10.4-5.8-14.1C34.4,6.1,29.4,4,24,4L24,4z"></path><path fill="#40c351" d="M35.2,12.8c-3-3-6.9-4.6-11.2-4.6C15.3,8.2,8.2,15.3,8.2,24c0,3,0.8,5.9,2.4,8.4L11,33l-1.6,5.8	l6-1.6l0.6,0.3c2.4,1.4,5.2,2.2,8,2.2h0c8.7,0,15.8-7.1,15.8-15.8C39.8,19.8,38.2,15.8,35.2,12.8z"></path><path fill="#fff" fill-rule="evenodd" d="M19.3,16c-0.4-0.8-0.7-0.8-1.1-0.8c-0.3,0-0.6,0-0.9,0	s-0.8,0.1-1.3,0.6c-0.4,0.5-1.7,1.6-1.7,4s1.7,4.6,1.9,4.9s3.3,5.3,8.1,7.2c4,1.6,4.8,1.3,5.7,1.2c0.9-0.1,2.8-1.1,3.2-2.3	c0.4-1.1,0.4-2.1,0.3-2.3c-0.1-0.2-0.4-0.3-0.9-0.6s-2.8-1.4-3.2-1.5c-0.4-0.2-0.8-0.2-1.1,0.2c-0.3,0.5-1.2,1.5-1.5,1.9	c-0.3,0.3-0.6,0.4-1,0.1c-0.5-0.2-2-0.7-3.8-2.4c-1.4-1.3-2.4-2.8-2.6-3.3c-0.3-0.5,0-0.7,0.2-1c0.2-0.2,0.5-0.6,0.7-0.8	c0.2-0.3,0.3-0.5,0.5-0.8c0.2-0.3,0.1-0.6,0-0.8C20.6,19.3,19.7,17,19.3,16z" clip-rule="evenodd"></path>
+                            <path fill="#fff" d="M4.9,43.3l2.7-9.8C5.9,30.6,5,27.3,5,24C5,13.5,13.5,5,24,5c5.1,0,9.8,2,13.4,5.6	C41,14.2,43,18.9,43,24c0,10.5-8.5,19-19,19c0,0,0,0,0,0h0c-3.2,0-6.3-0.8-9.1-2.3L4.9,43.3z"></path><path fill="#fff" d="M4.9,43.8c-0.1,0-0.3-0.1-0.4-0.1c-0.1-0.1-0.2-0.3-0.1-0.5L7,33.5c-1.6-2.9-2.5-6.2-2.5-9.6	C4.5,13.2,13.3,4.5,24,4.5c5.2,0,10.1,2,13.8,5.7c3.7,3.7,5.7,8.6,5.7,13.8c0,10.7-8.7,19.5-19.5,19.5c-3.2,0-6.3-0.8-9.1-2.3	L5,43.8C5,43.8,4.9,43.8,4.9,43.8z"></path><path fill="#cfd8dc" d="M24,5c5.1,0,9.8,2,13.4,5.6C41,14.2,43,18.9,43,24c0,10.5-8.5,19-19,19h0c-3.2,0-6.3-0.8-9.1-2.3	L4.9,43.3l2.7-9.8C5.9,30.6,5,27.3,5,24C5,13.5,13.5,5,24,5 M24,43L24,43L24,43 M24,43L24,43L24,43 M24,4L24,4C13,4,4,13,4,24	c0,3.4,0.8,6.7,2.5,9.6L3.9,43c-0.1,0.3,0,0.7,0.3,1c0.2,0.2,0.4,0.3,0.7,0.3c0.1,0,0.2,0,0.3,0l9.7-2.5c2.8,1.5,6,2.2,9.2,2.2	c11,0,20-9,20-20c0-5.3-2.1-10.4-5.8-14.1C34.4,6.1,29.4,4,24,4L24,4z"></path><path fill="#40c351" d="M35.2,12.8c-3-3-6.9-4.6-11.2-4.6C15.3,8.2,8.2,15.3,8.2,24c0,3,0.8,5.9,2.4,8.4L11,33l-1.6,5.8	l6-1.6l0.6,0.3c2.4,1.4,5.2,2.2,8,2.2h0c8.7,0,15.8-7.1,15.8-15.8C39.8,19.8,38.2,15.8,35.2,12.8z"></path><path fill="#fff" fillRule="evenodd" d="M19.3,16c-0.4-0.8-0.7-0.8-1.1-0.8c-0.3,0-0.6,0-0.9,0	s-0.8,0.1-1.3,0.6c-0.4,0.5-1.7,1.6-1.7,4s1.7,4.6,1.9,4.9s3.3,5.3,8.1,7.2c4,1.6,4.8,1.3,5.7,1.2c0.9-0.1,2.8-1.1,3.2-2.3	c0.4-1.1,0.4-2.1,0.3-2.3c-0.1-0.2-0.4-0.3-0.9-0.6s-2.8-1.4-3.2-1.5c-0.4-0.2-0.8-0.2-1.1,0.2c-0.3,0.5-1.2,1.5-1.5,1.9	c-0.3,0.3-0.6,0.4-1,0.1c-0.5-0.2-2-0.7-3.8-2.4c-1.4-1.3-2.4-2.8-2.6-3.3c-0.3-0.5,0-0.7,0.2-1c0.2-0.2,0.5-0.6,0.7-0.8	c0.2-0.3,0.3-0.5,0.5-0.8c0.2-0.3,0.1-0.6,0-0.8C20.6,19.3,19.7,17,19.3,16z" clipRule="evenodd"></path>
                         </svg>
                     </a>
                     
