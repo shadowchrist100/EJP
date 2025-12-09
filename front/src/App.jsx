@@ -7,6 +7,7 @@ import Register from "./Register.jsx";
 import Fij from "./Fij.jsx";
 import Apropos from './Apropos.jsx';
 import Don from './Don.jsx';
+import Galerie from './Galerie.jsx';
 
 function App() {
   let Component;
@@ -29,6 +30,8 @@ function App() {
     case "/dons":
         Component= Don;
       break;
+      case "/galerie" :
+        Component= Galerie;
     default:
       break;
   }

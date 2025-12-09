@@ -1,5 +1,6 @@
 @import "tailwindcss";
-.banner{
+
+.banner {
     /* min-height: 100vh; */
     background: url(./assets/worship.jpg) center/cover, url(./assets/IMG-20250409-WA0013.jpg) center/cover, url(./assets/IMG-20250520-WA0007.jpg) center/cover, url(./assets/IMG-20250527-WA0010.jpg) center/cover;
     /* min-height: 100vh; */
@@ -11,31 +12,59 @@
 }
 
 @keyframes slideShow {
-    0%   { background: url(./assets/worship.jpg) center/cover; }
-    25%  { background: url(./assets/FB_IMG_1757700691093.jpg) center/cover; }
-    50%  { background: url(./assets/FB_IMG_1757700997382.jpg) center/cover; }
-    75%  { background: url(./assets/FB_IMG_1757701105299.jpg) center/cover; }
-    100% { background: url(./assets/picture.jpeg) center/cover; }
+    0% {
+        background: url(./assets/worship.jpg) center/cover;
+    }
+
+    25% {
+        background: url(./assets/FB_IMG_1757700691093.jpg) center/cover;
+    }
+
+    50% {
+        background: url(./assets/FB_IMG_1757700997382.jpg) center/cover;
+    }
+
+    75% {
+        background: url(./assets/FB_IMG_1757701105299.jpg) center/cover;
+    }
+
+    100% {
+        background: url(./assets/picture.jpeg) center/cover;
+    }
 }
 
-.background-dark{
+.background-dark {
     background-color: #101922;
-} 
-
-.banner-fij{
-    background: url(./assets/fij1.jpeg) center/cover, url(./assets/fij2.jpeg) center/cover, url(./assets/fij3.jpeg) center/cover, url(./assets/fij4.jpeg) center/cover, url(./assets/fij5.jpeg) center/cover, url(./assets/fij6.jpeg) center/cover ;
 }
 
-.banner-fij{
+.banner-fij {
+    background: url(./assets/fij1.jpeg) center/cover, url(./assets/fij2.jpeg) center/cover, url(./assets/fij3.jpeg) center/cover, url(./assets/fij4.jpeg) center/cover, url(./assets/fij5.jpeg) center/cover, url(./assets/fij6.jpeg) center/cover;
+}
+
+.banner-fij {
     animation: slideShowFij 20s infinite;
 }
 
 @keyframes slideShowFij {
-    0%   { background: url(./assets/fij1.jpeg) center/cover; }
-    25%  { background: url(./assets/fij2.jpeg) center/cover; }
-    50%  { background: url(./assets/fij3.jpeg) center/cover; }
-    75%  { background: url(./assets/fij4.jpeg) center/cover; }
-    100% { background: url(./assets/fij5.jpeg) center/cover; }
+    0% {
+        background: url(./assets/fij1.jpeg) center/cover;
+    }
+
+    25% {
+        background: url(./assets/fij2.jpeg) center/cover;
+    }
+
+    50% {
+        background: url(./assets/fij3.jpeg) center/cover;
+    }
+
+    75% {
+        background: url(./assets/fij4.jpeg) center/cover;
+    }
+
+    100% {
+        background: url(./assets/fij5.jpeg) center/cover;
+    }
 }
 
 .perspective-1000 {
@@ -57,4 +86,63 @@
 
 .rotate-y-180 {
     transform: rotateY(180deg);
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.animate-fadeIn {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.animate-scaleIn {
+    animation: scaleIn 0.4s ease-out;
+}
+
+.animate-gradient {
+    background-size: 200% auto;
+    animation: gradientShift 3s ease infinite;
+}
+
+@keyframes gradientShift {
+
+    0%,
+    100% {
+        background-position: 0% center;
+    }
+
+    50% {
+        background-position: 100% center;
+    }
 }

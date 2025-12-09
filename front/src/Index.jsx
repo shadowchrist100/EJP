@@ -33,7 +33,7 @@ const Nav = () => {
                             <li><a href="/" className="nav-link">Accueil</a></li>
                             <li><a href="#apropos" className="nav-link">À Propos</a></li>
                             <li><a href="/evenements" className="nav-link">Événements</a></li>
-                            <li><a href="#galerie" className="nav-link">Galerie</a></li>
+                            <li><a href="/galerie" className="nav-link">Galerie</a></li>
                             <li><a href="#contact" className="nav-link">Contact</a></li>
                             <li><a href="/don" className="nav-link">Faire un Don</a></li>
                             <li><a href="/Fij" className="nav-link">Rejoindre une FIJ</a></li>
@@ -123,11 +123,10 @@ const Banner = () => {
             <div className="border-t border-b border-white/30 py-3 mb-6">
                 <p className="text-lg md:text-xl text-white font-medium tracking-wide">POUR LES JEUNES, PAR LES JEUNES</p>
             </div>
-            <div className="flex flex-col gap-3 justify-center items-center mb-12">
-                <button className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-black px-6 py-2 text-base font-medium transition-all duration-300 min-w-60">Rejoins nous cette semaine</button>
-                <button className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-black px-6 py-2 text-base font-medium transition-all duration-300 min-w-60">Regarder nos cultes en ligne</button>
+            <div className="flex  gap-3 justify-evenly items-center mb-12 mt-12">
+                <button className="bg-transparent border-2 cursor-pointer rounded-md h-15 border-white text-white hover:bg-white hover:text-black px-6 py-2 text-base font-medium transition-all duration-300 min-w-60">Rejoins nous cette semaine</button>
             </div>
-            <div className="absolute -bottom-1/12 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <div className="mt-8 absolute -bottom-1/4 left-1/2 transform -translate-x-1/2 animate-bounce">
                 <div className="flex flex-col items-center text-white">
                     <span className="text-sm mb-2">Défiler vers le bas</span>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -190,7 +189,7 @@ const CountdownSection = () => {
                         PROCHAIN CULTE DE L'EJP
                     </h1>
                     <p className="text-base md:text-lg text-gray-600 font-light tracking-wide">
-                        CULTE DE L'ÉGLISE DES JEUNES PRODIGES ICC PORTO
+                        CULTE DE L'ÉGLISE DES JEUNES PRODIGES PORTO
                     </p>
                 </div>
 
@@ -580,7 +579,7 @@ const Index = () => {
                             <h2 className="text-2xl md:text-3xl font-bold text-black">
                                 EGLISE JEUNES PRODIGES
                             </h2>
-                            <p className="text-base text-gray-700">IMPACT CENTRE CHRETIEN DE PORTO-NOVO</p>
+                            <p className="text-base text-gray-700"> PORTO-NOVO</p>
                         </div>
 
                         <div className="w-24 h-px bg-linear-gradient-to-r from-transparent via-gray-400 to-transparent mx-auto"></div>
@@ -608,8 +607,8 @@ const Index = () => {
 
             <section id="evenements" className="py-16 bg-white bg-opacity-70 backdrop-blur-sm text-black">
                 <div className="container mx-auto px-4">
-                    <h2 className="text-3xl font-bold text-center mb-8">Evènements à Venir de l'EJP </h2>
-                    <h3 className="text-2x1 font-bold text-center mb-6">Retrouve les derniers cultes de l'église des jeunes prodiges ICC PORTO-NOVO</h3>
+                    <h2 className="text-3xl font-bold text-center mb-8">Evènements EJP </h2>
+                    <h3 className="text-2x1 font-bold text-center mb-6"><a href="/evenements">Retrouve l'ensemble de nos évènements de l'église des jeunes prodiges  PORTO-NOVO</a></h3>
                     <div className="grid md:grid-cols-3 gap-5">
                         {[1, 2, 3,].map(item => (
                             <div key={item} className="bg-[#0a0a0a] rounded-lg overflow-hidden hover:scale-105 transition border border-[#222]">
@@ -636,7 +635,7 @@ const Index = () => {
                 <div className="container mx-auto px-4 text-center">
                     <h2 className="text-3xl font-bold text-center mb-8">MES PREMIERS PAS AVEC JESUS</h2>
                     <h3 className="text-2xl font-bold text-center mb-6">
-                        Tu commences ta marche avec Jésus et tu veux être guidé et bâti dans tes premiers pas avec Lui ou tu veux revoir certains fondements de la foi ? Rejoins la formation : « Mes premiers pas avec Jésus »
+                        Tu commences ta marche avec Jésus et tu veux être guidé et bâti dans tes premiers pas avec Lui ou tu veux revoir certains fondements de la foi ? Rejoins nous
                     </h3>
                     <div className="flex justify-center">
                         <button className="bg-white hover:bg-[#ddd] text-black px-5 py-2 rounded-lg transition font-semibold">
@@ -655,6 +654,7 @@ const Index = () => {
             <section id="galerie" className="py-16 bg-gray-200 bg-opacity-70 backdrop-blur-sm text-gray-650">
                 <div className="container mx-auto px-4">
                     <h2 className="text-3xl font-bold text-center mb-8">Galerie</h2>
+                    <h3 className="text-2x1 font-bold text-center mb-6"><a href="/galerie">Revivez nos meilleurs moments</a></h3>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                         {[1, 2, 3, 4, 5, 6, 7, 8].map(item => (
                             <div key={item} className="bg-[#111] h-40 flex items-center justify-center rounded hover:opacity-75 transition border border-[#222]">
