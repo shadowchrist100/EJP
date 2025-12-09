@@ -11,7 +11,7 @@ const Nav = () => (
                 </h1>
                 <div className="flex gap-6">
                     <a href="/" className="text-gray-300 hover:text-white transition-colors">Home</a>
-                    <a href="/home#apropos" className="text-gray-300 hover:text-white transition-colors">About</a>
+                    <a href="/#apropos" className="text-gray-300 hover:text-white transition-colors">About</a>
                     <a href="/#contact" className="text-gray-300 hover:text-white transition-colors">Contact</a>
                 </div>
             </div>
