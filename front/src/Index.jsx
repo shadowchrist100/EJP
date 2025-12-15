@@ -607,7 +607,7 @@ const Index = () => {
 
             <section id="evenements" className="py-16 bg-white bg-opacity-70 backdrop-blur-sm text-black">
                 <div className="container mx-auto px-4">
-                    <h2 className="text-3xl font-bold text-center mb-8">Evènements EJP </h2>
+                    <h2 className="text-3xl md:text-4xl font-bold text-center mb-8">Evènements EJP </h2>
                     <h3 className="text-2x1 font-bold text-center mb-6"><a href="/evenements">Retrouve l'ensemble de nos évènements de l'église des jeunes prodiges  PORTO-NOVO</a></h3>
                     <div className="grid md:grid-cols-3 gap-5">
                         {[1, 2, 3,].map(item => (
@@ -633,7 +633,7 @@ const Index = () => {
 
             <section id="premierpas" className="py-16 bg-gray-200 bg-opacity-70 backdrop-blur-sm text-gray-700">
                 <div className="container mx-auto px-4 text-center">
-                    <h2 className="text-3xl font-bold text-center mb-8">MES PREMIERS PAS AVEC JESUS</h2>
+                    <h2 className="text-3xl md:text-4xl font-bold text-center mb-8">MES PREMIERS PAS AVEC JESUS</h2>
                     <h3 className="text-2xl font-bold text-center mb-6">
                         Tu commences ta marche avec Jésus et tu veux être guidé et bâti dans tes premiers pas avec Lui ou tu veux revoir certains fondements de la foi ? Rejoins nous
                     </h3>
@@ -653,7 +653,7 @@ const Index = () => {
 
             <section id="galerie" className="py-16 bg-gray-200 bg-opacity-70 backdrop-blur-sm text-gray-650">
                 <div className="container mx-auto px-4">
-                    <h2 className="text-3xl font-bold text-center mb-8">Galerie</h2>
+                    <h2 className="text-3xl md:text-4xl font-bold text-center mb-8">Galerie</h2>
                     <h3 className="text-2x1 font-bold text-center mb-6"><a href="/galerie">Revivez nos meilleurs moments</a></h3>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                         {[1, 2, 3, 4, 5, 6, 7, 8].map(item => (
