@@ -306,7 +306,7 @@ const Fij = () => {
                         <div className="text-center md:text-left">
                             <div className="flex items-center justify-center md:justify-start mb-3">
                                 <div className="w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center mr-3">
-                                    <img src="src/assets/logo.png" alt="Logo EJP" className="w-10 h-10 rounded-full" />
+                                    <img src="/src/assets/logo.jpeg" alt="Logo EJP" className="w-10 h-10 rounded-full" />
                                 </div>
                                 <div>
                                     <h3 className="text-lg font-bold text-white">EJP</h3>
