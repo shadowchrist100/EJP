@@ -1,15 +1,12 @@
 import React, { useState, useEffect, Component } from 'react';
-import logo from "./assets/logo.jpeg";
+import logo from "./assets/ejp_logo.jpg";
 import banner from "./assets/immg.jpeg";
-import unesœur from "./assets/unesœur.webp";
-import unfrère from "./assets/unfrère.webp";
 import { User, ChevronDown, ChevronUp, ChevronLeft, ChevronRight } from 'lucide-react'
+import { Navigate } from 'react-router-dom';
 
 const Nav = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isAuthOpen, setIsAuthOpen] = useState(false);
-
-    const [currentIndex, setCurrentIndex] = useState(0);
 
     return (
         <nav className="navbar-dark">
@@ -34,7 +31,7 @@ const Nav = () => {
                             <li><a href="#apropos" className="nav-link">À Propos</a></li>
                             <li><a href="/evenements" className="nav-link">Événements</a></li>
                             <li><a href="/galerie" className="nav-link">Galerie</a></li>
-                            <li><a href="#contact" className="nav-link">Contact</a></li>
+                            <li><a href="#contact" className="nav-link">Nous Contacter</a></li>
                             <li><a href="/don" className="nav-link">Faire un Don</a></li>
                             <li><a href="/Fij" className="nav-link">Rejoindre une FIJ</a></li>
 
@@ -70,7 +67,7 @@ const Nav = () => {
                                 <li><a href="#apropos" className="block text-white hover:text-gray-300 py-4 px-4 font-medium rounded-lg hover:bg-white/5 transition-all text-base">À Propos</a></li>
                                 <li><a href="/evenements" className="block text-white hover:text-gray-300 py-4 px-4 font-medium rounded-lg hover:bg-white/5 transition-all text-base">Événements</a></li>
                                 <li><a href="#galerie" className="block text-white hover:text-gray-300 py-4 px-4 font-medium rounded-lg hover:bg-white/5 transition-all text-base">Galerie</a></li>
-                                <li><a href="#contact" className="block text-white hover:text-gray-300 py-4 px-4 font-medium rounded-lg hover:bg-white/5 transition-all text-base">Contact</a></li>
+                                <li><a href="#contact" className="block text-white hover:text-gray-300 py-4 px-4 font-medium rounded-lg hover:bg-white/5 transition-all text-base">Nous Contacter</a></li>
                                 <li><a href="/Fij" className="block text-white hover:text-gray-300 py-4 px-4 font-medium rounded-lg hover:bg-white/5 transition-all text-base">Rejoindre une FIJ</a></li>
                                 <li><a href="/don" className="block text-white hover:text-gray-300 py-4 px-4 font-medium rounded-lg hover:bg-white/5 transition-all text-base">Faire un Don</a></li>
 
@@ -114,8 +111,8 @@ const Banner = () => {
         <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto mt-6">
             <div className="mb-4">
                 <div className="flex items-center justify-center">
-                    <div className="w-16 h-16 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center">
-                        <img src={logo} alt="logo" className="w-16 h-16 rounded-full" />
+                    <div className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center">
+                        <img src={logo} alt="logo" className="w-20 h-20 rounded-full" />
                     </div>
                 </div>
             </div>
@@ -595,7 +592,7 @@ const Index = () => {
                             </h1>
                             <p className="text-sm text-gray-500 mt-4">
                                 <br />
-                                Berger de l'EJP Porto
+                                Berger de l'EJP Porto <br /> DIMITRI Dumas
                             </p>
                         </div>
                     </div>
@@ -616,7 +613,7 @@ const Index = () => {
                                     <span className="text-[#aaa]">Image {item}</span>
                                 </div>
                                 <div className="p-5">
-                                    <h5 className="text-lg font-bold mb-2">Événement {item}</h5>
+                                    <h5 className="text-lg font-bold mb-2 text-[#aaa]">Événement {item}</h5>
                                     <p className="text-[#aaa] text-sm mb-2">Date: 15 Novembre 2025</p>
                                     <p className="text-[#ccc] leading-relaxed mb-3">
                                         Description de l'événement ici. Un aperçu rapide de ce qui va se passer.
@@ -638,7 +635,7 @@ const Index = () => {
                         Tu commences ta marche avec Jésus et tu veux être guidé et bâti dans tes premiers pas avec Lui ou tu veux revoir certains fondements de la foi ? Rejoins nous
                     </h3>
                     <div className="flex justify-center">
-                        <button className="bg-white hover:bg-[#ddd] text-black px-5 py-2 rounded-lg transition font-semibold">
+                        <button onClick={Navigate} className="bg-white hover:bg-[#ddd] text-black px-5 py-2 rounded-lg transition font-semibold">
                             Inscris-toi
                         </button>
                     </div>
@@ -653,7 +650,9 @@ const Index = () => {
 
             <section id="galerie" className="py-16 bg-gray-200 bg-opacity-70 backdrop-blur-sm text-gray-650">
                 <div className="container mx-auto px-4">
-                    <h2 className="text-3xl md:text-4xl font-bold text-center mb-8">Galerie</h2>
+                    <h2 className="text-3xl md:text-4xl font-bold text-center mb-8">
+                        <a href="/galerie">Galerie</a>
+                    </h2>
                     <h3 className="text-2x1 font-bold text-center mb-6"><a href="/galerie">Revivez nos meilleurs moments</a></h3>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
                         {[1, 2, 3, 4, 5, 6, 7, 8].map(item => (
@@ -761,7 +760,7 @@ const Index = () => {
                     </p>
 
                     <p className="text-base sm:text-lg md:text-xl text-white mb-16 max-w-5xl mx-auto leading-relaxed px-4">
-                        Les Jeunes de l'église se réunissent <span className="font-bold">tous les mardis de 19h15 à 20h30</span> dans les maisons hôtes pour s'édifier et influencer leurs villes avec les valeurs de Christ. (Actes 5:42)
+                        Les Jeunes de l'église se réunissent <span className="font-bold">tous les mardis de 19h14 à 20h30</span> dans les maisons hôtes pour s'édifier et influencer leurs villes avec les valeurs de Christ. (Actes 5:42)
                     </p>
 
                     {/* Buttons */}
@@ -785,10 +784,10 @@ const Index = () => {
                 <div className="container mx-auto px-4 text-center">
                     <h2 className="text-3xl font-bold text-center mb-8">NOS MINISTÈRES</h2>
                     <h3 className="text-2xl font-bold text-center mb-6">
-                        Tu retrouveras ici la liste de tous nos ministères, à toi de choisir
+                        Rejoignez nos ministères et utilisez vos talents pour servir Dieu. Que vous dansiez, chantez ou créiez du contenu visuel... il y a une place pour vous dans notre communauté
                     </h3>
                     <div className="flex justify-center">
-                        <button className="bg-white hover:bg-[#ddd] text-black px-5 py-2 rounded-lg transition font-semibold">
+                        <button onClick={Navigate} className="bg-white hover:bg-[#ddd] text-black px-5 py-2 rounded-lg transition font-semibold">
                             Voir les ministères
                         </button>
                     </div>
@@ -840,8 +839,8 @@ const Index = () => {
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                     </svg>
                                     <div className="text-left">
-                                        <p className="text-xs">21 Rue des Vieilles vignes</p>
-                                        <p className="text-xs">Croissy Beaubourg, 77183</p>
+                                        <p className="text-xs">Impact Centre Chrétien. Campus de PORTO NOVO en face de l'église Catholique</p>
+                                        <p className="text-xs">PORTO NOVO, BENIN +229 0149121209</p>
                                     </div>
                                 </div>
                                 <div className="flex items-center justify-center md:justify-start text-gray-300">

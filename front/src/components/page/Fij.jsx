@@ -1,5 +1,5 @@
-import { Nav } from "./Index";
-import { Contact } from "./Index";
+import { Nav } from "../../Index";
+import { Contact } from "../../Index";
 import React, { useState } from 'react';
 
 const Banner = () => {

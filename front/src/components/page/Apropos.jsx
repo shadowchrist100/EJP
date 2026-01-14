@@ -1,5 +1,5 @@
-import { Nav } from "./Index";
-import { Contact } from "./Index";
+import { Nav } from "../../Index";
+import { Contact } from "../../Index";
 
 
 const MissionSection = () => {
