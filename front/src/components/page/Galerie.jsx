@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
-import { User, ChevronDown, ChevronUp, ChevronLeft, ChevronRight } from 'lucide-react'
-
+import React, { useState, useEffect } from 'react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const Nav = () => (
     <nav className="bg-gray-900/95 backdrop-blur-sm border-b border-gray-800">
@@ -20,24 +19,27 @@ const Nav = () => (
 );
 
 const Galerie = () => {
+    const [images, setImages] = useState([]);
     const [selectedImage, setSelectedImage] = useState(null);
     const [filter, setFilter] = useState('all');
+    const [loading, setLoading] = useState(true);
 
-    const images = [
-        { id: 1, category: 'events', title: 'Culte du Dimanche', url: 'https://images.unsplash.com/photo-1511632765486-a01980e01a18?w=600&h=400&fit=crop' },
-        { id: 2, category: 'events', title: 'Conférence Jeunesse', url: 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=600&h=400&fit=crop' },
-        { id: 3, category: 'worship', title: 'Louange', url: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=600&h=400&fit=crop' },
-        { id: 4, category: 'community', title: 'Réunion FIJ', url: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=600&h=400&fit=crop' },
-        { id: 5, category: 'events', title: 'Baptême', url: 'https://images.unsplash.com/photo-1464047736614-af63643285bf?w=600&h=400&fit=crop' },
-        { id: 6, category: 'worship', title: 'Prière', url: 'https://images.unsplash.com/photo-1438032005730-c779502df39b?w=600&h=400&fit=crop' },
-        { id: 7, category: 'community', title: 'Rencontre', url: 'https://images.unsplash.com/photo-1523050854058-8df90110c9f1?w=600&h=400&fit=crop' },
-        { id: 8, category: 'events', title: 'Camp Jeunesse', url: 'https://images.unsplash.com/photo-1504196606672-aef5c9cefc92?w=600&h=400&fit=crop' },
-        { id: 9, category: 'worship', title: 'Concert', url: 'https://images.unsplash.com/photo-1459749411175-04bf5292ceea?w=600&h=400&fit=crop' },
-    ];
+    useEffect(() => {
+        fetch("/data/image.json") // Assure-toi que le fichier est dans 'public/data/image.json'
+            .then(response => response.json())
+            .then(data => {
+                setImages(data);
+                setLoading(false);
+            })
+            .catch(error => {
+                console.error("Erreur de chargement:", error);
+                setLoading(false);
+            });
+    }, []);
 
-    const filteredImages = filter === 'all'
-        ? images
-        : images.filter(img => img.category === filter);
+    const filteredImages = Array.isArray(images)
+        ? (filter === 'all' ? images : images.filter(img => img.category === filter))
+        : [];
 
     const categories = [
         { id: 'all', name: 'Tout', icon: '🌟' },
@@ -46,35 +48,43 @@ const Galerie = () => {
         { id: 'community', name: 'Communauté', icon: '👥' },
     ];
 
-    const [currentIndex, setCurrentIndex] = useState(0);
-
     const goToPrevious = () => {
-        const current_index= filteredImages.findIndex((image)=> image.id === selectedImage.id) ;
-        let newindex;
+        if (!selectedImage) return;
 
-        if (currentIndex >0) {
-            newindex= current_index -1;
-        }
-        else{
-            newindex= filteredImages.length -1;
-        }
-        setCurrentIndex(newindex);
-        setSelectedImage(filteredImages[newindex]);
+        const currentIndex = filteredImages.findIndex((image) => image.id === selectedImage.id);
+        const newIndex = currentIndex > 0 ? currentIndex - 1 : filteredImages.length - 1;
+
+        setSelectedImage(filteredImages[newIndex]);
     };
 
     const goToNext = () => {
-        const current_index= filteredImages.findIndex((image)=> image.id === selectedImage.id) ;
-        let newindex;
-        if (currentIndex < filteredImages.length -1) {
-            newindex= current_index + 1;
-        }
-        else{
-            newindex= 0;
-        }
+        if (!selectedImage) return;
 
-        setCurrentIndex(newindex) ;
-        setSelectedImage(filteredImages[newindex]);
+        const currentIndex = filteredImages.findIndex((image) => image.id === selectedImage.id);
+        const newIndex = currentIndex < filteredImages.length - 1 ? currentIndex + 1 : 0;
+
+        setSelectedImage(filteredImages[newIndex]);
     };
+
+    // Raccourcis clavier
+    useEffect(() => {
+        const handleKeyDown = (e) => {
+            if (!selectedImage) return;
+
+            if (e.key === 'ArrowLeft') {
+                goToPrevious();
+            } else if (e.key === 'ArrowRight') {
+                goToNext();
+            } else if (e.key === 'Escape') {
+                setSelectedImage(null);
+            }
+        };
+
+        window.addEventListener('keydown', handleKeyDown);
+        return () => window.removeEventListener('keydown', handleKeyDown);
+    }, [selectedImage, filteredImages]);
+
+    if (loading) return <div className="text-white text-center mt-20">Chargement...</div>;
 
     return (
         <section className="min-h-screen bg-gradient-to-br from-gray-950 via-gray-900 to-purple-950">
@@ -87,11 +97,11 @@ const Galerie = () => {
                 {/* Background Effects */}
                 <div className="absolute inset-0 opacity-20">
                     <div className="absolute top-20 left-10 w-72 h-72 bg-purple-500 rounded-full blur-3xl animate-pulse"></div>
-                    <div className="absolute bottom-20 right-10 w-96 h-96 bg-pink-500 rounded-full blur-3xl animate-pulse delay-1000"></div>
+                    <div className="absolute bottom-20 right-10 w-96 h-96 bg-pink-500 rounded-full blur-3xl animate-pulse"></div>
                 </div>
 
                 <div className="container mx-auto text-center relative z-10">
-                    <h1 className="text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent animate-gradient">
+                    <h1 className="text-5xl md:text-7xl font-black mb-6 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 bg-clip-text text-transparent">
                         Notre Galerie
                     </h1>
                     <p className="text-xl md:text-2xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
@@ -131,7 +141,7 @@ const Galerie = () => {
                                 animation: 'fadeInUp 0.6s ease-out forwards',
                                 opacity: 0
                             }}
-                            onClick={() => {setSelectedImage(image); setFilter(image.category)} }
+                            onClick={() => setSelectedImage(image)}
                         >
                             {/* Image Container */}
                             <div className="aspect-video overflow-hidden bg-gray-800">
@@ -146,7 +156,7 @@ const Galerie = () => {
                             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 
                             {/* Text Overlay */}
-                            <div className="absolute bottom-0 left-0 right-0 p-6 translate-y-8 group-hover:translate-y-0 transition-transform duration-300">
+                            <div className="absolute bottom-3 left-0 right-0 p-6 translate-y-8 group-hover:translate-y-0 transition-transform duration-300">
                                 <h3 className="text-white text-xl font-bold mb-2">{image.title}</h3>
                                 <div className="flex items-center gap-2">
                                     <span className="px-3 py-1 bg-purple-500/80 backdrop-blur-sm rounded-full text-xs text-white font-semibold">
@@ -165,46 +175,64 @@ const Galerie = () => {
             {/* Lightbox Modal */}
             {selectedImage && (
                 <div
-                    className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4 animate-fadeIn"
-                    onClick={() => {setSelectedImage(null); se}}
+                    className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4 md:p-8"
+                    onClick={() => setSelectedImage(null)}
                 >
+                    {/* Bouton Fermer - Utilisation d'une icône pour plus de style */}
                     <button
-                        className="absolute top-4 right-4 text-white text-4xl hover:text-purple-400 transition-colors"
-                        onClick={(e) => {setSelectedImage(null); e.stopPropagation()} }
+                        className="absolute top-6 right-6 text-white/70 hover:text-white transition-colors z-50 p-2"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedImage(null);
+                        }}
                     >
-                        ×
+                        <span className="text-4xl font-light">×</span>
                     </button>
-                    <div className="max-w-5xl w-full animate-scaleIn">
-                        <button
-                            onClick={(e) => {
-                                goToPrevious(); e.stopPropagation()
-                            }}
-                            className="absolute left-0 top-1/2 -translate-y-1/2 translate-x-4 z-10 bg-white hover:bg-gray-100 rounded-full p-3 shadow-lg transition-all duration-300 hover:scale-110"
-                            aria-label="Témoignage précédent"
-                        >
-                            <ChevronLeft className="w-6 h-6 text-gray-700" />
-                        </button>
-                        <img
-                            src={selectedImage.url}
-                            alt={selectedImage.title}
-                            className="w-full h-auto rounded-2xl shadow-2xl"
-                        />
-                        <div className="text-center mt-6">
-                            <h2 className="text-3xl font-bold text-white mb-2">{selectedImage.title}</h2>
-                            <p className="text-gray-400">
+
+                    {/* Navigation - Masquée sur mobile pour éviter l'encombrement, ou centrée verticalement */}
+                    <button
+                        onClick={(e) => { e.stopPropagation(); goToPrevious(); }}
+                        className="absolute left-4 top-1/2 -translate-y-1/2 z-50 bg-gray-800/50 hover:bg-white text-white hover:text-gray-900 rounded-full p-3 transition-all duration-300 hidden md:block"
+                    >
+                        <ChevronLeft className="w-8 h-8" />
+                    </button>
+
+                    <button
+                        onClick={(e) => { e.stopPropagation(); goToNext(); }}
+                        className="absolute right-4 top-1/2 -translate-y-1/2 z-50 bg-gray-800/50 hover:bg-white text-white hover:text-gray-900 rounded-full p-3 transition-all duration-300 hidden md:block"
+                    >
+                        <ChevronRight className="w-8 h-8" />
+                    </button>
+
+                    {/* Conteneur Principal */}
+                    <div
+                        className="relative max-w-5xl w-full max-h-full flex flex-col items-center justify-center"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {/* Wrapper de l'image : l'astuce est le 'min-h-0' et 'overflow-hidden' */}
+                        <div className="relative min-h-0 flex-shrink-1 overflow-hidden rounded-xl shadow-2xl border border-white/10">
+                            <img
+                                src={selectedImage.url}
+                                alt={selectedImage.title}
+                                className="max-w-full max-h-[70vh] object-contain block mx-auto"
+                            />
+                        </div>
+
+                        {/* Infos en bas : Toujours visibles car elles ne sont pas dans le bloc de l'image */}
+                        <div className="w-full text-center mt-6 px-4">
+                            <div className="inline-block px-3 py-1 bg-purple-500/20 text-purple-400 rounded-full text-xs font-semibold mb-3 tracking-wider uppercase">
                                 {categories.find(c => c.id === selectedImage.category)?.name}
-                            </p>
+                            </div>
+                            <h2 className="text-2xl md:text-3xl font-bold text-white leading-tight">
+                                {selectedImage.title}
+                            </h2>
+                            <div className="flex items-center justify-center gap-4 mt-4 text-gray-400 text-sm">
+                                <span className="bg-gray-800 px-3 py-1 rounded-md">
+                                    {filteredImages.findIndex(img => img.id === selectedImage.id) + 1} / {filteredImages.length}
+                                </span>
+                            </div>
                         </div>
                     </div>
-                    <button
-                        onClick={(e) =>{
-                            goToNext(); e.stopPropagation();
-                        }}
-                        className="absolute right-0 top-1/2 -translate-y-1/2 -translate-x-4 z-10 bg-white hover:bg-gray-100 rounded-full p-3 shadow-lg transition-all duration-300 hover:scale-110"
-                        aria-label="Témoignage suivant"
-                    >
-                        <ChevronRight className="w-6 h-6 text-gray-700" />
-                    </button>
                 </div>
             )}
         </section>
