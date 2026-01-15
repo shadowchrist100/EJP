@@ -8,7 +8,7 @@ import Fij from "./components/page/Fij.jsx";
 import Apropos from "./components/page/Apropos.jsx";
 import Don from "./components/page/Don.jsx";
 import Galerie from './components/page/Galerie.jsx';
-import Ministeres from './Ministeres.jsx';
+import Ministeres from './components/page/Ministeres.jsx';
 
 function App() {
   let Component;
