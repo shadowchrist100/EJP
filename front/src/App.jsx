@@ -9,6 +9,8 @@ import Apropos from "./components/page/Apropos.jsx";
 import Don from "./components/page/Don.jsx";
 import Galerie from './components/page/Galerie.jsx';
 import Ministeres from './components/page/Ministeres.jsx';
+import EventsPage from './components/page/Evenements.jsx';
+import BackgroundSlider from './components/page/Background.jsx';
 
 function App() {
   let Component;
@@ -35,7 +37,12 @@ function App() {
         Component= Galerie;
         break;
       case "/ministeres":
-        Component = Ministeres
+        Component = Ministeres;
+      case "/evenements":
+        Component = EventsPage;
+        break;
+      case "/t":
+        Component = BackgroundSlider
     default:
       break;
   }

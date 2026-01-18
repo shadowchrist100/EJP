@@ -2,34 +2,34 @@
 
 .banner {
     /* min-height: 100vh; */
-    background: url(./assets/worship.jpg) center/cover, url(./assets/IMG-20250409-WA0013.jpg) center/cover, url(./assets/IMG-20250520-WA0007.jpg) center/cover, url(./assets/IMG-20250527-WA0010.jpg) center/cover;
+    background: url(./assets/images/worship.jpg) center/cover, url(./assets/images/IMG-20250409-WA0013.jpg) center/cover, url(./assets/images/IMG-20250520-WA0007.jpg) center/cover, url(./assets/images/IMG-20250527-WA0010.jpg) center/cover;
     /* min-height: 100vh; */
 }
 
 .banner {
-    background: url(./assets/worship.jpg) center/cover no-repeat;
+    background: url(./assets/images/worship.jpg) center/cover no-repeat;
     animation: slideShow 20s infinite;
 }
 
 @keyframes slideShow {
     0% {
-        background: url(./assets/worship.jpg) center/cover;
+        background: url(./assets/images/worship.jpg) center/cover;
     }
 
     25% {
-        background: url(./assets/image.jpg) center/cover;
+        background: url(./assets/images/image.jpg) center/cover;
     }
 
     50% {
-        background: url(./assets/image1.jpg) center/cover;
+        background: url(./assets/images/image1.jpg) center/cover;
     }
 
     75% {
-        background: url(./assets/image2.jpg) center/cover;
+        background: url(./assets/images/image2.jpg) center/cover;
     }
 
     100% {
-        background: url(./assets/picture.jpeg) center/cover;
+        background: url(./assets/images/picture.jpeg) center/cover;
     }
 }
 
@@ -38,7 +38,7 @@
 }
 
 .banner-fij {
-    background: url(./assets/fij1.jpeg) center/cover, url(./assets/fij2.jpeg) center/cover, url(./assets/fij3.jpeg) center/cover, url(./assets/fij4.jpeg) center/cover, url(./assets/fij5.jpeg) center/cover, url(./assets/fij6.jpeg) center/cover;
+    background: url(./assets/images/fij1.jpeg) center/cover, url(./assets/images/fij2.jpeg) center/cover, url(./assets/images/fij3.jpeg) center/cover, url(./assets/images/fij4.jpeg) center/cover, url(./assets/images/fij5.jpeg) center/cover, url(./assets/images/fij6.jpeg) center/cover;
 }
 
 .banner-fij {
@@ -47,23 +47,23 @@
 
 @keyframes slideShowFij {
     0% {
-        background: url(./assets/fij1.jpeg) center/cover;
+        background: url(./assets/images/fij1.jpeg) center/cover;
     }
 
     25% {
-        background: url(./assets/fij2.jpeg) center/cover;
+        background: url(./assets/images/fij2.jpeg) center/cover;
     }
 
     50% {
-        background: url(./assets/fij3.jpeg) center/cover;
+        background: url(./assets/images/fij3.jpeg) center/cover;
     }
 
     75% {
-        background: url(./assets/fij4.jpeg) center/cover;
+        background: url(./assets/images/fij4.jpeg) center/cover;
     }
 
     100% {
-        background: url(./assets/fij5.jpeg) center/cover;
+        background: url(./assets/images/fij5.jpeg) center/cover;
     }
 }
 
