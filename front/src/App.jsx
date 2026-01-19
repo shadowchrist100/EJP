@@ -24,7 +24,7 @@ function App() {
     case "/Register":
       Component = Register;
       break;
-    case "/Fij":
+    case "/fij":
       Component=Fij;
       break
     case "/apropos":
@@ -38,6 +38,7 @@ function App() {
         break;
       case "/ministeres":
         Component = Ministeres;
+        break;
       case "/evenements":
         Component = EventsPage;
         break;

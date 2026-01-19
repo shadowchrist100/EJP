@@ -246,7 +246,7 @@ const FijGrid = () => {
 
 const Fij = () => {
     return (
-        <section className="bg-white">
+        <section className="bg-black">
             <div className="min-h-screen">
                 {/* Header fixe */}
                 <header className="fixed top-0 right-0 left-0 z-50">
@@ -262,12 +262,12 @@ const Fij = () => {
                 </section>
 
                 {/* Section À Propos */}
-                <section id="apropos" className="py-12 bg-white">
+                <section id="apropos" className="py-12 bg-black">
                     <Aboutfij />
                 </section>
 
                 {/* Séparateur stylisé */}
-                <div className="w-full bg-white py-8">
+                <div className="w-full bg-black py-8">
                     <div className="container mx-auto px-4">
                         <div className="flex items-center gap-4">
                             <div className="flex-1 h-px bg-linear-gradient-to-r from-transparent via-amber-600 to-transparent"></div>
@@ -297,7 +297,7 @@ const Fij = () => {
                 </section>
 
                 {/* Séparateur stylisé */}
-                <div className="w-full bg-white py-8">
+                <div className="w-full bg-black py-8">
                     <div className="container mx-auto px-4">
                         <div className="flex items-center gap-4">
                             <div className="flex-1 h-px bg-linear-gradient-to-r from-transparent via-amber-600 to-transparent"></div>
@@ -308,7 +308,7 @@ const Fij = () => {
                 </div>
 
                 {/* Section Contact */}
-                <section className="py-24 bg-white">
+                <section className="py-24 bg-black">
                     <Contact />
                 </section>
 

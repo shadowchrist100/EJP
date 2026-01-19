@@ -14,6 +14,7 @@ const Nav = () => {
         { name: 'À Propos', href: '#apropos' },
         { name: 'Événements', href: '/evenements' },
         { name: 'Ministères', href: '/ministeres' },
+        { name: 'Rejoindre une FIJ', href: '/fij' },
         { name: 'Galerie', href: '/galerie' },
         { name: 'Contact', href: '#contact' },
     ];
