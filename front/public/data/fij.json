@@ -1,28 +1,28 @@
 [
     {
         "nom": "FIJ Les Intimes",
-        "image" : "/src/assets/fij/fij_intimes.jpeg",
+        "image" : "src/assets/fij/fij_intimes.jpeg",
         "description": "Une famille débordante de joie, de rire et de profondeur. Notre passion pour Dieu, notre désir de le connaître toujours davantage et de refléter Son image nous définit. Les moments que nous passons ensemble nous conduisent à la restauration, à la dépendance renouvelée envers Christ et, par conséquent, à une relation solide avec Lui. Notre plus grand désir est de nous encourager mutuellement, surtout dans notre jeunesse, à demeurer dans Son Intimité.",
         "mapURL": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.2374295874697!2d2.6072094!3d6.491592000000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b50af82c2a631%3A0xbf1590d6b3c47000!2sBd%20Tokpota%2C%20Porto-Novo!5e0!3m2!1sen!2sbj!4v1763058642929!5m2!1sen!2sbj",
         "phone": "22912345678"
     },
     {
         "nom": "FIJ Maison D'Amour",
-        "image" : "/src/assets/fij/fij_amour.jpeg",
+        "image" : "src/assets/fij/fij_amour.jpeg",
         "description": "La Maison d’Amour est plus qu’un simple groupe FIJ : c’est un foyer, un lieu où l’on grandit, où l’on guérit et où l’on s’épanouit ensemble. Ici, l’amour n’est pas une idée mais une véritable expérience : un langage, une atmosphère, un style de vie. Nous apprenons à aimer comme Christ aime, à devenir des jeunes stables, doux, profonds, responsables émotionnellement et joyeux.À la Maison d’Amour, tu ne viens pas juste assister : tu prends ta place, tu découvres ta valeur et tu actives ton potentiel. Nous t’aidons à grandir spirituellement, restaurer ton cœur, développer ta confiance, trouver ta passion et créer des amitiés vraies dans une ambiance chaleureuse, respectueuse et pleine de joie.Si tu cherches une famille où tu es écouté, considéré, entouré et accompagné, ta place t’y attend déjà et ici Dieu ecrit ta plus belle histoire☺️.Bienvenue à la Maison d'Amour.Ta Famille, Ton Refuge, Ton espace pour grandir. ✨",
         "mapURL": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.2374295874697!2d2.6072094!3d6.491592000000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b50af82c2a631%3A0xbf1590d6b3c47000!2sBd%20Tokpota%2C%20Porto-Novo!5e0!3m2!1sen!2sbj!4v1763058642929!5m2!1sen!2sbj",
         "phone": "22912345678"
     },
     {
         "nom": "FIJ Maison Flamme de Feu",
-        "image" : "/src/assets/fij/fij_flamme.jpeg",
+        "image" : "src/assets/fij/fij_flamme.jpeg",
         "description": "C’est bien plus qu’un lieu : c’est une atmosphère où la présence de Dieu brûle, transforme et réveille les destinées. Ici, Son feu purifie les cœurs, restaure les vies et rallume ce qui semblait éteint.C’est une maison où l’amour de Dieu guérit, où la joie de l’Esprit remplit, où les âmes fatiguées retrouvent force et espérance. Dans cette demeure, Dieu façonne des hommes et des femmes comme de véritables flammes de feu — porteurs de Sa lumière, ambassadeurs de Sa puissance, instruments de transformation pour leur génération.",
         "mapURL": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.2374295874697!2d2.6072094!3d6.491592000000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b50af82c2a631%3A0xbf1590d6b3c47000!2sBd%20Tokpota%2C%20Porto-Novo!5e0!3m2!1sen!2sbj!4v1763058642929!5m2!1sen!2sbj",
         "phone": "22912345678"
     },
     {
         "nom": "FIJ Nouveau Souffle",
-        "image" : "/src/assets/fij/fij_souffle.jpeg",
+        "image" : "src/assets/fij/fij_souffle.jpeg",
         "description": "Il existe des familles… et puis il existe cette famille-là.  Celle où tu franchis la porte et tu sens la différence : chaleur, rires sincères, regards qui rassurent.  🙏 Ici, on ne fait pas que vivre ensemble :  on grandit, on se relève, on cherche Dieu avec un cœur brûlant.  🌿 Chaque rencontre est une bouffée d’air frais,  un souffle nouveau où Christ devient réel et proche.  C’est une famille qui t’accueille sans masque, (sauf pour te faire un masque de beauté🥱🫠), qui t’écoute sans juger, qui croit en toi même quand tu doutes.Si tu cherches un lieu pour être toi-même, guérir, rire, grandir et t'épanouir…  Bienvenue dans la Famille d’Impact Jeunes “Nouveau Souffle” 🏠✨",
         "mapURL": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.2374295874697!2d2.6072094!3d6.491592000000001!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b50af82c2a631%3A0xbf1590d6b3c47000!2sBd%20Tokpota%2C%20Porto-Novo!5e0!3m2!1sen!2sbj!4v1763058642929!5m2!1sen!2sbj",
         "phone": "22912345678"
