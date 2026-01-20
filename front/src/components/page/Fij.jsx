@@ -54,7 +54,7 @@ const Aboutfij = () => {
                             <div
                                 className="w-full h-full bg-center bg-cover transform group-hover:scale-105 transition-transform duration-700"
                                 style={{
-                                    backgroundImage: 'url("src/assets/images/fij6.jpeg")',
+                                    backgroundImage: 'url("assets/images/fij6.jpeg")',
                                 }}
                             />
                             <div className="absolute inset-0 bg-linear-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -114,7 +114,7 @@ const Aboutfij = () => {
                             <div
                                 className="w-full h-full bg-center bg-cover transform group-hover:scale-105 transition-transform duration-700"
                                 style={{
-                                    backgroundImage: 'url("src/assets/images/fij3.jpeg")',
+                                    backgroundImage: 'url("assets/images/fij3.jpeg")',
                                 }}
                             />
                             <div className="absolute inset-0 bg-linear-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
