@@ -54,7 +54,7 @@ const Aboutfij = () => {
                             <div
                                 className="w-full h-full bg-center bg-cover transform group-hover:scale-105 transition-transform duration-700"
                                 style={{
-                                    backgroundImage: 'url("src/assets/fij6.jpeg")',
+                                    backgroundImage: 'url("src/assets/images/fij6.jpeg")',
                                 }}
                             />
                             <div className="absolute inset-0 bg-linear-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -114,7 +114,7 @@ const Aboutfij = () => {
                             <div
                                 className="w-full h-full bg-center bg-cover transform group-hover:scale-105 transition-transform duration-700"
                                 style={{
-                                    backgroundImage: 'url("src/assets/fij3.jpeg")',
+                                    backgroundImage: 'url("src/assets/images/fij3.jpeg")',
                                 }}
                             />
                             <div className="absolute inset-0 bg-linear-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
@@ -246,7 +246,7 @@ const FijGrid = () => {
 
 const Fij = () => {
     return (
-        <section className="bg-white">
+        <section className="bg-black">
             <div className="min-h-screen">
                 {/* Header fixe */}
                 <header className="fixed top-0 right-0 left-0 z-50">
@@ -262,12 +262,12 @@ const Fij = () => {
                 </section>
 
                 {/* Section À Propos */}
-                <section id="apropos" className="py-12 bg-white">
+                <section id="apropos" className="py-12 bg-black">
                     <Aboutfij />
                 </section>
 
                 {/* Séparateur stylisé */}
-                <div className="w-full bg-white py-8">
+                <div className="w-full bg-black py-8">
                     <div className="container mx-auto px-4">
                         <div className="flex items-center gap-4">
                             <div className="flex-1 h-px bg-linear-gradient-to-r from-transparent via-amber-600 to-transparent"></div>
@@ -297,7 +297,7 @@ const Fij = () => {
                 </section>
 
                 {/* Séparateur stylisé */}
-                <div className="w-full bg-white py-8">
+                <div className="w-full bg-black py-8">
                     <div className="container mx-auto px-4">
                         <div className="flex items-center gap-4">
                             <div className="flex-1 h-px bg-linear-gradient-to-r from-transparent via-amber-600 to-transparent"></div>
@@ -308,7 +308,7 @@ const Fij = () => {
                 </div>
 
                 {/* Section Contact */}
-                <section className="py-24 bg-white">
+                <section className="py-24 bg-black">
                     <Contact />
                 </section>
 
@@ -322,7 +322,7 @@ const Fij = () => {
                             <div className="text-center md:text-left">
                                 <div className="flex items-center justify-center md:justify-start mb-3">
                                     <div className="w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center mr-3">
-                                        <img src="/src/assets/logo.jpeg" alt="Logo EJP" className="w-10 h-10 rounded-full" />
+                                        <img src="/src/assets/images/logo.jpeg" alt="Logo EJP" className="w-10 h-10 rounded-full" />
                                     </div>
                                     <div>
                                         <h3 className="text-lg font-bold text-white">EJP</h3>
