@@ -1,6 +1,5 @@
 import React, { useState, useEffect, Component } from 'react';
 import logo from "./assets/images/ejp_logo.jpg";
-import banner from "./assets/images/immg.jpeg";
 import { User, ChevronDown, ChevronUp, ChevronLeft, ChevronRight, ArrowRight, Quote } from 'lucide-react'
 import { Navigate } from 'react-router-dom';
 
@@ -170,11 +169,17 @@ const Banner = () => {
 };
 
 const CountdownSection = () => {
+    const now = new Date() ;
+    const next = new Date();
+    next.setDate(now.getDate() + (7 - now.getDay()) > 0 ? (7 - now.getDay()) : 0 )
+    next.setHours(14,29,0);
+    const left = next - now;
+    
     const [timeLeft, setTimeLeft] = useState({
-        days: 5,
-        hours: 4,
-        minutes: 23,
-        seconds: 26
+        days: Math.floor(left /(1000 * 60*60*24)) ,
+        hours: Math.floor((left/(1000 * 60*60))%24),
+        minutes: Math.floor((left/ (1000 * 60))%60),
+        seconds: Math.floor((left / 1000) % 60)
     });
 
     useEffect(() => {
@@ -374,7 +379,7 @@ const Index = () => {
             <CountdownSection />
 
             {/* 2. VISION SECTION */}
-            <section className=" bg-black relative">
+            <section className="h-screen bg-black relative">
                 <div className="container mx-auto px-6 text-center">
                     <div className="max-w-4xl mx-auto border-y border-white/5 py-24">
                         <h2 className="text-amber-500 font-black tracking-[0.4em] uppercase text-[10px] mb-8">Notre Vision</h2>
