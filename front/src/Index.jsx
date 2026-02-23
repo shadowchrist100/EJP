@@ -1,67 +1,9 @@
 import React, { useState, useEffect, Component } from 'react';
 import logo from "./assets/images/ejp_logo.jpg";
-import { User, ChevronDown, ChevronUp, ChevronLeft, ChevronRight, ArrowRight, Quote } from 'lucide-react'
+import {ArrowRight, Quote } from 'lucide-react'
 import { Navigate } from 'react-router-dom';
-
-// --- NAVIGATION HARMONISÉE ---
-const Nav = () => {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
-    const [isAuthOpen, setIsAuthOpen] = useState(false);
-
-    const navLinks = [
-        { name: 'Accueil', href: '/' },
-        { name: 'À Propos', href: '#apropos' },
-        { name: 'Événements', href: '/evenements' },
-        { name: 'Ministères', href: '/ministeres' },
-        { name: 'Rejoindre une FIJ', href: '/fij' },
-        { name: 'Galerie', href: '/galerie' },
-        { name: 'Contact', href: '#contact' },
-    ];
-
-    return (
-        <nav className="bg-black/90 backdrop-blur-md border-b border-white/5 w-full z-50 transition-all">
-            <div className="container mx-auto px-6">
-                <div className="flex items-center justify-between h-20">
-                    {/* Logo / Nom */}
-                    <div className="flex items-center gap-3">
-                        <h1 className="text-xl font-black text-white tracking-tighter uppercase">
-                            EJP<span className="text-amber-500">.</span>PORTO
-                        </h1>
-                    </div>
-
-                    {/* Desktop Menu */}
-                    <div className="hidden lg:flex items-center gap-8">
-                        {navLinks.map(link => (
-                            <a key={link.name} href={link.href} className="text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 hover:text-amber-500 transition-colors">
-                                {link.name}
-                            </a>
-                        ))}
-
-                        {/* Auth Dropdown */}
-                        <div className="relative">
-                            <button onClick={() => setIsAuthOpen(!isAuthOpen)} className="flex items-center gap-2 text-amber-500 text-[10px] font-black uppercase tracking-widest border border-amber-500/20 px-4 py-2 rounded-full hover:bg-amber-500 hover:text-black transition-all">
-                                <User size={14} /> Compte
-                            </button>
-                            {isAuthOpen && (
-                                <div className="absolute right-0 mt-4 w-48 bg-zinc-900 border border-white/10 rounded-2xl shadow-2xl py-2 z-50 animate-fade-in">
-                                    <a href="#login" className="block px-6 py-3 text-xs text-white hover:bg-amber-600 hover:text-black transition-colors">Connexion</a>
-                                    <a href="#signup" className="block px-6 py-3 text-xs text-white hover:bg-amber-600 hover:text-black transition-colors">S'inscrire</a>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-
-                    {/* Mobile Toggle */}
-                    <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="lg:hidden text-white">
-                        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>
-                    </button>
-                </div>
-            </div>
-        </nav>
-    );
-};
-// --- BANNER STYLE STAR ---
-// Importe tes images ici
+import Nav from './components/common/Nav'
+import Footer from './components/common/Footer';
 import fij1 from "./assets/images/image.jpg";
 import fij2 from "./assets/images/image1.jpg";
 import fij3 from "./assets/images/image2.jpg";
@@ -85,7 +27,7 @@ const Banner = () => {
                 {images.map((img, index) => (
                     <div
                         key={index}
-                        className={`absolute inset-0 bg-cover bg-center transition-all duration-[1500ms] ease-in-out ${index === currentSlide ? 'opacity-70 scale-100' : 'opacity-0 scale-110'
+                        className={`absolute inset-0 bg-cover bg-center transition-all duration-1500 ease-in-out ${index === currentSlide ? 'opacity-70 scale-100' : 'opacity-0 scale-110'
                             }`}
                         style={{
                             backgroundImage: `url(${img})`,
@@ -93,7 +35,7 @@ const Banner = () => {
                         }}
                     />
                 ))}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-transparent to-black z-10" />
+                <div className="absolute inset-0 bg-linear-to-b from-black/90 via-transparent to-black z-10" />
             </div>
 
             {/* --- CONTENT : Ajusté pour monter plus haut --- */}
@@ -118,16 +60,16 @@ const Banner = () => {
                     {/* Bloc Slogan Encadré par deux barres horizontales */}
                     <div className="flex flex-col items-center mt-6 mb-8">
                         {/* Barre horizontale supérieure */}
-                        <div className="w-24 md:w-32 h-px bg-gradient-to-r from-transparent via-amber-500 to-transparent mb-3"></div>
+                        <div className="w-24 md:w-32 h-px bg-linear-to-r from-transparent via-amber-500 to-transparent mb-3"></div>
 
                         <p className="text-amber-500 font-bold tracking-[0.4em] text-[9px] md:text-[11px] uppercase">
                             Par les jeunes <span className="mx-2 text-white/30">|</span> Pour les jeunes
                         </p>
 
                         {/* Barre horizontale inférieure */}
-                        <div className="w-24 md:w-32 h-px bg-gradient-to-r from-transparent via-amber-500 to-transparent mt-3"></div>
+                        <div className="w-24 md:w-32 h-px bg-linear-to-r from-transparent via-amber-500 to-transparent mt-3"></div>
                     </div>
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-amber-600 italic">Prodiges</span>
+                    <span className="text-transparent bg-clip-text bg-linear-to-r from-amber-200 to-amber-600 italic">Prodiges</span>
                 </h1>
 
 
@@ -138,10 +80,10 @@ const Banner = () => {
                 {/* Boutons plus compacts */}
                 <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mt-6">
                     <button className="bg-amber-600 text-black px-8 py-4 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-white transition-all shadow-lg">
-                        Rejoins-nous
+                        <a href="/register">Rejoins-nous</a>
                     </button>
                     <button className="border border-white/40 text-white backdrop-blur-sm px-8 py-4 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-white hover:text-black transition-all">
-                        Faire un don
+                        <a href="/dons">Faire un don</a>
                     </button>
                 </div>
 
@@ -169,16 +111,16 @@ const Banner = () => {
 };
 
 const CountdownSection = () => {
-    const now = new Date() ;
+    const now = new Date();
     const next = new Date();
-    next.setDate(now.getDate() + (7 - now.getDay()) > 0 ? (7 - now.getDay()) : 0 )
-    next.setHours(14,29,0);
+    next.setDate(now.getDate() + ((7 - now.getDay()) > 0 ? (7 - now.getDay()) : 0))
+    next.setHours(15, 29, 0);
     const left = next - now;
-    
+
     const [timeLeft, setTimeLeft] = useState({
-        days: Math.floor(left /(1000 * 60*60*24)) ,
-        hours: Math.floor((left/(1000 * 60*60))%24),
-        minutes: Math.floor((left/ (1000 * 60))%60),
+        days: Math.floor(left / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((left / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((left / (1000 * 60)) % 60),
         seconds: Math.floor((left / 1000) % 60)
     });
 
@@ -373,7 +315,6 @@ const Index = () => {
         <div className="bg-black min-h-screen text-gray-400 font-sans selection:bg-amber-500/30">
             <Nav />
 
-            {/* 1. HERO SECTION (Le diaporama est maintenant géré à l'intérieur de Banner) */}
             <Banner />
 
             <CountdownSection />
@@ -406,7 +347,7 @@ const Index = () => {
                             Tu commences ta marche avec Jésus ? Laisse-nous t'accompagner pour bâtir des fondements solides pour ta nouvelle vie.
                         </p>
                         <button className="bg-white text-black px-12 py-5 rounded-full text-[10px] font-black uppercase tracking-widest hover:bg-amber-500 transition-all shadow-xl">
-                            Inscris-toi maintenant
+                            <a href="/register">Inscris-toi maintenant</a>
                         </button>
                     </div>
                 </div>
@@ -423,7 +364,7 @@ const Index = () => {
                     <h2 className="text-5xl md:text-7xl font-black text-white mb-8 tracking-tighter uppercase">FAIRE UN <span className="text-amber-500">DON</span></h2>
                     <p className="text-xl text-gray-300 font-light mb-12 italic">"Dieu aime celui qui donne avec joie." (2 Cor 9:7)</p>
                     <button className="group border-2 border-white px-12 py-5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] hover:bg-white hover:text-black transition-all flex items-center gap-4 mx-auto">
-                        SOUTENIR LA VISION <ArrowRight className="group-hover:translate-x-2 transition-transform" />
+                        <a href="/dons">SOUTENIR LA VISION</a> <ArrowRight className="group-hover:translate-x-2 transition-transform" />
                     </button>
                 </div>
             </section>
@@ -435,68 +376,7 @@ const Index = () => {
 
             {/* 7. FOOTER HARMONISÉ */}
             <footer className="py-20 bg-zinc-950 border-t border-white/5">
-                <div className="container mx-auto px-6">
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-                        <div className="col-span-1 md:col-span-1 text-center md:text-left">
-                            <h3 className="text-white font-black tracking-tighter text-2xl mb-4">EJP<span className="text-amber-500">.</span>PN</h3>
-                            <p className="text-gray-500 text-xs leading-relaxed uppercase tracking-widest font-bold">L'Excellence par la jeunesse.</p>
-                        </div>
-
-                        <div>
-                            <h4 className="text-amber-500 text-[10px] font-black tracking-[0.3em] uppercase mb-6">Contact</h4>
-                            <p className="text-gray-400 text-xs leading-loose">ICC Campus Porto-Novo<br />Face église Catholique<br />+229 01 49 12 12 09</p>
-                        </div>
-
-                        <div>
-                            <h4 className="text-amber-500 text-[10px] font-black tracking-[0.3em] uppercase mb-6">Navigation</h4>
-                            <div className="flex flex-col gap-3 text-xs uppercase tracking-widest font-bold">
-                                <a href="/galerie" className="hover:text-white">Galerie</a>
-                                <a href="/evenements" className="hover:text-white">Événements</a>
-                                <a href="/don" className="hover:text-white">Dons</a>
-                            </div>
-                        </div>
-
-                        <div>
-                            <h4 className="text-amber-500 text-[10px] font-black tracking-[0.3em] uppercase mb-6">Social</h4>
-                            <div className="flex gap-4 justify-center md:justify-start">
-                                {/* Icônes réseaux sociaux ici */}
-                                <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-amber-600 hover:text-black transition-all">
-                                    <svg
-                                        width="16"
-                                        height="16"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth="2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    >
-                                        <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
-                                    </svg>
-                                </a>
-                                <a href="#" className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-amber-600 hover:text-black transition-all">
-                                    <svg
-                                        width="18"
-                                        height="18"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth="2"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    >
-                                        <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
-                                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
-                                        <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
-                                    </svg>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="text-center pt-12 border-t border-white/5">
-                        <p className="text-[10px] text-gray-600 uppercase tracking-[0.4em]">© 2025 Église des Jeunes Prodiges — Porto-Novo</p>
-                    </div>
-                </div>
+                <Footer />
             </footer>
         </div>
     );
@@ -504,4 +384,4 @@ const Index = () => {
 
 
 export default Index;
-export { Nav, Contact };
+export {Contact};

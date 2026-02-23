@@ -1,4 +1,4 @@
-import { Nav } from "../../Index";
+import Nav from "../common/Nav";
 import { Contact } from "../../Index";
 import React, { useEffect, useState } from 'react';
 

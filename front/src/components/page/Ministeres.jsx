@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Nav } from '../../Index';
+import Nav from '../common/Nav';
 
 const Banner = () => {
     return (

@@ -1,25 +1,6 @@
-import React, { useState, useEffect } from 'react';
 import { Calendar, MapPin, Clock, ArrowRight, Share2 } from 'lucide-react';
+import Nav from '../common/Nav';
 
-const Nav = () => (
-    <nav className="bg-black/90 backdrop-blur-md border-b border-white/5 fixed top-0 w-full z-50">
-        <div className="container mx-auto px-6 py-5">
-            <div className="flex items-center justify-between">
-                <h1 className="text-2xl font-black text-white tracking-tighter uppercase">
-                    EJP<span className="text-amber-500">.</span>EVENTS
-                </h1>
-                <div className="flex gap-8">
-                    {['Home', 'Galerie', 'Ministères'].map((item) => (
-                        <a key={item} href={`/#${item.toLowerCase()}`}
-                            className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 hover:text-amber-500 transition-colors">
-                            {item}
-                        </a>
-                    ))}
-                </div>
-            </div>
-        </div>
-    </nav>
-);
 
 const EventCard = ({ event }) => (
     <div className="group relative bg-zinc-950 border border-white/5 rounded-[2rem] overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-amber-600/5 flex flex-col h-full">
@@ -80,9 +61,9 @@ const EventsPage = () => {
     };
 
     const upcomingEvents = [
-        { id: 1, day: "12", month: "SEPT", time: "19:00", location: "Cotonou", title: "Nuit de la S.T.A.R.", description: "Une veillée de prière intense pour tous les serviteurs actifs du royaume.", image: "https://images.unsplash.com/photo-1514525253361-b83f859b73c0?w=800" },
-        { id: 2, day: "05", month: "OCT", time: "09:00", location: "Lomé", title: "Youth Leadership Hub", description: "Atelier pratique sur le leadership créatif et la gestion de projets ministériels.", image: "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?w=800" },
-        { id: 3, day: "20", month: "OCT", time: "16:00", location: "Parakou", title: "Worship Experience", description: "Un concert acoustique intimiste pour une rencontre authentique avec le divin.", image: "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=800" }
+        { id: 1, day: "12", month: "SEPT", time: "19:00", location: "EJP Porto", title: "Ambrasés", description: "Une veillée de prière intense pour tous les serviteurs actifs du royaume.", image: "https://images.unsplash.com/photo-1514525253361-b83f859b73c0?w=800" },
+        { id: 2, day: "05", month: "OCT", time: "09:00", location: "EJP Porto", title: "CULTE EJP", description: "Atelier pratique sur le leadership créatif et la gestion de projets ministériels.", image: "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?w=800" },
+        { id: 3, day: "20", month: "OCT", time: "16:00", location: "EJP Porto", title: "FIJ", description: "Un concert acoustique intimiste pour une rencontre authentique avec le divin.", image: "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=800" }
     ];
 
     return (
