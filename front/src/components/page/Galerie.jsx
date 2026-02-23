@@ -108,7 +108,7 @@ const Galerie = () => {
             {/* Gallery Grid - Largeur Augmentée */}
             <div className="container mx-auto px-6 pb-32 max-w-[1550px]">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {filteredImages.map((image, index) => (
+                    {filteredImages.map((image) => (
                         <div
                             key={image.id}
                             className="group relative aspect-[4/5] overflow-hidden rounded-[2rem] cursor-pointer bg-zinc-900 border border-white/5"
