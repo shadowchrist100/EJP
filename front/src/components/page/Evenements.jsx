@@ -20,7 +20,7 @@ const EventCard = ({ event }) => {
                     alt={event.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale-[0.3] group-hover:grayscale-0"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-linear-to-t from-zinc-950 via-transparent to-transparent" />
             </div>
 
             {/* Content */}
@@ -173,8 +173,8 @@ const EventsPage = () => {
                             className="w-full h-full object-cover scale-105 opacity-40 grayscale-[0.5]"
                             alt="Featured"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-transparent" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent" />
+                        <div className="absolute inset-0 bg-linear-to-r from-black via-black/80 to-transparent" />
+                        <div className="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent" />
                     </div>
 
                     <div className="container mx-auto px-6 relative z-10">

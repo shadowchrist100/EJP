@@ -6,7 +6,7 @@ export default function Footer() {
                     <div>
                         <h3 className="text-white font-black tracking-tighter text-2xl mb-4">EJP<span className="text-amber-500">.</span>PN</h3>
                         <div className="w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center mr-3">
-                            <img src="/src/assets/images/logo.jpeg" alt="Logo EJP" className="w-10 h-10 rounded-full" />
+                            <img src="../assets/images/logo.jpeg" alt="Logo EJP" className="w-10 h-10 rounded-full" />
                         </div>
                     </div>
                     <p className="text-gray-500 text-xs leading-relaxed uppercase tracking-widest font-bold">L'Excellence par la jeunesse.</p>
