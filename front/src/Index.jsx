@@ -1,13 +1,14 @@
 import React, { useState, useEffect, Component } from 'react';
 import logo from "./assets/images/ejp_logo.jpg";
-import {ArrowRight, Quote } from 'lucide-react'
-import { Navigate } from 'react-router-dom';
+import { ArrowRight, Quote } from 'lucide-react'
+import VisionSection from './components/VisionSection';
 import Nav from './components/common/Nav'
 import Footer from './components/common/Footer';
 import fij1 from "./assets/images/image.jpg";
 import fij2 from "./assets/images/image1.jpg";
 import fij3 from "./assets/images/image2.jpg";
 import fij4 from "./assets/images/immg.jpeg";
+import song from "./assets/song.mp3"
 
 const Banner = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
@@ -100,7 +101,7 @@ const Banner = () => {
                 </div>
             </div>
 
-            {/* Icône de scroll plus discrète tout en bas */}
+            {/* Icône de scroll  */}
             <div className="absolute bottom-24 left-1/2 -translate-x-1/2 z-20 animate-bounce opacity-50">
                 <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7-7-7" />
@@ -205,7 +206,7 @@ const CountdownSection = () => {
     );
 }
 
-// --- COMPOSANT CONTACT HARMONISÉ ---
+// --- COMPOSANT CONTACT ---
 const Contact = () => {
     return (
         <div className="relative">
@@ -318,23 +319,7 @@ const Index = () => {
             <Banner />
 
             <CountdownSection />
-
-            {/* 2. VISION SECTION */}
-            <section className="h-screen bg-black relative">
-                <div className="container mx-auto px-6 text-center">
-                    <div className="max-w-4xl mx-auto border-y border-white/5 py-24">
-                        <h2 className="text-amber-500 font-black tracking-[0.4em] uppercase text-[10px] mb-8">Notre Vision</h2>
-                        <h1 className="text-4xl md:text-7xl font-black text-white leading-[1.05] tracking-tighter uppercase mb-12">
-                            " L’excellence par la <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-amber-500">Jeunesse</span>, de Porto-Novo aux extrémités de la Terre "
-                        </h1>
-                        <div className="flex flex-col items-center">
-                            <div className="w-16 h-1 bg-amber-600 mb-6"></div>
-                            <p className="text-white font-black tracking-[0.3em] uppercase text-[10px]">Berger Dimitri Dumas</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
+            <VisionSection audioPath = {song} />
             {/* 3. TESTIMONIALS */}
             <TestimonialSection />
 
@@ -384,4 +369,4 @@ const Index = () => {
 
 
 export default Index;
-export {Contact};
+export { Contact };
