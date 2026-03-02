@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { ChevronLeft, ChevronRight, X, Grid3X3, LayoutList } from 'lucide-react';
 import Nav from '../common/Nav';
+import Footer from '../common/Footer';
 /* ─── SKELETON ──────────────────────────────────────────────────────────────── */
 const Skeleton = () => (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -11,7 +12,7 @@ const Skeleton = () => (
                 className="rounded-2xl overflow-hidden bg-zinc-900"
                 style={{ aspectRatio: i % 3 === 1 ? '4/6' : '4/5' }}
             >
-                <div className="w-full h-full bg-gradient-to-r from-zinc-900 via-zinc-800 to-zinc-900 animate-pulse" />
+                <div className="w-full h-full bg-linear-to-r from-zinc-900 via-zinc-800 to-zinc-900 animate-pulse" />
             </div>
         ))}
     </div>
@@ -59,7 +60,7 @@ const Lightbox = ({ image, images, onClose, onPrev, onNext }) => {
 
     return createPortal(
         <div
-            className="fixed inset-0 z-[9999] flex items-center justify-center"
+            className="fixed inset-0 z-9999 flex items-center justify-center"
             style={{ background: 'rgba(0,0,0,0.97)', top: 0, left: 0, right: 0, bottom: 0 }}
             onClick={onClose}
             onTouchStart={onTouchStart}
@@ -68,7 +69,7 @@ const Lightbox = ({ image, images, onClose, onPrev, onNext }) => {
             {/* Close */}
             <button
                 onClick={onClose}
-                className="absolute top-6 right-6 z-[110] w-10 h-10 flex items-center justify-center rounded-full border border-white/10 text-white/40 hover:text-amber-500 hover:border-amber-500/50 transition-all duration-300"
+                className="absolute top-6 right-6 z-110 w-10 h-10 flex items-center justify-center rounded-full border border-white/10 text-white/40 hover:text-amber-500 hover:border-amber-500/50 transition-all duration-300"
             >
                 <X size={18} strokeWidth={1.5} />
             </button>
@@ -76,7 +77,7 @@ const Lightbox = ({ image, images, onClose, onPrev, onNext }) => {
             {/* Prev */}
             <button
                 onClick={(e) => { e.stopPropagation(); onPrev(); }}
-                className="absolute left-6 top-1/2 -translate-y-1/2 z-[110] w-12 h-12 hidden md:flex items-center justify-center rounded-full border border-white/10 text-white/30 hover:text-amber-500 hover:border-amber-500/50 hover:-translate-x-1 transition-all duration-300 group"
+                className="absolute left-6 top-1/2 -translate-y-1/2 z-110 w-12 h-12 hidden md:flex items-center justify-center rounded-full border border-white/10 text-white/30 hover:text-amber-500 hover:border-amber-500/50 hover:-translate-x-1 transition-all duration-300 group"
                 style={{ transform: 'translateY(-50%)' }}
             >
                 <ChevronLeft size={22} strokeWidth={1.5} />
@@ -96,7 +97,7 @@ const Lightbox = ({ image, images, onClose, onPrev, onNext }) => {
                         style={{ maxWidth: '100%' }}
                     />
                     {/* Subtle amber line at bottom */}
-                    <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-amber-500/60 to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-linear-to-r from-transparent via-amber-500/60 to-transparent" />
                 </div>
 
                 {/* Meta */}
@@ -165,7 +166,7 @@ const Card = ({ image, index, onClick, catName }) => {
             <img
                 src={image.url}
                 alt={image.title}
-                className="w-full h-full object-cover transition-transform duration-[1200ms] group-hover:scale-105 grayscale-[0.4] group-hover:grayscale-0"
+                className="w-full h-full object-cover transition-transform duration-1200 group-hover:scale-105 grayscale-[0.4] group-hover:grayscale-0"
                 loading="lazy"
             />
 
@@ -174,10 +175,10 @@ const Card = ({ image, index, onClick, catName }) => {
                 style={{ boxShadow: 'inset 0 0 60px rgba(217,119,6,0.06)' }} />
 
             {/* Gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/10 to-transparent opacity-70 group-hover:opacity-95 transition-opacity duration-500" />
+            <div className="absolute inset-0 bg-linear-to-t from-black/90 via-black/10 to-transparent opacity-70 group-hover:opacity-95 transition-opacity duration-500" />
 
             {/* Top accent line on hover */}
-            <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-amber-500/0 to-transparent group-hover:via-amber-500/70 transition-all duration-700" />
+            <div className="absolute top-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-amber-500/0 to-transparent group-hover:via-amber-500/70 transition-all duration-700" />
 
             {/* Content */}
             <div className="absolute inset-0 p-6 flex flex-col justify-end translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
@@ -373,8 +374,11 @@ const Galerie = () => {
                         </div>
                     ) : viewMode === 'grid' ? (
                         <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+                            {console.log(filteredImages)
+                            }
                             {filteredImages.map((image, index) => (
                                 <div key={image.id} className="break-inside-avoid">
+                                    {console.log(image)}
                                     <Card
                                         image={image}
                                         index={index}
@@ -390,11 +394,11 @@ const Galerie = () => {
                             {filteredImages.map((image, index) => (
                                 <div
                                     key={image.id}
-                                    className="group flex items-center gap-5 p-4 rounded-xl border border-white/[0.05] hover:border-amber-500/20 bg-zinc-900/30 hover:bg-zinc-900/60 cursor-pointer transition-all duration-300"
+                                    className="group flex items-center gap-5 p-4 rounded-xl border border-white/5 hover:border-amber-500/20 bg-zinc-900/30 hover:bg-zinc-900/60 cursor-pointer transition-all duration-300"
                                     style={{ animation: 'fadeSlideUp 0.4s ease forwards', animationDelay: `${index * 40}ms`, opacity: 0 }}
                                     onClick={() => setSelectedImage(image)}
                                 >
-                                    <div className="w-16 h-16 rounded-xl overflow-hidden flex-shrink-0 border border-white/[0.06]">
+                                    <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 border border-white/6">
                                         <img src={image.url} alt={image.title} className="w-full h-full object-cover grayscale-[0.5] group-hover:grayscale-0 transition-all duration-500" />
                                     </div>
                                     <div className="flex-1 min-w-0">
@@ -423,6 +427,8 @@ const Galerie = () => {
                         onNext={goToNext}
                     />
                 )}
+            <Footer/>
+
             </section>
         </>
     );

@@ -108,7 +108,7 @@ const EventsPage = () => {
                 location: "EJP Porto",
                 title: "Ambrasés",
                 description: "Une soirée de prière et d'adoration où tu es ambrasés par le Saint Esprit. Un moment spirituel intense pour recharger ton âme.",
-                image: "https://images.unsplash.com/photo-1514525253361-b83f859b73c0?w=800"
+                image: "/src/assets/images/culte1.jpg"
             },
             {
                 id: 2,
@@ -120,7 +120,7 @@ const EventsPage = () => {
                 location: "EJP Porto",
                 title: "CULTE EJP",
                 description: "Un culte, une expérience! Rejoins-nous pour un moment de communion fraternelle et de louange ensemble.",
-                image: "https://images.unsplash.com/photo-1526628953301-3e589a6a8b74?w=800"
+                image: "/src/assets/images/culte.jpg"
             },
             {
                 id: 3,
@@ -132,7 +132,7 @@ const EventsPage = () => {
                 location: "EJP Porto",
                 title: "FIJ - Famille D'Impact Jeunes",
                 description: "Des soirées d'échanges et de communion avec ta famille d'impact . Moments de partage et de bénédictions.",
-                image: "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=800"
+                image: "/src/assets/fij/image1.jpg"
             }
         ];
     });

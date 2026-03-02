@@ -7,7 +7,7 @@ import Footer from './components/common/Footer';
 import fij1 from "./assets/images/image.jpg";
 import fij2 from "./assets/images/image1.jpg";
 import fij3 from "./assets/images/image2.jpg";
-import fij4 from "./assets/images/immg.jpeg";
+import fij4 from "./assets/images/image3.jpg";
 import song from "./assets/song.mp3";
 
 /* ─── Global styles ─────────────────────────────────────────────────── */
