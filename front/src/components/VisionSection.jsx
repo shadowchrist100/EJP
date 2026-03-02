@@ -1,4 +1,6 @@
 import React, { useRef, useEffect, useCallback } from 'react';
+import bergerDimitri from "../assets/images/ejp_berger_dimitri.jpeg";
+import bergerSamuel from "../assets/images/ejp_berger_samuel.jpeg";
 
 const VisionSection = ({ audioPath }) => {
     const audioRef = useRef(null);
@@ -173,7 +175,7 @@ const VisionSection = ({ audioPath }) => {
                                 <div className="mb-8 group">
                                     <div className="relative w-40 h-40 mx-auto rounded-full overflow-hidden border-4 border-amber-500/50 shadow-2xl shadow-amber-600/30 hover:border-amber-400 transition-all duration-300">
                                         <img
-                                            src="/src/assets/images/ejp_berger_samuel.jpeg"
+                                            src= {bergerSamuel}
                                             alt="Samuel EBOUMBOU"
                                             className="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-500 scale-105 group-hover:scale-100"
                                         />
@@ -215,7 +217,7 @@ const VisionSection = ({ audioPath }) => {
                                 <div className="mb-8 group">
                                     <div className="relative w-40 h-40 mx-auto rounded-full overflow-hidden border-4 border-amber-500/50 shadow-2xl shadow-amber-600/30 hover:border-amber-400 transition-all duration-300">
                                         <img
-                                            src="/src/assets/images/ejp_berger_dimitri.jpeg"
+                                            src= {bergerDimitri}
                                             alt="Dimitri Dumas"
                                             className="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-500 scale-105 group-hover:scale-100"
                                         />

@@ -3,54 +3,132 @@
         "id": 1,
         "category": "events",
         "title": "Culte du Dimanche",
-        "url": "assets/images/image.jpg"
+        "url": "/src/assets/images/photo.jpg"
     },
     {
         "id": 2,
         "category": "events",
-        "title": "Conférence Jeunesse",
-        "url": "assets/images/image.jpg"
+        "title": "Culte du Dimanche",
+        "url": "/src/assets/images/culte.jpg"
     },
     {
         "id": 3,
-        "category": "worship",
-        "title": "Louange",
-        "url": "assets/images/image.jpg"
+        "category": "events",
+        "title": "Culte du Dimanche",
+        "url": "/src/assets/images/culte1.jpg"
     },
     {
         "id": 4,
-        "category": "community",
-        "title": "Réunion FIJ",
-        "url": "assets/images/fij/fij_tokpota.jpeg"
+        "category": "events",
+        "title": "Culte du Dimanche",
+        "url": "/src/assets/images/culte2.jpg"
     },
     {
         "id": 5,
         "category": "events",
-        "title": "Baptême",
-        "url": "assets/images/image.jpg"
+        "title": "Conférence Jeunesse",
+        "url": "/src/assets/images/photo1.jpg"
     },
     {
         "id": 6,
         "category": "worship",
-        "title": "Prière",
-        "url": "assets/images/image.jpg"
+        "title": "Louange",
+        "url": "/src/assets/images/photo2.jpg"
     },
     {
         "id": 7,
         "category": "community",
-        "title": "Rencontre",
-        "url": "assets/images/image.jpg"
+        "title": "Réunion FIJ",
+        "url": "/src/assets/fij/image.jpg"
     },
     {
-        "id": 8,
+        "id":8,
+        "category": "community",
+        "title":"Réunion FIJ",
+        "url":"/src/assets/fij/image1.jpg"
+    },
+    {
+        "id":9,
+        "category":"community",
+        "title":"Réunion FIJ",
+        "url":"/src/assets/fij/image2.jpg"
+    },
+    {
+        "id":10,
+        "category":"community",
+        "title":"Réunion FIJ",
+        "url":"/src/assets/fij/fij_amour.jpg"
+    },
+    {
+        "id":11,
+        "category":"community",
+        "title":"Réunion FIJ",
+        "url":"/src/assets/fij/fij_flamme.jpeg"
+    },
+    {
+        "id":12,
+        "category":"community",
+        "title":"Réunion FIJ",
+        "url":"/src/assets/fij/fij_tokpota.jpeg"
+    },
+    {
+        "id": 13,
+        "category": "events",
+        "title": "Baptême",
+        "url": "/src/assets/images/image.jpg"
+    },
+    {
+        "id": 14,
+        "category": "worship",
+        "title": "Prière",
+        "url": "/src/assets/images/pray.jpg"
+    },
+    {
+        "id": 15,
+        "category": "worship",
+        "title": "Prière",
+        "url": "/src/assets/images/pray1.jpg"
+    },
+    {
+        "id": 16,
+        "category": "worship",
+        "title": "Prière",
+        "url": "/src/assets/images/pray2.jpg"
+    },
+    {
+        "id": 17,
+        "category": "worship",
+        "title": "Prière",
+        "url": "/src/assets/images/pray3.jpg"
+    },
+    {
+        "id": 18,
+        "category": "worship",
+        "title": "Prière",
+        "url": "/src/assets/images/pray4.jpg"
+    },
+    {
+        "id": 19,
+        "category": "community",
+        "title": "Rencontre",
+        "url": "/src/assets/images/image.jpg"
+    },
+    {
+        "id": 20,
         "category": "events",
         "title": "Camp Jeunesse",
-        "url": "assets/images/image.jpg"
+        "url": "/src/assets/images/image.jpg"
     },
     {
-        "id": 9,
+        "id": 21,
         "category": "worship",
         "title": "Concert",
-        "url": "assets/images/image.jpg"
+        "url": "/src/assets/images/image.jpg"
+    },
+    {
+        "id": 22,
+        "category": "events",
+        "title": "Culte du Dimanche",
+        "url": "/src/assets/images/culte.jpg"
     }
 ]
