@@ -125,7 +125,7 @@ const Banner = () => (
             >
                 <span className="relative z-10">Trouve ton Ministère</span>
                 <ArrowRight size={16} className="relative z-10 group-hover:translate-x-1 transition-transform" />
-                <div className="absolute inset-0 bg-white/10 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500 skew-x-12" />
+                <div className="absolute inset-0 bg-white/10 -translate-x-full group-hover:translate-x-full transition-transform duration-500 skew-x-12" />
             </a>
         </div>
     </div>
@@ -134,7 +134,7 @@ const Banner = () => (
 /* ─── Ministry Card ──────────────────────────────────────────────────── */
 const MinistryCard = ({ ministry, reversed, index }) => (
     <div
-        className={`ministry-card group relative bg-zinc-900 border border-white/[0.06] hover:border-amber-500/25 overflow-hidden flex flex-col ${reversed ? 'lg:flex-row-reverse' : 'lg:flex-row'} transition-all duration-700`}
+        className={`ministry-card group relative bg-zinc-900 border border-white/6 hover:border-amber-500/25 overflow-hidden flex flex-col ${reversed ? 'lg:flex-row-reverse' : 'lg:flex-row'} transition-all duration-700`}
         style={{ opacity: 0, animation: `float-up 0.8s cubic-bezier(0.16,1,0.3,1) ${index * 80}ms forwards` }}
     >
         {/* Image */}
@@ -165,7 +165,7 @@ const MinistryCard = ({ ministry, reversed, index }) => (
         {/* Content */}
         <div className="w-full lg:w-[42%] p-8 lg:p-12 flex flex-col justify-between relative z-10">
             {/* Index number */}
-            <span className="font-display text-6xl text-white/[0.04] absolute top-6 right-8 leading-none select-none">
+            <span className="font-display text-6xl text-white/4 absolute top-6 right-8 leading-none select-none">
                 {String(index + 1).padStart(2, '0')}
             </span>
 
@@ -189,7 +189,7 @@ const MinistryCard = ({ ministry, reversed, index }) => (
         </div>
 
         {/* Hover glow line */}
-        <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-amber-500/0 to-transparent group-hover:via-amber-500/50 transition-all duration-700" />
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-amber-500/0 to-transparent group-hover:via-amber-500/50 transition-all duration-700" />
     </div>
 );
 
@@ -282,7 +282,7 @@ const ContactForm = () => {
     const inputCls = "w-full bg-transparent border-b border-white/10 py-3 text-white placeholder-zinc-700 text-sm font-light outline-none transition-colors duration-300 focus:border-amber-500/0";
 
     return (
-        <section className="relative py-28 px-4 bg-zinc-950 border-t border-white/[0.04] overflow-hidden">
+        <section className="relative py-28 px-4 bg-zinc-950 border-t border-white/4 overflow-hidden">
             {/* Ambient */}
             <div className="absolute top-0 right-0 w-96 h-96 bg-amber-600/5 rounded-full blur-[100px] pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-72 h-72 bg-amber-600/3 rounded-full blur-[80px] pointer-events-none" />
@@ -308,7 +308,7 @@ const ContactForm = () => {
                         <p className="text-gray-600 font-light text-sm leading-relaxed mb-10">
                             Rejoins l'aventure S.T.A.R. et mets tes talents au service d'une vision plus grande. Ton engagement change les vies.
                         </p>
-                        <div className="space-y-4 border-l border-white/[0.06] pl-6">
+                        <div className="space-y-4 border-l border-white/6 pl-6">
                             {['Croissance personnelle', 'Impact communautaire', 'Connexions spirituelles'].map((item) => (
                                 <div key={item} className="flex items-center gap-3">
                                     <div className="w-1.5 h-1.5 bg-amber-500 rotate-45 shrink-0" />
@@ -359,7 +359,7 @@ const ContactForm = () => {
                         >
                             <span className="relative z-10">Envoyer ma demande</span>
                             <ArrowRight size={14} className="relative z-10 group-hover:translate-x-1 transition-transform" />
-                            <div className="absolute inset-0 bg-white/15 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-500 skew-x-12" />
+                            <div className="absolute inset-0 bg-white/15 -translate-x-full group-hover:translate-x-full transition-transform duration-500 skew-x-12" />
                         </button>
                     </form>
                 </div>
@@ -388,24 +388,24 @@ const MinistriesPage = () => (
                     }}
                 />
                 {/* Layered gradients */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-black/60 z-[1]" />
-                <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/40 z-[1]" />
+                <div className="absolute inset-0 bg-linear-to-t from-black via-black/20 to-black/60 z-1" />
+                <div className="absolute inset-0 bg-linear-to-r from-black/40 via-transparent to-black/40 z-1" />
 
                 {/* Geometric accents */}
-                <div className="absolute inset-0 z-[2] pointer-events-none">
-                    <div className="absolute left-12 top-1/3 w-px h-28 bg-gradient-to-b from-transparent via-amber-500/30 to-transparent" />
-                    <div className="absolute right-12 top-1/3 w-px h-28 bg-gradient-to-b from-transparent via-amber-500/30 to-transparent" />
-                    <div className="absolute bottom-24 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-amber-500/15 to-transparent" />
+                <div className="absolute inset-0 z-2 pointer-events-none">
+                    <div className="absolute left-12 top-1/3 w-px h-28 bg-linear-to-b from-transparent via-amber-500/30 to-transparent" />
+                    <div className="absolute right-12 top-1/3 w-px h-28 bg-linear-to-b from-transparent via-amber-500/30 to-transparent" />
+                    <div className="absolute bottom-24 left-1/4 right-1/4 h-px bg-linear-to-r from-transparent via-amber-500/15 to-transparent" />
                 </div>
 
-                <div className="relative z-[3] w-full">
+                <div className="relative z-3 w-full">
                     <Banner />
                 </div>
 
                 {/* Scroll hint */}
-                <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-[3] flex flex-col items-center gap-2 opacity-35">
+                <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-3 flex flex-col items-center gap-2 opacity-35">
                     <span className="text-[9px] text-white/60 tracking-[0.3em] uppercase">Scroll</span>
-                    <div className="w-px h-10 bg-gradient-to-b from-white/60 to-transparent" />
+                    <div className="w-px h-10 bg-linear-to-b from-white/60 to-transparent" />
                 </div>
             </section>
 
@@ -416,7 +416,7 @@ const MinistriesPage = () => (
             </div>
         </main>
 
-        <footer className="bg-black border-t border-white/[0.04]">
+        <footer className="bg-black border-t border-white/4">
             <Footer />
         </footer>
     </div>

@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useCallback } from 'react';
-import bergerDimitri from "../assets/images/ejp_berger_dimitri.jpeg";
-import bergerSamuel from "../assets/images/ejp_berger_samuel.jpeg";
+import { BergerDimitri } from '.'; 
+import { BergerSamuel } from '.'; 
 
 const VisionSection = ({ audioPath }) => {
     const audioRef = useRef(null);
@@ -151,7 +151,7 @@ const VisionSection = ({ audioPath }) => {
 
                     {/* PREMIÈRE SECTION : Fondement */}
                     <div className="min-h-screen flex items-center justify-center relative py-20">
-                        <div className="absolute inset-0 bg-gradient-to-b from-amber-500/5 via-transparent to-black pointer-events-none" />
+                        <div className="absolute inset-0 bg-linear-to-b from-amber-500/5 via-transparent to-black pointer-events-none" />
 
                         <div className="max-w-4xl mx-auto w-full text-center relative z-10">
                             <h2 className="text-amber-500 font-black tracking-[0.4em] uppercase text-[10px] mb-8 animate-in fade-in slide-in-from-bottom-4">
@@ -162,7 +162,7 @@ const VisionSection = ({ audioPath }) => {
                                 style={{ animationDelay: '100ms' }}
                             >
                                 Une église suscitée pour accomplir le{' '}
-                                <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-amber-500">
+                                <span className="italic text-transparent bg-clip-text bg-linear-to-r from-amber-200 to-amber-500">
                                     rêve de Dieu
                                 </span>
                             </h1>
@@ -175,11 +175,11 @@ const VisionSection = ({ audioPath }) => {
                                 <div className="mb-8 group">
                                     <div className="relative w-40 h-40 mx-auto rounded-full overflow-hidden border-4 border-amber-500/50 shadow-2xl shadow-amber-600/30 hover:border-amber-400 transition-all duration-300">
                                         <img
-                                            src= {bergerSamuel}
+                                            src= {BergerSamuel}
                                             alt="Samuel EBOUMBOU"
                                             className="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-500 scale-105 group-hover:scale-100"
                                         />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                                        <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent" />
                                     </div>
                                 </div>
                                 <div className="space-y-3">
@@ -192,7 +192,7 @@ const VisionSection = ({ audioPath }) => {
 
                     {/* DEUXIÈME SECTION : Notre Vision */}
                     <div className="min-h-screen flex items-center justify-center relative py-20">
-                        <div className="absolute inset-0 bg-gradient-to-b from-black via-amber-500/5 to-black pointer-events-none" />
+                        <div className="absolute inset-0 bg-linear-to-b from-black via-amber-500/5 to-black pointer-events-none" />
 
                         <div className="max-w-4xl mx-auto w-full text-center relative z-10">
                             <h2 className="text-amber-500 font-black tracking-[0.4em] uppercase text-[10px] mb-8 animate-in fade-in slide-in-from-bottom-4">
@@ -203,7 +203,7 @@ const VisionSection = ({ audioPath }) => {
                                 style={{ animationDelay: '100ms' }}
                             >
                                 " L'excellence par la{' '}
-                                <span className="italic text-transparent bg-clip-text bg-gradient-to-r from-amber-200 to-amber-500">
+                                <span className="italic text-transparent bg-clip-text bg-linear-to-r from-amber-200 to-amber-500">
                                     Jeunesse
                                 </span>
                                 , de Porto-Novo aux extrémités de la Terre "
@@ -217,11 +217,11 @@ const VisionSection = ({ audioPath }) => {
                                 <div className="mb-8 group">
                                     <div className="relative w-40 h-40 mx-auto rounded-full overflow-hidden border-4 border-amber-500/50 shadow-2xl shadow-amber-600/30 hover:border-amber-400 transition-all duration-300">
                                         <img
-                                            src= {bergerDimitri}
+                                            src= {BergerDimitri}
                                             alt="Dimitri Dumas"
                                             className="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-500 scale-105 group-hover:scale-100"
                                         />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                                        <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent" />
                                     </div>
                                 </div>
                                 <div className="space-y-3">
