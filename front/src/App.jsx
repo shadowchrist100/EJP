@@ -12,46 +12,11 @@ import Ministeres from './components/page/Ministeres.jsx';
 import EventsPage from './components/page/Evenements.jsx';
 import BackgroundSlider from './components/page/Background.jsx';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import ArtProdige from './components/page/ArtProdige.jsx';
 
 function App() {
 
-    // let Component;
-    // switch (window.location.pathname) {
-    //     case "/":
-    //         Component = Index;
-    //         break;
-    //     case "/login":
-    //         Component = Login;
-    //         break;
-    //     case "/register":
-    //         Component = Register;
-    //         break;
-    //     case "/fij":
-    //         Component = Fij;
-    //         break
-    //     case "/apropos":
-    //         Component = Apropos;
-    //         break;
-    //     case "/dons":
-    //         Component = Don;
-    //         break;
-    //     case "/galerie":
-    //         Component = Galerie;
-    //         break;
-    //     case "/ministeres":
-    //         Component = Ministeres;
-    //         break;
-    //     case "/evenements":
-    //         Component = EventsPage;
-    //         break;
-    //     case "/t":
-    //         Component = BackgroundSlider
-    //     default:
-    //         break;
-    // }
-    // return (
-    //     <Component />
-    // );
+    
     return (
         <BrowserRouter>
             <Routes>
@@ -63,9 +28,7 @@ function App() {
                 <Route path='/galerie' element={<Galerie />} />
                 <Route path='/ministeres' element={<Ministeres />} />
                 <Route path='/evenements' element={<EventsPage />} />
-                <Route path='/' element={<Login />} />
-                <Route path='/' element={<Login />} />
-
+                <Route path='/art' element={<ArtProdige />} />
             </Routes>
         </BrowserRouter>
     )
