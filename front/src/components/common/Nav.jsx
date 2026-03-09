@@ -7,7 +7,6 @@ const Nav = () => {
 
     const navLinks = [
         { name: 'Accueil', href: '/' },
-        { name: 'À Propos', href: '#apropos' },
         { name: 'Événements', href: '/evenements' },
         { name: 'Ministères', href: '/ministeres' },
         { name: 'Rejoindre une FIJ', href: '/fij' },

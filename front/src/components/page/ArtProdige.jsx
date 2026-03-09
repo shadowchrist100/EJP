@@ -152,8 +152,8 @@ const ArtProdige = () => {
                                                     key={cat.id}
                                                     onClick={() => setSelectedCategory(cat.id)}
                                                     className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 text-left group ${isSelected
-                                                            ? 'bg-gradient-to-r from-amber-500 to-yellow-500 text-black font-bold shadow-lg shadow-amber-500/30'
-                                                            : 'text-gray-300 hover:bg-white/5 hover:text-amber-400 border border-transparent hover:border-amber-500/30'
+                                                        ? 'bg-gradient-to-r from-amber-500 to-yellow-500 text-black font-bold shadow-lg shadow-amber-500/30'
+                                                        : 'text-gray-300 hover:bg-white/5 hover:text-amber-400 border border-transparent hover:border-amber-500/30'
                                                         }`}
                                                 >
                                                     <Icon className={`w-5 h-5 flex-shrink-0 transition-transform ${isSelected ? '' : 'group-hover:scale-110'}`} />

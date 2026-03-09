@@ -1,3 +1,4 @@
+import { logo } from ".."
 export default function Footer() {
     return (
         <div className="container mx-auto px-6">
@@ -6,7 +7,7 @@ export default function Footer() {
                     <div>
                         <h3 className="text-white font-black tracking-tighter text-2xl mb-4">EJP<span className="text-amber-500">.</span>PN</h3>
                         <div className="w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center mr-3">
-                            <img src="../assets/images/logo.jpeg" alt="Logo EJP" className="w-10 h-10 rounded-full" />
+                            <img src ={logo} alt="Logo EJP" className="w-10 h-10 rounded-full" />
                         </div>
                     </div>
                     <p className="text-gray-500 text-xs leading-relaxed uppercase tracking-widest font-bold">L'Excellence par la jeunesse.</p>
@@ -19,7 +20,7 @@ export default function Footer() {
 
                 <div>
                     <h4 className="text-amber-500 text-[10px] font-black tracking-[0.3em] uppercase mb-6">Navigation</h4>
-                    <div className="flex flex-col gap-3 text-xs uppercase tracking-widest font-bold grid grid-cols-2 " >
+                    <div className="flex flex-col gap-3 text-xs uppercase tracking-widest font-bold grid-cols-2 " >
                         <a href="/" className="hover:text-white" >Home</a>
                         <a href="/galerie" className="hover:text-white">Galerie</a>
                         <a href="/evenements" className="hover:text-white">Événements</a>
