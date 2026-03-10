@@ -1,7 +1,7 @@
 import { logo } from ".."
 export default function Footer() {
     return (
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto px-6 pt-9">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
                 <div className="col-span-1 md:col-span-1 text-center md:text-left">
                     <div>

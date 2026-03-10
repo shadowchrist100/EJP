@@ -1,5 +1,5 @@
 import { Calendar, MapPin, Clock, ArrowRight, Share2 } from 'lucide-react';
-import Nav from '../common/Nav';
+import {Nav,Footer,Contact} from '../.'
 import { useState, useMemo } from 'react';
 
 const EventCard = ({ event }) => {
@@ -18,7 +18,7 @@ const EventCard = ({ event }) => {
                 <img
                     src={event.image}
                     alt={event.title}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale-[0.3] group-hover:grayscale-0"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 brightness-110"
                 />
                 <div className="absolute inset-0 bg-linear-to-t from-zinc-950 via-transparent to-transparent" />
             </div>
@@ -74,6 +74,17 @@ const EventsPage = () => {
         return date;
     };
 
+    // Fonction pour obtenir le prochain mardi à 19h
+    const getNextTuesday = (fromDate = new Date()) => {
+        const date = new Date(fromDate);
+        const day = date.getDay();
+        // Mardi = 2
+        const diff = day <= 2 ? (2 - day) : (9 - day);
+        date.setDate(date.getDate() + diff);
+        date.setHours(19, 0, 0, 0);
+        return date;
+    };
+
     // Initialiser les événements avec logique correcte
     const [events] = useState(() => {
         const now = new Date();
@@ -91,11 +102,8 @@ const EventsPage = () => {
         // Culte - prochain dimanche
         const culteDate = getNextSunday();
 
-        // FIJ - 20 du mois courant ou prochain
-        const fijDate = new Date(currentYear, currentMonth, 20, 16, 0, 0);
-        if (fijDate < now) {
-            fijDate.setMonth(currentMonth + 1);
-        }
+        // FIJ - tous les mardis à 19h
+        const fijDate = getNextTuesday();
 
         return [
             {
@@ -116,7 +124,7 @@ const EventsPage = () => {
                 month: culteDate.getMonth(),
                 year: culteDate.getFullYear(),
                 date: culteDate,
-                time: "15:29",
+                time: "15:30",
                 location: "EJP Porto",
                 title: "CULTE EJP",
                 description: "Un culte, une expérience! Rejoins-nous pour un moment de communion fraternelle et de louange ensemble.",
@@ -128,10 +136,10 @@ const EventsPage = () => {
                 month: fijDate.getMonth(),
                 year: fijDate.getFullYear(),
                 date: fijDate,
-                time: "16:00",
+                time: "19:15",
                 location: "EJP Porto",
                 title: "FIJ - Famille D'Impact Jeunes",
-                description: "Des soirées d'échanges et de communion avec ta famille d'impact . Moments de partage et de bénédictions.",
+                description: "Des soirées d'échanges et de communion avec ta famille d'impact. Moments de partage et de bénédictions.",
                 image: "/src/assets/fij/image1.jpg"
             }
         ];
@@ -170,10 +178,10 @@ const EventsPage = () => {
                     <div className="absolute inset-0 overflow-hidden">
                         <img
                             src={featuredEvent.image}
-                            className="w-full h-full object-cover scale-105 opacity-40 grayscale-[0.5]"
+                            className="w-full h-full object-cover scale-105 brightness-75 contrast-110 saturate-110"
                             alt="Featured"
                         />
-                        <div className="absolute inset-0 bg-linear-to-r from-black via-black/80 to-transparent" />
+                        <div className="absolute inset-0 bg-linear-to-r from-black via-black/70 to-transparent" />
                         <div className="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent" />
                     </div>
 
@@ -255,25 +263,9 @@ const EventsPage = () => {
                         </div>
                     </section>
                 )}
-
-                {/* Newsletter / Stay Updated - Style STAR */}
-                <section className="py-24 px-6 bg-zinc-950 border-y border-white/5">
-                    <div className="container mx-auto max-w-4xl text-center">
-                        <h4 className="text-3xl font-bold text-white mb-4">Restez informé</h4>
-                        <p className="text-gray-500 mb-10 font-light italic">Reçois les notifications pour les nouveaux événements directement sur WhatsApp ou par email.</p>
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <input
-                                type="email"
-                                placeholder="votre@email.com"
-                                className="bg-black border border-white/10 px-8 py-4 rounded-full text-white placeholder-gray-600 outline-none focus:border-amber-500 transition-all w-full sm:w-96"
-                            />
-                            <button className="bg-amber-600 hover:bg-amber-500 text-black px-10 py-4 rounded-full font-black uppercase text-[10px] tracking-widest transition-all whitespace-nowrap">
-                                S'abonner
-                            </button>
-                        </div>
-                    </div>
-                </section>
+                <Contact/>                
             </main>
+            <Footer/>
         </div>
     );
 };
