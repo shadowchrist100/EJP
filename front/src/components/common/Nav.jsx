@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { User, ChevronDown, X } from 'lucide-react'
+import { href } from "react-router-dom";
 
 const Nav = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -10,6 +11,7 @@ const Nav = () => {
         { name: 'Événements', href: '/evenements' },
         { name: 'Ministères', href: '/ministeres' },
         { name: 'Rejoindre une FIJ', href: '/fij' },
+        {name: 'Priere du Salut', href:'/salvation'},
         { name: 'Galerie', href: '/galerie' },
         { name: 'Contact', href: '#contact' },
         { name: 'Faire un Don', href: '/dons' }

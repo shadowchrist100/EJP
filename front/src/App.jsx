@@ -13,6 +13,7 @@ import EventsPage from './components/page/Evenements.jsx';
 import BackgroundSlider from './components/page/Background.jsx';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import ArtProdige from './components/page/ArtProdige.jsx';
+import SalvationPrayer from './components/page/Salvation.jsx';
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
                 <Route path='/ministeres' element={<Ministeres />} />
                 <Route path='/evenements' element={<EventsPage />} />
                 <Route path='/art' element={<ArtProdige />} />
+                <Route path='/salvation' element= {<SalvationPrayer/>}/>
             </Routes>
         </BrowserRouter>
     )

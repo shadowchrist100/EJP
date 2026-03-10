@@ -65,7 +65,24 @@ const Register = () => {
 
         try {
             // Simuler l'appel API
-            await new Promise(resolve => setTimeout(resolve, 1500));
+            const repsonse = await fetch("/api/register",{
+                method: "POST",
+                headers: {
+                    "content-type": "application/json",
+                    "accept": "application/json"
+                },
+                body:JSON.stringify(formData),
+            });
+            if (!repsonse.ok) {
+                if (repsonse.status === 422) {
+                    const errorData = (repsonse.json()).message
+                    setError(errorData)
+                }
+            }
+            const data = await repsonse.json()
+            if (!data.user || !data.accessToken) {
+                throw new Error("User undefined or accessToken invalid");
+            }
 
             setSuccess(true);
             setError('');
