@@ -100,7 +100,7 @@ const Banner = () => (
         </div>
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-60">
             <span className="text-gray-500 text-[10px] tracking-[0.3em] uppercase">Scroll</span>
-            <div className="w-px h-12 bg-gradient-to-b from-gray-500 to-transparent" />
+            <div className="w-px h-12 bg-linear-to-b from-gray-500 to-transparent" />
         </div>
     </div>
 );
@@ -121,7 +121,7 @@ const Aboutfij = () => (
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-px bg-gray-800">
             <div className="relative h-[480px] overflow-hidden group bg-black">
-                <div className="absolute inset-0 bg-center bg-cover transition-transform duration-700 group-hover:scale-105" style={{ backgroundImage: 'url("/src/assets/images/fij6.jpeg")' }} />
+                <div className="absolute inset-0 bg-center bg-cover transition-transform duration-700 group-hover:scale-105" style={{ backgroundImage: 'url("/images/fij6.jpeg")' }} />
                 <div className="absolute inset-0 bg-linear-to-t from-black via-black/40 to-transparent" />
                 <div className="absolute bottom-0 left-0 p-10">
                     <span className="text-amber-500 text-xs tracking-[0.3em] uppercase font-bold mb-3 block">01</span>
@@ -157,7 +157,7 @@ const Aboutfij = () => (
                 </div>
             </div>
             <div className="relative h-[480px] overflow-hidden group bg-black order-1 lg:order-none">
-                <div className="absolute inset-0 bg-center bg-cover transition-transform duration-700 group-hover:scale-105" style={{ backgroundImage: 'url("/src/assets/images/fij3.jpeg")' }} />
+                <div className="absolute inset-0 bg-center bg-cover transition-transform duration-700 group-hover:scale-105" style={{ backgroundImage: 'url("/images/fij3.jpeg")' }} />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
                 <div className="absolute bottom-0 left-0 p-10">
                     <span className="text-amber-500 text-xs tracking-[0.3em] uppercase font-bold mb-3 block">02</span>
