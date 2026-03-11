@@ -184,7 +184,7 @@ const VisionSection = ({ audioPath }) => {
                                 </div>
                                 <div className="space-y-3">
                                     <p className="text-white font-black tracking-[0.3em] uppercase text-[12px]">Samuel EBOUMBOU</p>
-                                    <p className="text-gray-400 font-light tracking-[0.2em] uppercase text-[10px]">Berger de l'EJP Croissy / Responsable EJP Monde</p>
+                                    <p className="text-gray-400 font-light tracking-[0.2em] uppercase text-[10px]">Berger Principal de EJP MONDE/Berger EJP CROISSY</p>
                                 </div>
                             </div>
                         </div>
@@ -202,11 +202,26 @@ const VisionSection = ({ audioPath }) => {
                                 className="text-4xl md:text-7xl font-black text-white leading-[1.05] tracking-tighter uppercase mb-12 animate-in fade-in slide-in-from-bottom-4"
                                 style={{ animationDelay: '100ms' }}
                             >
-                                " L'excellence par la{' '}
+                                " Nous sommes des {' '}
                                 <span className="italic text-transparent bg-clip-text bg-linear-to-r from-amber-200 to-amber-500">
-                                    Jeunesse
+                                    Virus
                                 </span>
-                                , de Porto-Novo aux extrémités de la Terre "
+                                dans le systeme appelé 
+                                <span className="italic text-transparent bg-clip-text bg-linear-to-r from-amber-200 to-amber-500">
+                                    Monde
+                                </span>
+                                pour amener la 
+                                <span className="italic text-transparent bg-clip-text bg-linear-to-r from-amber-200 to-amber-500">
+                                    Pensee 
+                                </span>
+                                et le 
+                                <span className="italic text-transparent bg-clip-text bg-linear-to-r from-amber-200 to-amber-500">
+                                    Reve 
+                                </span>
+                                de 
+                                <span className="italic text-transparent bg-clip-text bg-linear-to-r from-amber-200 to-amber-500">
+                                    Dieu
+                                </span>
                             </h1>
 
                             <div
