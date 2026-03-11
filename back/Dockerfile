@@ -38,9 +38,10 @@ COPY . .
 
 # Permissions pour Laravel
 RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+RUN chmod +x /var/www/html/entrypoint.sh
 
 # Railway ignore l'EXPOSE, mais c'est une bonne pratique de doc
 EXPOSE 80
 
 # Lancer Apache en avant-plan
-CMD ["sh", "./start.sh"]
+CMD ["/var/www/html/entrypoint.sh"]
