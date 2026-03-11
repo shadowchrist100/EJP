@@ -9,7 +9,7 @@ const Register = () => {
         lastName: '',
         email: '',
         password: '',
-        confirmPassword: '',
+        password_confirmation: '',
         acceptTerms: false
     });
 
@@ -45,7 +45,7 @@ const Register = () => {
             setError('Le mot de passe doit contenir au moins 8 caractères');
             return false;
         }
-        if (formData.password !== formData.confirmPassword) {
+        if (formData.password !== formData.password_confirmation) {
             setError('Les mots de passe ne correspondent pas');
             return false;
         }
@@ -65,7 +65,24 @@ const Register = () => {
 
         try {
             // Simuler l'appel API
-            await new Promise(resolve => setTimeout(resolve, 1500));
+            const repsonse = await fetch("/api/register",{
+                method: "POST",
+                headers: {
+                    "content-type": "application/json",
+                    "accept": "application/json"
+                },
+                body:JSON.stringify(formData),
+            });
+            if (!repsonse.ok) {
+                if (repsonse.status === 422) {
+                    const errorData = (repsonse.json()).message
+                    setError(errorData)
+                }
+            }
+            const data = await repsonse.json()
+            if (!data.user_data || !data.access_token) {
+                throw new Error("User undefined or accessToken invalid");
+            }
 
             setSuccess(true);
             setError('');
@@ -77,6 +94,7 @@ const Register = () => {
                 });
             }, 2000);
         } catch (err) {
+            console.error(err);
             setError('Une erreur est survenue. Veuillez réessayer.');
         } finally {
             setLoading(false);
@@ -220,8 +238,8 @@ const Register = () => {
                                 <Lock className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 group-focus-within:text-amber-500 transition-colors" size={16} />
                                 <input
                                     type={showConfirmPassword ? "text" : "password"}
-                                    name="confirmPassword"
-                                    value={formData.confirmPassword}
+                                    name="password_confirmation"
+                                    value={formData.password_confirmation}
                                     onChange={handleChange}
                                     className="w-full bg-white/5 border border-white/10 group-focus-within:border-amber-500/50 rounded-lg pl-10 pr-12 py-3 text-white text-sm placeholder-gray-600 focus:outline-none transition-all"
                                     placeholder="Confirmez le mot de passe"

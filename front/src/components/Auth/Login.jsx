@@ -48,8 +48,26 @@ const Login = () => {
         setLoading(true);
 
         try {
-            // Simuler l'appel API
-            await new Promise(resolve => setTimeout(resolve, 1500));
+            const response = await fetch("/api/login", {
+                method: "POST",
+                headers: {
+                    "accept": "application/json",
+                    "content-type": "application/json"
+                },
+                credentials: "include",
+                body: JSON.stringify(formData)
+            })
+
+            if (!response.ok) {
+                if (response.status === 401) {
+                    setError("Email ou mot de passe invalid");
+                }
+            }
+
+            const data = await response.json()
+            if (!data.user_data || !data.access_token) {
+                throw new Error("User undefined or accessToken invalid");
+            }
 
             setSuccess(true);
             setError('');
@@ -62,6 +80,7 @@ const Login = () => {
             }, 2000);
         } catch (err) {
             setError('Une erreur est survenue. Veuillez réessayer.');
+            console.error("Erreur lors de l'inscription:", err);
         } finally {
             setLoading(false);
         }
@@ -169,7 +188,7 @@ const Login = () => {
                                 </>
                             ) : (
                                 <>
-                                    S'inscrire
+                                    Se Connecter
                                     <ArrowRight size={16} />
                                 </>
                             )}
@@ -180,7 +199,7 @@ const Login = () => {
                     <div className="mt-6 text-center border-t border-white/10 pt-6">
                         <p className="text-sm text-gray-400">
                             Vous n'avez pas de compte?{' '}
-                            <a href="/login" className="text-amber-500 font-black hover:underline">
+                            <a href="/register" className="text-amber-500 font-black hover:underline">
                                 S'inscrire
                             </a>
                         </p>

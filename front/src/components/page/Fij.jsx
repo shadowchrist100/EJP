@@ -100,7 +100,7 @@ const Banner = () => (
         </div>
         <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-60">
             <span className="text-gray-500 text-[10px] tracking-[0.3em] uppercase">Scroll</span>
-            <div className="w-px h-12 bg-gradient-to-b from-gray-500 to-transparent" />
+            <div className="w-px h-12 bg-linear-to-b from-gray-500 to-transparent" />
         </div>
     </div>
 );
@@ -121,7 +121,7 @@ const Aboutfij = () => (
         </div>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-px bg-gray-800">
             <div className="relative h-[480px] overflow-hidden group bg-black">
-                <div className="absolute inset-0 bg-center bg-cover transition-transform duration-700 group-hover:scale-105" style={{ backgroundImage: 'url("/src/assets/images/fij6.jpeg")' }} />
+                <div className="absolute inset-0 bg-center bg-cover transition-transform duration-700 group-hover:scale-105" style={{ backgroundImage: 'url("/images/fij6.jpeg")' }} />
                 <div className="absolute inset-0 bg-linear-to-t from-black via-black/40 to-transparent" />
                 <div className="absolute bottom-0 left-0 p-10">
                     <span className="text-amber-500 text-xs tracking-[0.3em] uppercase font-bold mb-3 block">01</span>
@@ -142,7 +142,7 @@ const Aboutfij = () => (
                     <span className="text-gray-500 text-sm tracking-widest uppercase">Transformation</span>
                 </div>
             </div>
-            <div className="bg-zinc-900 p-12 flex flex-col justify-center order-2 lg:order-none">
+            <div className="bg-zinc-900 p-12 flex flex-col justify-center order-2 lg:order-0">
                 <div className="w-10 h-px bg-amber-500 mb-8" />
                 <p className="text-gray-200 text-xl leading-relaxed font-light mb-8">
                     Conquérir la jeunesse des extrémités de la terre pour en faire des disciples de Jésus qui dominent dans les territoires géographiques et d'influence.
@@ -156,9 +156,9 @@ const Aboutfij = () => (
                     <span className="text-gray-500 text-sm tracking-widest uppercase">Expansion</span>
                 </div>
             </div>
-            <div className="relative h-[480px] overflow-hidden group bg-black order-1 lg:order-none">
-                <div className="absolute inset-0 bg-center bg-cover transition-transform duration-700 group-hover:scale-105" style={{ backgroundImage: 'url("/src/assets/images/fij3.jpeg")' }} />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+            <div className="relative h-[480px] overflow-hidden group bg-black order-1 lg:order-0">
+                <div className="absolute inset-0 bg-center bg-cover transition-transform duration-700 group-hover:scale-105" style={{ backgroundImage: 'url("/images/fij3.jpeg")' }} />
+                <div className="absolute inset-0 bg-linear-to-t from-black via-black/40 to-transparent" />
                 <div className="absolute bottom-0 left-0 p-10">
                     <span className="text-amber-500 text-xs tracking-[0.3em] uppercase font-bold mb-3 block">02</span>
                     <h3 className="font-display text-5xl text-white leading-none">NOTRE<br />VISION</h3>
@@ -172,11 +172,11 @@ const Aboutfij = () => (
 const Divider = () => (
     <div className="w-full bg-black py-6 px-4">
         <div className="container mx-auto flex items-center gap-4">
-            <div className="flex-1 h-px bg-gradient-to-r from-transparent to-amber-600/50" />
+            <div className="flex-1 h-px bg-linear-to-r from-transparent to-amber-600/50" />
             <div className="w-2 h-2 bg-amber-600 rotate-45" />
             <div className="w-1 h-1 bg-amber-600/50 rotate-45" />
             <div className="w-2 h-2 bg-amber-600 rotate-45" />
-            <div className="flex-1 h-px bg-gradient-to-l from-transparent to-amber-600/50" />
+            <div className="flex-1 h-px bg-linear-to-l from-transparent to-amber-600/50" />
         </div>
     </div>
 );
