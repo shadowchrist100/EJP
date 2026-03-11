@@ -8,6 +8,6 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::get('/refresh_access_token', [AuthController::class, 'refresh']);
 // Route::post('/dons', )
 
-Route::middleware(auth('api'))->group(function(){
+Route::middleware('auth:api')->group(function(){
     Route::post('/logout',[AuthController::class, 'logout']);
 });

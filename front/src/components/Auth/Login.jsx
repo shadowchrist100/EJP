@@ -48,7 +48,6 @@ const Login = () => {
         setLoading(true);
 
         try {
-            // Simuler l'appel API
             const response = await fetch("/api/login", {
                 method: "POST",
                 headers: {
@@ -66,7 +65,7 @@ const Login = () => {
             }
 
             const data = await response.json()
-            if (!data.user || !data.accessToken) {
+            if (!data.user_data || !data.access_token) {
                 throw new Error("User undefined or accessToken invalid");
             }
 
@@ -81,7 +80,7 @@ const Login = () => {
             }, 2000);
         } catch (err) {
             setError('Une erreur est survenue. Veuillez réessayer.');
-            console.error("Erreur lors de l'inscription:", error.message);
+            console.error("Erreur lors de l'inscription:", err);
         } finally {
             setLoading(false);
         }

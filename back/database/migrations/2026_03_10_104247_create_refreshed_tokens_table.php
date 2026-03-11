@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('refreshed_tokens', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->string('refresh_token_hash')->unique();
+            $table->timestamp('expire_at');
+            $table->boolean('revoke')->default(false);
             $table->timestamps();
         });
     }
