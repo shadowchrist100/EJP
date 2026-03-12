@@ -16,7 +16,7 @@ export const AuthProvider = (props) => {
 
     const refresh_access_token = async () => {
         try {
-            const response = await fetch("/api/refresh_access_token", {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/refresh_access_token`, {
                 method: "GET",
                 credentials: 'include' //send a http OnlyCookie to refresh the acces token  
             })
@@ -68,7 +68,7 @@ export const AuthProvider = (props) => {
                 throw new Error("No access token available");
             }
 
-            const response = await fetch("/api/get_profile", {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/get_profile`, {
                 method: "GET",
                 headers: {
                     'Content-Type': 'application/json',
@@ -122,7 +122,7 @@ export const AuthProvider = (props) => {
 
     const logout = async () => {
         try {
-            const response = await fetch("/api/logout", {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/logout`, {
                 method: 'POST',
                 credentials: 'include'
             })

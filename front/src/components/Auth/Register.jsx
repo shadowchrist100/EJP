@@ -65,7 +65,7 @@ const Register = () => {
 
         try {
             // Simuler l'appel API
-            const repsonse = await fetch("/api/register",{
+            const repsonse = await fetch(`${import.meta.env.VITE_API_URL}/api/register`,{
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
