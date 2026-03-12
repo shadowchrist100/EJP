@@ -1,8 +1,11 @@
-import { useState } from "react";
+import { useState,useContext } from "react";
 import { Eye, EyeOff, Mail, Lock, User, ArrowRight, CheckCircle, AlertCircle } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
+import { apiFetch } from "../../util/api";
+import { AuthContext } from "../AuthContext";
 
 const Login = () => {
+    const { login } = useContext(AuthContext);
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         firstName: '',
@@ -48,39 +51,38 @@ const Login = () => {
         setLoading(true);
 
         try {
-            const response = await fetch("/api/login", {
+            setLoading(true);
+            setError('');
+
+            // On appelle apiFetch. Pas besoin de réécrire headers/credentials, 
+            // ils sont déjà dans defaultOptions de ta fonction !
+            const data = await apiFetch("/login", {
                 method: "POST",
-                headers: {
-                    "accept": "application/json",
-                    "content-type": "application/json"
-                },
-                credentials: "include",
                 body: JSON.stringify(formData)
-            })
+            });
 
-            if (!response.ok) {
-                if (response.status === 401) {
-                    setError("Email ou mot de passe invalid");
-                }
-            }
+            // Si on arrive ici, c'est que la réponse était "ok" (200-299)
+            // car apiFetch a déjà géré le reste.
 
-            const data = await response.json()
             if (!data.user_data || !data.access_token) {
-                throw new Error("User undefined or accessToken invalid");
+                throw new Error("Données utilisateur ou token manquants.");
             }
 
             setSuccess(true);
-            setError('');
 
-            // Rediriger vers login après 2 secondes
+            login(data.access_token,data.user_data)
+
             setTimeout(() => {
                 navigate('/', {
-                    state: { email: formData.email, message: 'Inscription réussie! Connectez-vous.' }
+                    state: { email: formData.email, message: 'Connexion réussie !' }
                 });
             }, 2000);
+
         } catch (err) {
-            setError('Une erreur est survenue. Veuillez réessayer.');
-            console.error("Erreur lors de l'inscription:", err);
+            // Ici, "err.message" contiendra soit le message d'erreur de Laravel 
+            // (grâce au throw dans apiFetch), soit ton message par défaut.
+            setError(err.message || 'Une erreur est survenue.');
+            console.error("Erreur lors de la connexion:", err);
         } finally {
             setLoading(false);
         }
@@ -97,10 +99,10 @@ const Login = () => {
                             </div>
                         </div>
                         <h2 className="text-3xl font-black text-white uppercase tracking-tighter">
-                            Inscription réussie!
+                            Connection réussie!
                         </h2>
                         <p className="text-gray-400 text-sm">
-                            Bienvenue! Vous allez être redirigé vers la page de connexion.
+                            Bienvenue! Vous allez être redirigé vers la page d'acceil
                         </p>
                     </div>
                 </div>
