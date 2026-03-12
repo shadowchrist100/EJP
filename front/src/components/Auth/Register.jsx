@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Eye, EyeOff, Mail, Lock, User, ArrowRight, CheckCircle, AlertCircle } from 'lucide-react';
 import { useNavigate } from "react-router-dom";
+import { apiFetch } from "../../util/api";
 
 const Register = () => {
     const navigate = useNavigate();
@@ -64,38 +65,35 @@ const Register = () => {
         setLoading(true);
 
         try {
-            // Simuler l'appel API
-            const repsonse = await fetch(`${import.meta.env.VITE_API_URL}/api/register`,{
+            setLoading(true);
+            setError('');
+            const data = await apiFetch("/register", {
                 method: "POST",
-                headers: {
-                    "content-type": "application/json",
-                    "accept": "application/json"
-                },
-                body:JSON.stringify(formData),
+                body: JSON.stringify(formData),
             });
-            if (!repsonse.ok) {
-                if (repsonse.status === 422) {
-                    const errorData = (repsonse.json()).message
-                    setError(errorData)
-                }
-            }
-            const data = await repsonse.json()
+
+
             if (!data.user_data || !data.access_token) {
-                throw new Error("User undefined or accessToken invalid");
+                throw new Error("Erreur lors de la création du compte.");
             }
 
             setSuccess(true);
-            setError('');
 
             // Rediriger vers login après 2 secondes
             setTimeout(() => {
                 navigate('/login', {
-                    state: { email: formData.email, message: 'Inscription réussie! Connectez-vous.' }
+                    state: {
+                        email: formData.email,
+                        message: 'Inscription réussie ! Vous pouvez maintenant vous connecter.'
+                    }
                 });
             }, 2000);
+
         } catch (err) {
-            console.error(err);
-            setError('Une erreur est survenue. Veuillez réessayer.');
+            // Ici, "err.message" contient soit l'erreur 422 de Laravel, 
+            // soit l'erreur de connexion réseau
+            console.error("Détails de l'erreur d'inscription:", err);
+            setError(err.message || 'Une erreur est survenue lors de l\'inscription.');
         } finally {
             setLoading(false);
         }

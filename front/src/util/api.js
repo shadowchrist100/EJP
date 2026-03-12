@@ -12,7 +12,6 @@ export const apiFetch = async (endpoint, options = {}) => {
             'Accept': 'application/json',
             ...options.headers,
         },
-        // Équivalent de withCredentials: true dans Axios
         credentials: 'include', 
     };
 
