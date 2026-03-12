@@ -19,9 +19,6 @@ RUN a2enmod rewrite
 RUN sed -ri -e 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/*.conf
 RUN sed -ri -e 's!/var/www/!/var/www/html/public!g' /etc/apache2/conf-available/*.conf
 
-# Adaptation du port pour Railway (Variable $PORT)
-RUN sed -s -i 's/Listen 80/Listen ${PORT}/' /etc/apache2/ports.conf
-RUN sed -s -i 's/<VirtualHost \*:80>/<VirtualHost *:${PORT}>/' /etc/apache2/sites-available/*.conf
 
 # Installer Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
@@ -37,10 +34,10 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts
 COPY . .
 
 # Permissions pour Laravel
-RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 RUN chmod +x /var/www/html/entrypoint.sh
 
-# Railway ignore l'EXPOSE, mais c'est une bonne pratique de doc
+
 EXPOSE 80
 
 # Lancer Apache en avant-plan
