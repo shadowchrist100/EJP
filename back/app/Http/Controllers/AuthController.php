@@ -71,7 +71,19 @@ class AuthController extends Controller
             'refresh_token_hash' => $refresh_token_hash,
             'expire_at' => now()->addDay(30)
         ]);
-        $cookie = cookie('refresh_token', $refresh_token, 60 * 24 * 30, '/', null, false, true, false, null);
+        $isProduction = config('app.env') === 'production';
+
+        $cookie = cookie(
+            'refresh_token', 
+            $refresh_token, 
+            43200, 
+            '/', 
+            null, 
+            $isProduction, // Secure uniquement en prod
+            true, 
+            false, 
+            $isProduction ? 'none' : 'lax' // SameSite none uniquement en prod
+        );
         return response()->json([
             'access_token' => $token,
             'token_type' => 'bearer',
