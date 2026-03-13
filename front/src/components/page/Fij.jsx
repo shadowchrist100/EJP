@@ -355,10 +355,13 @@ const Fij = () => (
     <section className="bg-black font-body">
         <GlobalStyles />
         <div className="min-h-screen">
-            <header className="fixed top-0 right-0 left-0 z-50">
-            </header>
+            {/* Fixed Navigation - z-50 pour rester au-dessus */}
+            <div className='fixed top-0 right-0 left-0 z-50'>
                 <Nav />
+            </div>
 
+            {/* Spacer pour compenser la hauteur de la Nav fixe (desktop: h-32, mobile: h-20) */}
+            <div className="h-20 lg:h-32" />
 
             <section className="relative min-h-screen flex items-center overflow-hidden hero-grain">
                 <div className="absolute banner-fij inset-0 bg-cover bg-center">
@@ -371,7 +374,7 @@ const Fij = () => (
                     <div className="absolute top-1/2 right-8 w-64 h-px bg-gradient-to-l from-transparent to-amber-500/20" />
                 </div>
                 <div className="absolute left-4 lg:left-8 top-24 bottom-24 w-px bg-gradient-to-b from-transparent via-amber-600/30 to-transparent" />
-                <div className="relative z-10 w-full pt-20">
+                <div className="relative z-10 w-full pt-32 md:pt-40 lg:pt-48">
                     <Banner />
                 </div>
             </section>

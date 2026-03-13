@@ -45,7 +45,7 @@ const Banner = () => {
             </div>
 
             {/* Content */}
-            <div className="relative z-20 text-center px-6 max-w-5xl  mx-auto pt-5 md:pt-3 ">
+            <div className="relative z-20 text-center px-6 max-w-5xl  mx-auto pt-2 md:pt-1 ">
                 {/* Logo */}
                 <div className="mb-1 flex justify-center opacity-0 anim-fade-in">
                     <div className="relative">
@@ -338,9 +338,13 @@ const Divider = () => (
 const Index = () => {
     return (
         <div className="bg-black min-h-screen text-gray-400 font-body selection:bg-amber-500/30">
-            <div className='fixed top-0 right-0 left-0 z-30'>
+            {/* Fixed Navigation - z-50 pour rester au-dessus */}
+            <div className='fixed top-0 right-0 left-0 z-50'>
                 <Nav />
             </div>
+
+            {/* Spacer pour compenser la hauteur de la Nav fixe (desktop: h-32, mobile: h-20) */}
+            <div className="h-20 lg:h-32" />
 
             {/* 1. Hero */}
             <Banner />

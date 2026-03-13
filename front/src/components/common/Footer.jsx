@@ -5,7 +5,7 @@ export default function Footer() {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
                 <div className="col-span-1 md:col-span-1 text-center md:text-left">
                     <div>
-                        <h3 className="text-white font-black tracking-tighter text-2xl mb-4">EJP<span className="text-amber-500">.</span>PN</h3>
+                        <h3 className="text-white font-black tracking-tighter text-2xl mb-4">EJP<span className="text-amber-500">.</span>Porto</h3>
                         <div className="w-12 h-12 rounded-full bg-white/10 border border-white/20 flex items-center justify-center mr-3">
                             <img src ={logo} alt="Logo EJP" className="w-10 h-10 rounded-full" />
                         </div>
