@@ -119,7 +119,7 @@ const SalvationPrayer = () => {
                                     className="bg-gradient-to-r from-amber-500 to-yellow-500 text-black px-10 py-4 rounded-full font-black uppercase text-sm tracking-widest hover:shadow-2xl hover:shadow-amber-500/50 transition-all duration-300 group flex items-center gap-2"
                                 >
                                     <Heart size={18} />
-                                    <span>Faire la prière</span>
+                                    <span><a href="#prayer">Faire la prière</a></span>
                                 </button>
                             </div>
                         </div>
@@ -160,12 +160,12 @@ const SalvationPrayer = () => {
                                 </div>
 
                                 {/* Prayer Text */}
-                                <div className="bg-gradient-to-br from-amber-500/10 to-yellow-500/5 border-2 border-amber-500/30 rounded-3xl p-12 mb-12">
+                                <div id='prayer' className="bg-gradient-to-br from-amber-500/10 to-yellow-500/5 border-2 border-amber-500/30 rounded-3xl p-12 mb-12">
                                     <h3 className="text-3xl font-black text-white mb-8 tracking-tight text-center">
                                         Récite cette Prière
                                     </h3>
 
-                                    <div className="space-y-6 text-gray-300 font-light leading-relaxed max-w-3xl mx-auto mb-8">
+                                    <div  className="prayer space-y-6 text-gray-300 font-light leading-relaxed max-w-3xl mx-auto mb-8">
                                         <p>
                                             <span className="text-amber-400 font-bold">"Seigneur Jésus,</span> je reconnais que je suis un pécheur. Je crois que Tu es mort et ressuscité pour mes péchés. Je T'accepte maintenant comme mon Seigneur et Sauveur personnel. Pardonne-moi et transforms ma vie. Je veux Te suivre et vivre pour Toi. Amen."
                                         </p>

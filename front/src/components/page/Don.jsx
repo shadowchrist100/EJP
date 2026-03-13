@@ -14,7 +14,7 @@ const DonationHero = () => {
             </div>
 
             {/* Content */}
-            <div className="container mx-auto px-6 relative z-10">
+            <div className="container mx-auto px-6 relative z-10 pt-2 mb-2">
                 <div className="max-w-4xl mx-auto text-center animate-in fade-in slide-in-from-bottom-4 duration-700">
                     <div className="inline-flex items-center gap-3 mb-8 px-4 py-2 bg-amber-500/10 border border-amber-500/30 rounded-full backdrop-blur-sm group hover:bg-amber-500/20 transition-all duration-300">
                         <Heart className="text-amber-500 animate-pulse" size={16} />
@@ -24,7 +24,7 @@ const DonationHero = () => {
                     </div>
 
                     <h1 className="text-5xl sm:text-7xl md:text-8xl font-black text-white mb-8 tracking-tighter leading-none">
-                        Sois <span className="text-transparent bg-clip-text bg-linear-to-r from-amber-200 via-yellow-400 to-amber-600">Partenaire</span> de la Vision S.T.A.R.
+                        Sois <span className="text-transparent bg-clip-text bg-linear-to-r from-amber-200 via-yellow-400 to-amber-600">Partenaire</span> de la Vision E.J.P
                     </h1>
 
                     <p className="text-xl md:text-2xl text-gray-300 font-light mb-12 leading-relaxed max-w-3xl mx-auto">
@@ -117,7 +117,7 @@ const DonationOptions = () => {
 
                             {/* Description */}
                             <p className="text-gray-400 text-lg font-light mb-10 max-w-2xl mx-auto leading-relaxed">
-                                Tu as un montant spécifique en tête? Aucun problème! Fixe le montant de ton choix et soutiens directement la vision S.T.A.R.
+                                Tu as un montant spécifique en tête? Aucun problème! Fixe le montant de ton choix et soutiens directement la vision E.J.P
                             </p>
 
                             {/* Input & Button Container */}
@@ -349,13 +349,13 @@ const ImpactSection = () => {
         },
         {
             icon: <Users className="text-amber-400" size={32} />,
-            title: "Ministères",
-            description: "Soutenir les 7 ministères pour servir efficacement notre communauté"
+            title: "Ministère",
+            description: "Soutenir le ministère  pour servir efficacement notre communauté"
         },
         {
             icon: <Globe className="text-amber-400" size={32} />,
             title: "Expansion",
-            description: "Étendre la vision S.T.A.R. à de nouveaux pays et continents"
+            description: "Étendre la vision E.J.P à de nouveaux pays et continents"
         }
     ];
 
@@ -439,23 +439,9 @@ const FAQSection = () => {
         {
             id: 1,
             question: "Les dons sont-ils sécurisés?",
-            answer: "Oui, tous les dons sont traités via des processus de paiement sécurisés (Stripe, PayPal). Tes informations sont cryptées et protégées."
+            answer: "Oui, tous les dons sont traités via un processus de paiement sécurisés (FedaPay ). Tes informations sont cryptées et protégées."
         },
-        {
-            id: 2,
-            question: "Puis-je modifier ou annuler mon don?",
-            answer: "Absolument! Tu peux modifier ou annuler ton don mensuel à tout moment sans pénalité. Accède à ton compte et gère tes préférences."
-        },
-        {
-            id: 3,
-            question: "Est-ce que je reçois un reçu fiscal?",
-            answer: "Oui, tu reçois un reçu pour chaque don qui peut être utilisé à des fins fiscales selon ta juridiction."
-        },
-        {
-            id: 4,
-            question: "Puis-je faire un don ponctuel au lieu d'un don mensuel?",
-            answer: "Bien sûr! Tu peux faire un don unique en utilisant la section 'Don personnalisé' ou nous contacter directement."
-        },
+        
         {
             id: 5,
             question: "Comment je peux suivre l'impact de mon don?",

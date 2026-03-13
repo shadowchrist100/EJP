@@ -1,5 +1,5 @@
 import { Calendar, MapPin, Clock, ArrowRight, Share2 } from 'lucide-react';
-import {Nav,Footer,Contact} from '../.'
+import { Nav, Footer, Contact } from '../.'
 import { useState, useMemo } from 'react';
 
 const EventCard = ({ event }) => {
@@ -114,9 +114,9 @@ const EventsPage = () => {
                 date: ambrasesDate,
                 time: "19:00",
                 location: "EJP Porto",
-                title: "Ambrasés",
+                title: "Embrasé.e.s",
                 description: "Une soirée de prière et d'adoration où tu es ambrasés par le Saint Esprit. Un moment spirituel intense pour recharger ton âme.",
-                image: "/src/assets/images/culte1.jpg"
+                image: "/images/culte1.jpg"
             },
             {
                 id: 2,
@@ -128,7 +128,7 @@ const EventsPage = () => {
                 location: "EJP Porto",
                 title: "CULTE EJP",
                 description: "Un culte, une expérience! Rejoins-nous pour un moment de communion fraternelle et de louange ensemble.",
-                image: "/src/assets/images/culte.jpg"
+                image: "/images/culte.jpg"
             },
             {
                 id: 3,
@@ -140,7 +140,7 @@ const EventsPage = () => {
                 location: "EJP Porto",
                 title: "FIJ - Famille D'Impact Jeunes",
                 description: "Des soirées d'échanges et de communion avec ta famille d'impact. Moments de partage et de bénédictions.",
-                image: "/src/assets/fij/image1.jpg"
+                image: "/fij/image1.jpg"
             }
         ];
     });
@@ -170,9 +170,11 @@ const EventsPage = () => {
 
     return (
         <div className="bg-black min-h-screen text-gray-400 font-sans">
-            <Nav />
+            <div className='fixed top-0 right-0 left-0 z-50'>
+                <Nav />
+            </div>
 
-            <main className="pt-20">
+            <main className="">
                 {/* Hero Section: Featured Event */}
                 <section className="relative min-h-[85vh] flex items-center">
                     <div className="absolute inset-0 overflow-hidden">
@@ -263,9 +265,9 @@ const EventsPage = () => {
                         </div>
                     </section>
                 )}
-                <Contact/>                
+                <Contact />
             </main>
-            <Footer/>
+            <Footer />
         </div>
     );
 };

@@ -101,8 +101,8 @@ const Nav = () => {
                                 className="flex items-center gap-4 px-6 py-4 rounded-2xl hover:bg-white/10 transition-all group border border-transparent hover:border-amber-500/30 bg-white/5"
                             >
                                 {/* Avatar */}
-                                <div className={`w-14 h-14 ${getAvatarColor(user.name)} rounded-full flex items-center justify-center text-white font-black text-lg border-3 border-amber-400/50 group-hover:border-amber-400 transition-colors shadow-lg shadow-amber-500/20`}>
-                                    {getInitials(user.name)}
+                                <div className={`w-14 h-14 ${getAvatarColor(user.firstName)} rounded-full flex items-center justify-center text-white font-black text-lg border-3 border-amber-400/50 group-hover:border-amber-400 transition-colors shadow-lg shadow-amber-500/20`}>
+                                    {getInitials(user.firstName)}
                                 </div>
                                 
                                 {/* Username & Chevron */}

@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useCallback } from 'react';
-import { BergerDimitri } from '.'; 
-import { BergerSamuel } from '.'; 
+import { BergerDimitri } from '.';
+import { BergerSamuel } from '.';
 
 const VisionSection = ({ audioPath }) => {
     const audioRef = useRef(null);
@@ -158,7 +158,7 @@ const VisionSection = ({ audioPath }) => {
                                 Fondement
                             </h2>
                             <h1
-                                className="text-4xl md:text-7xl font-black text-white leading-[1.05] tracking-tighter uppercase mb-12 animate-in fade-in slide-in-from-bottom-4"
+                                className="text-4xl md:text-7xl font-black text-white leading-[1.05] tracking-wider uppercase mb-12 animate-in fade-in slide-in-from-bottom-4"
                                 style={{ animationDelay: '100ms' }}
                             >
                                 Une église suscitée pour accomplir le{' '}
@@ -175,7 +175,7 @@ const VisionSection = ({ audioPath }) => {
                                 <div className="mb-8 group">
                                     <div className="relative w-40 h-40 mx-auto rounded-full overflow-hidden border-4 border-amber-500/50 shadow-2xl shadow-amber-600/30 hover:border-amber-400 transition-all duration-300">
                                         <img
-                                            src= {BergerSamuel}
+                                            src={BergerSamuel}
                                             alt="Samuel EBOUMBOU"
                                             className="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-500 scale-105 group-hover:scale-100"
                                         />
@@ -199,26 +199,26 @@ const VisionSection = ({ audioPath }) => {
                                 Notre Vision
                             </h2>
                             <h1
-                                className="text-4xl md:text-7xl font-black text-white leading-[1.05] tracking-tighter uppercase mb-12 animate-in fade-in slide-in-from-bottom-4"
-                                style={{ animationDelay: '100ms' }}
+                                className="text-4xl md:text-7xl font-bold text-white leading-[1.05] tracking-wider uppercase mb-12 animate-in fade-in slide-in-from-bottom-4"
+                                style={{ animationDelay: '100ms', wordSpacing: '0.1em' }}
                             >
                                 " Nous sommes des {' '}
                                 <span className="italic text-transparent bg-clip-text bg-linear-to-r from-amber-200 to-amber-500">
                                     Virus
                                 </span>
-                                dans le systeme appelé 
+                                dans le systeme appelé
                                 <span className="italic text-transparent bg-clip-text bg-linear-to-r from-amber-200 to-amber-500">
                                     Monde
                                 </span>
                                 pour amener la 
                                 <span className="italic text-transparent bg-clip-text bg-linear-to-r from-amber-200 to-amber-500">
-                                    Pensee 
+                                    Pensee
                                 </span>
-                                et le 
+                                et le
                                 <span className="italic text-transparent bg-clip-text bg-linear-to-r from-amber-200 to-amber-500">
-                                    Reve 
+                                    Reve
                                 </span>
-                                de 
+                                de
                                 <span className="italic text-transparent bg-clip-text bg-linear-to-r from-amber-200 to-amber-500">
                                     Dieu
                                 </span>
@@ -232,7 +232,7 @@ const VisionSection = ({ audioPath }) => {
                                 <div className="mb-8 group">
                                     <div className="relative w-40 h-40 mx-auto rounded-full overflow-hidden border-4 border-amber-500/50 shadow-2xl shadow-amber-600/30 hover:border-amber-400 transition-all duration-300">
                                         <img
-                                            src= {BergerDimitri}
+                                            src={BergerDimitri}
                                             alt="Dimitri Dumas"
                                             className="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-500 scale-105 group-hover:scale-100"
                                         />
