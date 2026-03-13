@@ -20,7 +20,7 @@ const Nav = () => {
     ];
 
     // Lien ArtProdige uniquement si connecté
-    const displayNavLinks = user ? [{ name: 'ArtProdige', href: '/artprodige', special: true }, ...navLinks] : navLinks;
+    const displayNavLinks = [{ name: 'ArtProdige', href: '/artprodige', special: true }, ...navLinks] ;
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
     const closeMenu = () => setIsMenuOpen(false);
