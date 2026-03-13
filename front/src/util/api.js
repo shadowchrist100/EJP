@@ -1,7 +1,5 @@
 const isDevelopment = import.meta.env.MODE === 'development';
-const BASE_URL = isDevelopment 
-    ? '/api' 
-    : `${import.meta.env.VITE_API_URL}/api`;
+const BASE_URL = '/api' 
 
 export const apiFetch = async (endpoint, options = {}) => {
     // Configuration par défaut (CORS, Headers, etc.)
