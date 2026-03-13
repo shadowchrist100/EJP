@@ -97,8 +97,8 @@ const ArtProdige = () => {
 
                     {/* Content */}
                     <div className="container mx-auto max-w-4xl relative z-10">
-                        <div className="text-center animate-in fade-in slide-in-from-bottom-4 duration-700">
-                            <div className="inline-flex items-center gap-3 mb-8 px-4 py-2 bg-amber-500/10 border border-amber-500/30 rounded-full backdrop-blur-sm group hover:bg-amber-500/20 transition-all duration-300">
+                        <div className="pt-10 text-center animate-in fade-in slide-in-from-bottom-4 duration-700">
+                            <div className=" inline-flex items-center gap-3 mb-8 px-4 py-2 bg-amber-500/10 border border-amber-500/30 rounded-full backdrop-blur-sm group hover:bg-amber-500/20 transition-all duration-300">
                                 <Palette className="text-amber-500 animate-pulse" size={16} />
                                 <span className="text-amber-500 font-bold tracking-[0.3em] uppercase text-xs">
                                     Créativité Sans Limites
