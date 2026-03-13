@@ -71,7 +71,7 @@ const Banner = () => (
         <div className="mb-8 opacity-0 animate-float-up delay-100">
             <span className="inline-flex items-center gap-3 text-amber-400 tracking-[0.3em] text-xs uppercase font-bold">
                 <span className="w-8 h-px bg-amber-500 inline-block animate-line-grow" />
-                Église des Jeunes d'Impact
+                Église des Jeunes Prodige
                 <span className="w-8 h-px bg-amber-500 inline-block" />
             </span>
         </div>
@@ -356,8 +356,9 @@ const Fij = () => (
         <GlobalStyles />
         <div className="min-h-screen">
             <header className="fixed top-0 right-0 left-0 z-50">
-                <Nav />
             </header>
+                <Nav />
+
 
             <section className="relative min-h-screen flex items-center overflow-hidden hero-grain">
                 <div className="absolute banner-fij inset-0 bg-cover bg-center">

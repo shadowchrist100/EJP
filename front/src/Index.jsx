@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight, Quote } from 'lucide-react';
-import {Nav,Footer,Contact,logo,VisionSection} from './components'; 
-import { fij1, fij2, fij3, fij4 } from './components'; 
+import { Nav, Footer, Contact, logo, VisionSection } from './components';
+import { fij1, fij2, fij3, fij4 } from './components';
 import song from "./assets/song.mp3";
 import './index.css'
 
@@ -338,7 +338,9 @@ const Divider = () => (
 const Index = () => {
     return (
         <div className="bg-black min-h-screen text-gray-400 font-body selection:bg-amber-500/30">
-            <Nav />
+            <div className='fixed top-0 right-0 left-0 z-30'>
+                <Nav />
+            </div>
 
             {/* 1. Hero */}
             <Banner />
@@ -381,7 +383,7 @@ const Index = () => {
                             Tu commences ta marche avec Jésus ? Laisse-nous t'accompagner pour bâtir des fondements solides pour ta nouvelle vie.
                         </p>
                         <a
-                            href="/register"
+                            href="/salvation"
                             className="group inline-flex items-center gap-4 bg-white text-black px-12 py-5 text-[10px] font-black uppercase tracking-[0.25em] hover:bg-amber-500 transition-all duration-300 shadow-xl"
                         >
                             Inscris-toi maintenant

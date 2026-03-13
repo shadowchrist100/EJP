@@ -172,7 +172,7 @@ const EventsPage = () => {
         <div className="bg-black min-h-screen text-gray-400 font-sans">
             <Nav />
 
-            <main className="pt-20">
+            <main className="">
                 {/* Hero Section: Featured Event */}
                 <section className="relative min-h-[85vh] flex items-center">
                     <div className="absolute inset-0 overflow-hidden">
