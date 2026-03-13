@@ -78,16 +78,8 @@ const Register = () => {
             }
 
             setSuccess(true);
-
-            // Rediriger vers login après 2 secondes
-            setTimeout(() => {
-                navigate('/login', {
-                    state: {
-                        email: formData.email,
-                        message: 'Inscription réussie ! Vous pouvez maintenant vous connecter.'
-                    }
-                });
-            }, 2000);
+            navigate("/login");
+            
 
         } catch (err) {
             // Ici, "err.message" contient soit l'erreur 422 de Laravel, 

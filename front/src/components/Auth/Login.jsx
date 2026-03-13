@@ -72,11 +72,7 @@ const Login = () => {
 
             login(data.access_token,data.user_data)
 
-            setTimeout(() => {
-                navigate('/', {
-                    state: { email: formData.email, message: 'Connexion réussie !' }
-                });
-            }, 2000);
+            navigate("/");
 
         } catch (err) {
             // Ici, "err.message" contiendra soit le message d'erreur de Laravel 
