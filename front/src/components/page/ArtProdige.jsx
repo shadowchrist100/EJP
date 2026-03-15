@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Nav from '../common/Nav';
 import Footer from '../common/Footer';
-import { BookOpen, Palette, Film, Music, Image, ArrowRight, X, ChevronRight } from 'lucide-react';
+import { BookOpen, Palette, Film, Music, Image, ArrowRight, X, ChevronRight, Play, Download } from 'lucide-react';
 
 const ArtProdige = () => {
     const [selectedCategory, setSelectedCategory] = useState('all');
@@ -15,15 +15,29 @@ const ArtProdige = () => {
         { id: 'sound', label: 'Son', icon: Music },
     ];
 
+    // Fonction pour extraire l'ID YouTube d'une URL
+    const getYoutubeId = (url) => {
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+        const match = url.match(regExp);
+        return match && match[2].length === 11 ? match[2] : null;
+    };
+
+    // Fonction pour générer l'URL de la thumbnail YouTube
+    const getYoutubeThumbnail = (youtubeId) => {
+        return `https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`;
+    };
+
     const works = [
         {
             id: 1,
             category: 'book',
             title: 'Sentinelles',
             author: 'Charles SANDAH',
-            image: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 280"%3E%3Crect fill="%23d4a574" width="200" height="280"/%3E%3Crect fill="%23c9956b" x="10" y="20" width="180" height="240" rx="5"/%3E%3Ctext font-family="Georgia" font-size="24" fill="%23000" text-anchor="middle" x="100" y="130" font-weight="bold"%3EContes de%3C/text%3E%3Ctext font-family="Georgia" font-size="24" fill="%23000" text-anchor="middle" x="100" y="160" font-weight="bold"%3El%27Horizon%3C/text%3E%3C/svg%3E',
+            image: '/sentinelles.png',
             description: 'Un recueil de contes poétiques explorant les frontières entre réalité et imagination. Une œuvre touchante qui inspire les jeunes à rêver grand et à croire en leurs visions.',
             year: 2025,
+            type: 'image',
+            downloadUrl: 'https://example.com/sentinelles.pdf',
         },
         {
             id: 2,
@@ -33,26 +47,29 @@ const ArtProdige = () => {
             image: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 280"%3E%3Crect fill="%23fbbf24" width="280" height="280"/%3E%3Crect fill="%23f59e0b" x="20" y="20" width="100" height="100"/%3E%3Crect fill="%23d97706" x="140" y="50" width="120" height="80"/%3E%3Crect fill="%23b45309" x="30" y="160" width="220" height="100"/%3E%3C/svg%3E',
             description: 'Peinture acrylique mêlant géométrie et couleurs vives, inspirée par l\'architecture contemporaine. Une exploration dynamique des formes urbaines modernes.',
             year: 2024,
+            type: 'image',
         },
         {
             id: 3,
             category: 'film',
-            title: 'Lumières Éphémères',
-            author: 'Justine Moreau',
-            image: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 200"%3E%3Crect fill="%231f2937" width="280" height="200"/%3E%3Ccircle cx="70" cy="50" r="20" fill="%23fbbf24"/%3E%3Ccircle cx="180" cy="100" r="30" fill="%23f59e0b"/%3E%3Crect fill="%23111827" x="0" y="140" width="280" height="60"/%3E%3C/svg%3E',
+            title: 'Derrière le voil',
+            author: 'EJP Porto',
+            youtubeUrl: 'https://youtu.be/lOf1ls3giIw?si=c-qyP2tH44Z1u__q',
             description: 'Court métrage expérimental jouant avec les effets de lumière et d\'ombre. Une œuvre cinématographique captivante sur la beauté des instants éphémères.',
             duration: '12 min',
             year: 2024,
+            type: 'youtube',
         },
         {
             id: 4,
             category: 'sound',
             title: 'Dieu D\'abord',
             author: 'SKY F',
-            image: 'https://youtu.be/NKGc2DtqsZ8?si=Xmx-sctRbZDzqg3e',
-            description: '',
-            duration: '8 min',
-            year: 2023,
+            youtubeUrl: 'https://youtu.be/NKGc2DtqsZ8?si=Xmx-sctRbZDzqg3e',
+            description: 'Un hymne inspirant qui célèbre la priorité de mettre Dieu en premier. Une composition musicale puissante et mémorable.',
+            duration: '3 min',
+            year: 2025,
+            type: 'youtube',
         },
         {
             id: 5,
@@ -62,21 +79,105 @@ const ArtProdige = () => {
             image: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 280"%3E%3Crect fill="%23f3f4f6" width="280" height="280"/%3E%3Crect fill="%23fbbf24" x="20" y="20" width="50" height="50"/%3E%3Crect fill="%23f59e0b" x="90" y="20" width="50" height="50"/%3E%3Crect fill="%23d97706" x="160" y="20" width="50" height="50"/%3E%3Crect fill="%23b45309" x="230" y="20" width="30" height="50"/%3E%3Crect fill="%23fde68a" x="20" y="90" width="50" height="50"/%3E%3Crect fill="%23fcd34d" x="90" y="90" width="50" height="50"/%3E%3Crect fill="%23fbbd04" x="160" y="90" width="50" height="50"/%3E%3Crect fill="%23f59e0b" x="230" y="90" width="30" height="50"/%3E%3Crect fill="%23f97316" x="20" y="160" width="50" height="50"/%3E%3Crect fill="%23ea580c" x="90" y="160" width="50" height="50"/%3E%3Crect fill="%23c2410c" x="160" y="160" width="50" height="50"/%3E%3Crect fill="%23b45309" x="230" y="160" width="30" height="50"/%3E%3Crect fill="%23fbbf24" x="20" y="230" width="50" height="30"/%3E%3Crect fill="%23f59e0b" x="90" y="230" width="50" height="30"/%3E%3Crect fill="%23d97706" x="160" y="230" width="50" height="30"/%3E%3Crect fill="%238b7500" x="230" y="230" width="30" height="30"/%3E%3C/svg%3E',
             description: 'Collage numérique composé de 200+ éléments géométriques colorés. Une célébration visuelle de la diversité et de l\'harmonie des rêves.',
             year: 2024,
+            type: 'image',
         },
         {
             id: 6,
-            category: 'book',
-            title: 'Guide du Jeune Créatif',
-            author: 'Collectif EJP',
-            image: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 280"%3E%3Crect fill="%23fbbf24" width="200" height="280"/%3E%3Crect fill="%23f59e0b" x="10" y="20" width="180" height="240" rx="5"/%3E%3Ctext font-family="Georgia" font-size="18" fill="%23000" text-anchor="middle" x="100" y="120" font-weight="bold"%3EGuide du%3C/text%3E%3Ctext font-family="Georgia" font-size="18" fill="%23000" text-anchor="middle" x="100" y="150" font-weight="bold"%3EJeune Créatif%3C/text%3E%3Ctext font-family="Georgia" font-size="12" fill="%23654321" text-anchor="middle" x="100" y="180" font-style="italic"%3EEJP 2024%3C/text%3E%3C/svg%3E',
+            category: 'sound',
+            title: 'Percer',
+            author: 'SKY F',
+            youtubeUrl: 'https://youtu.be/CU4qWeTPdGg?si=LGykxbVaeh1_3nns',
             description: 'Manuel pratique rassemblant techniques et conseils des artistes de l\'école. Une ressource complète pour inspirer et guider les jeunes créatifs.',
+            duration: '3 min',
             year: 2024,
+            type: 'youtube',
         },
     ];
 
     const filteredWorks = selectedCategory === 'all'
         ? works
         : works.filter(work => work.category === selectedCategory);
+
+    // Composant pour afficher une carte d'œuvre
+    const WorkCard = ({ work, idx }) => {
+        const isYoutube = work.type === 'youtube';
+        const youtubeId = isYoutube ? getYoutubeId(work.youtubeUrl) : null;
+        const thumbnailUrl = isYoutube ? getYoutubeThumbnail(youtubeId) : work.image;
+
+        const handleClickYoutube = (e) => {
+            if (isYoutube) {
+                e.stopPropagation();
+                window.open(work.youtubeUrl, '_blank');
+            } else {
+                setExpandedWork(work);
+            }
+        };
+
+        return (
+            <div
+                key={work.id}
+                className="group cursor-pointer animate-in fade-in slide-in-from-bottom-4"
+                style={{ animationDelay: `${idx * 100}ms` }}
+            >
+                <div
+                    onClick={handleClickYoutube}
+                    className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-zinc-950 to-black border border-white/10 hover:border-amber-500/50 transition-all duration-300 hover:shadow-2xl hover:shadow-amber-500/20 hover:-translate-y-2"
+                >
+                    {/* Image */}
+                    <div className="aspect-square overflow-hidden bg-gradient-to-br from-zinc-800 to-black">
+                        <img
+                            src={thumbnailUrl}
+                            alt={work.title}
+                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                        />
+                    </div>
+
+                    {/* Overlay pour YouTube avec bouton Play */}
+                    {isYoutube ? (
+                        <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            <div className="w-16 h-16 rounded-full bg-red-600 flex items-center justify-center shadow-2xl shadow-red-600/50 group-hover:scale-110 transition-transform duration-300">
+                                <Play size={32} className="text-white fill-white ml-1" />
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
+                            <button className="inline-flex items-center gap-2 text-sm font-bold text-white bg-gradient-to-r from-amber-500 to-yellow-500 px-4 py-2 rounded-lg hover:shadow-lg w-fit">
+                                Voir plus
+                                <ArrowRight className="w-4 h-4" />
+                            </button>
+                        </div>
+                    )}
+
+                    {/* Badge année */}
+                    <div className="absolute top-4 right-4 bg-black/70 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-amber-400 border border-amber-500/30">
+                        {work.year}
+                    </div>
+
+                    {/* Badge YouTube */}
+                    {isYoutube && (
+                        <div className="absolute top-4 left-4 bg-red-600 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-white border border-red-500/50 flex items-center gap-2">
+                            <Film size={12} />
+                            YouTube
+                        </div>
+                    )}
+                </div>
+
+                {/* Info */}
+                <div className="mt-4 space-y-1">
+                    <h3 className="font-black text-white group-hover:text-amber-400 transition-colors text-lg">
+                        {work.title}
+                    </h3>
+                    <p className="text-sm text-gray-500 font-light">{work.author}</p>
+                    {work.duration && (
+                        <p className="text-xs text-gray-600 italic">{work.duration}</p>
+                    )}
+                    {isYoutube && (
+                        <p className="text-xs text-red-400 font-semibold">Cliquez pour regarder sur YouTube</p>
+                    )}
+                </div>
+            </div>
+        );
+    };
 
     return (
         <div className="relative flex min-h-screen flex-col bg-black text-gray-400">
@@ -85,7 +186,10 @@ const ArtProdige = () => {
                 <Nav />
             </div>
 
-            <main className="grow pt-20">
+            {/* Spacer pour compenser la hauteur de la Nav fixe */}
+            <div className="h-20 lg:h-32" />
+
+            <main className="grow">
                 {/* Hero Section */}
                 <section className="relative min-h-[60vh] flex items-center justify-center overflow-hidden px-4 md:px-8">
                     {/* Background avec gradient et animation */}
@@ -120,11 +224,11 @@ const ArtProdige = () => {
                                     <p className="text-xs text-gray-400 uppercase tracking-widest font-light">Œuvres</p>
                                 </div>
                                 <div className="p-4 bg-white/5 border border-white/10 rounded-xl backdrop-blur-sm hover:border-amber-500/50 transition-all duration-300">
-                                    <p className="text-3xl font-black text-amber-400 mb-1">4</p>
+                                    <p className="text-3xl font-black text-amber-400 mb-1">5</p>
                                     <p className="text-xs text-gray-400 uppercase tracking-widest font-light">Catégories</p>
                                 </div>
                                 <div className="p-4 bg-white/5 border border-white/10 rounded-xl backdrop-blur-sm hover:border-amber-500/50 transition-all duration-300">
-                                    <p className="text-3xl font-black text-amber-400 mb-1">2025</p>
+                                    <p className="text-3xl font-black text-amber-400 mb-1">2024</p>
                                     <p className="text-xs text-gray-400 uppercase tracking-widest font-light">Depuis</p>
                                 </div>
                             </div>
@@ -140,7 +244,7 @@ const ArtProdige = () => {
                         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
                             {/* Sidebar Catégories */}
                             <aside className="lg:col-span-1">
-                                <div className="sticky top-32 bg-gradient-to-br from-zinc-950 to-black border border-white/10 rounded-2xl p-6 backdrop-blur-sm hover:border-amber-500/30 transition-all duration-300">
+                                <div className="sticky top-40 bg-gradient-to-br from-zinc-950 to-black border border-white/10 rounded-2xl p-6 backdrop-blur-sm hover:border-amber-500/30 transition-all duration-300">
                                     <h3 className="text-xl font-black text-white mb-6 tracking-tight">Catégories</h3>
 
                                     <div className="space-y-2">
@@ -187,49 +291,7 @@ const ArtProdige = () => {
                                 {filteredWorks.length > 0 ? (
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                         {filteredWorks.map((work, idx) => (
-                                            <div
-                                                key={work.id}
-                                                className="group cursor-pointer animate-in fade-in slide-in-from-bottom-4"
-                                                style={{ animationDelay: `${idx * 100}ms` }}
-                                            >
-                                                <div
-                                                    onClick={() => setExpandedWork(work)}
-                                                    className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-zinc-950 to-black border border-white/10 hover:border-amber-500/50 transition-all duration-300 hover:shadow-2xl hover:shadow-amber-500/20 hover:-translate-y-2"
-                                                >
-                                                    {/* Image */}
-                                                    <div className="aspect-square overflow-hidden bg-gradient-to-br from-zinc-800 to-black">
-                                                        <img
-                                                            src={work.image}
-                                                            alt={work.title}
-                                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                                        />
-                                                    </div>
-
-                                                    {/* Overlay */}
-                                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-                                                        <button className="inline-flex items-center gap-2 text-sm font-bold text-white bg-gradient-to-r from-amber-500 to-yellow-500 px-4 py-2 rounded-lg hover:shadow-lg w-fit">
-                                                            Voir plus
-                                                            <ArrowRight className="w-4 h-4" />
-                                                        </button>
-                                                    </div>
-
-                                                    {/* Badge année */}
-                                                    <div className="absolute top-4 right-4 bg-black/70 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-amber-400 border border-amber-500/30">
-                                                        {work.year}
-                                                    </div>
-                                                </div>
-
-                                                {/* Info */}
-                                                <div className="mt-4 space-y-1">
-                                                    <h3 className="font-black text-white group-hover:text-amber-400 transition-colors text-lg">
-                                                        {work.title}
-                                                    </h3>
-                                                    <p className="text-sm text-gray-500 font-light">{work.author}</p>
-                                                    {work.duration && (
-                                                        <p className="text-xs text-gray-600 italic">{work.duration}</p>
-                                                    )}
-                                                </div>
-                                            </div>
+                                            <WorkCard key={work.id} work={work} idx={idx} />
                                         ))}
                                     </div>
                                 ) : (
@@ -246,9 +308,9 @@ const ArtProdige = () => {
 
                 {/* Modal Détail */}
                 {expandedWork && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-in fade-in duration-300">
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-in fade-in duration-300 overflow-y-auto">
                         <div
-                            className="bg-gradient-to-br from-zinc-900 to-black border-2 border-white/10 rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto"
+                            className="bg-gradient-to-br from-zinc-900 to-black border-2 border-white/10 rounded-3xl w-full max-w-2xl my-8"
                             style={{ animation: 'slideUp 0.3s ease-out' }}
                         >
                             <div className="p-8">
@@ -266,9 +328,13 @@ const ArtProdige = () => {
                                     </button>
                                 </div>
 
-                                {/* Image grande */}
-                                <div className="mb-8 rounded-2xl overflow-hidden bg-gradient-to-br from-zinc-800 to-black aspect-video border border-white/10">
-                                    <img src={expandedWork.image} alt={expandedWork.title} className="w-full h-full object-cover" />
+                                {/* Image - Adaptée pour tous les types (livres, art, etc.) */}
+                                <div className="mb-8 rounded-2xl overflow-hidden bg-gradient-to-br from-zinc-800 to-black border border-white/10 flex items-center justify-center p-6 min-h-64">
+                                    <img 
+                                        src={expandedWork.image} 
+                                        alt={expandedWork.title} 
+                                        className="max-h-96 w-auto object-contain"
+                                    />
                                 </div>
 
                                 {/* Infos */}
@@ -300,14 +366,30 @@ const ArtProdige = () => {
                                     </div>
                                 </div>
 
-                                {/* Bouton fermer */}
-                                <button
-                                    onClick={() => setExpandedWork(null)}
-                                    className="w-full mt-8 py-3 bg-gradient-to-r from-amber-500 to-yellow-500 text-black rounded-xl font-black uppercase text-xs tracking-widest hover:shadow-2xl hover:shadow-amber-500/40 transition-all duration-300 flex items-center justify-center gap-2 group"
-                                >
-                                    <span>Fermer</span>
-                                    <X size={16} className="group-hover:rotate-90 transition-transform" />
-                                </button>
+                                {/* Boutons d'action */}
+                                <div className="mt-8 flex flex-col gap-3">
+                                    {/* Bouton de téléchargement pour les livres */}
+                                    {expandedWork.category === 'book' && expandedWork.downloadUrl && (
+                                        <a
+                                            href={expandedWork.downloadUrl}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="w-full py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl font-black uppercase text-xs tracking-widest hover:shadow-2xl hover:shadow-green-500/40 transition-all duration-300 flex items-center justify-center gap-2 group"
+                                        >
+                                            <Download size={16} className="group-hover:scale-110 transition-transform" />
+                                            <span>Télécharger le livre</span>
+                                        </a>
+                                    )}
+
+                                    {/* Bouton fermer */}
+                                    <button
+                                        onClick={() => setExpandedWork(null)}
+                                        className="w-full py-3 bg-gradient-to-r from-amber-500 to-yellow-500 text-black rounded-xl font-black uppercase text-xs tracking-widest hover:shadow-2xl hover:shadow-amber-500/40 transition-all duration-300 flex items-center justify-center gap-2 group"
+                                    >
+                                        <span>Fermer</span>
+                                        <X size={16} className="group-hover:rotate-90 transition-transform" />
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>

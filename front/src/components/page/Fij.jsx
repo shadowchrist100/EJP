@@ -71,7 +71,7 @@ const Banner = () => (
         <div className="mb-8 opacity-0 animate-float-up delay-100">
             <span className="inline-flex items-center gap-3 text-amber-400 tracking-[0.3em] text-xs uppercase font-bold">
                 <span className="w-8 h-px bg-amber-500 inline-block animate-line-grow" />
-                Église des Jeunes Prodige
+                Église des Jeunes Prodiges
                 <span className="w-8 h-px bg-amber-500 inline-block" />
             </span>
         </div>

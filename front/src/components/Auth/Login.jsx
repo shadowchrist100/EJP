@@ -95,7 +95,7 @@ const Login = () => {
                             </div>
                         </div>
                         <h2 className="text-3xl font-black text-white uppercase tracking-tighter">
-                            Connection réussie!
+                            Connexion réussie!
                         </h2>
                         <p className="text-gray-400 text-sm">
                             Bienvenue! Vous allez être redirigé vers la page d'acceil
@@ -112,7 +112,7 @@ const Login = () => {
                 {/* Header */}
                 <div className="text-center mb-8">
                     <h1 className="text-3xl font-black text-white uppercase tracking-tighter mb-2">
-                        CONNECTION
+                        CONNEXION
                     </h1>
                     <p className="text-gray-400 text-sm">
                         Connectez vous à votre compte EJP Porto
