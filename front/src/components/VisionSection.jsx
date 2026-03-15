@@ -205,20 +205,20 @@ const VisionSection = ({ audioPath }) => {
                                 " Nous sommes des {' '}
                                 <span className="italic text-transparent bg-clip-text bg-linear-to-r from-amber-200 to-amber-500">
                                     Virus
-                                </span>
-                                dans le systeme appelé
+                                </span>{' '}
+                                dans le systeme appelé{' '}
                                 <span className="italic text-transparent bg-clip-text bg-linear-to-r from-amber-200 to-amber-500">
                                     Monde
-                                </span>
-                                pour amener la 
+                                </span>{' '}
+                                pour amener la {' '}
                                 <span className="italic text-transparent bg-clip-text bg-linear-to-r from-amber-200 to-amber-500">
                                     Pensee
-                                </span>
-                                et le
+                                </span>{' '}
+                                et le{' '}
                                 <span className="italic text-transparent bg-clip-text bg-linear-to-r from-amber-200 to-amber-500">
                                     Reve
-                                </span>
-                                de
+                                </span>{' '}
+                                de{' '}
                                 <span className="italic text-transparent bg-clip-text bg-linear-to-r from-amber-200 to-amber-500">
                                     Dieu
                                 </span>
