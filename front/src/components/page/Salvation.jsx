@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import Nav from '../common/Nav';
-import Footer from '../common/Footer';
+import {Nav, Footer} from '../'
 import { Heart, Check, ArrowRight, Mail, User, Phone } from 'lucide-react';
+import { apiFetch } from '../../util/api';
 
 const SalvationPrayer = () => {
     const [step, setStep] = useState(1); // 1: Prayer, 2: Form, 3: Confirmation
@@ -21,11 +21,15 @@ const SalvationPrayer = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         if (formData.name && formData.email) {
             setSubmitted(true);
             setStep(3);
+            // const data = await apiFetch("/reborn", {
+            //     method: "POST",
+            //     body: JSON.stringify(formData)
+            // });
             // Reset form after 5 seconds
             setTimeout(() => {
                 setFormData({ name: '', email: '', phone: '', message: '' });
@@ -165,7 +169,7 @@ const SalvationPrayer = () => {
                                         Récite cette Prière
                                     </h3>
 
-                                    <div  className="prayer space-y-6 text-gray-300 font-light leading-relaxed max-w-3xl mx-auto mb-8">
+                                    <div className="prayer space-y-6 text-gray-300 font-light leading-relaxed max-w-3xl mx-auto mb-8">
                                         <p>
                                             <span className="text-amber-400 font-bold">"Seigneur Jésus,</span> je reconnais que je suis un pécheur. Je crois que Tu es mort et ressuscité pour mes péchés. Je T'accepte maintenant comme mon Seigneur et Sauveur personnel. Pardonne-moi et transforms ma vie. Je veux Te suivre et vivre pour Toi. Amen."
                                         </p>

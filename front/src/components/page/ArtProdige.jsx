@@ -19,11 +19,11 @@ const ArtProdige = () => {
         {
             id: 1,
             category: 'book',
-            title: 'Contes de l\'Horizon',
-            author: 'Sophie Dufour',
+            title: 'Sentinelles',
+            author: 'Charles SANDAH',
             image: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 280"%3E%3Crect fill="%23d4a574" width="200" height="280"/%3E%3Crect fill="%23c9956b" x="10" y="20" width="180" height="240" rx="5"/%3E%3Ctext font-family="Georgia" font-size="24" fill="%23000" text-anchor="middle" x="100" y="130" font-weight="bold"%3EContes de%3C/text%3E%3Ctext font-family="Georgia" font-size="24" fill="%23000" text-anchor="middle" x="100" y="160" font-weight="bold"%3El%27Horizon%3C/text%3E%3C/svg%3E',
             description: 'Un recueil de contes poétiques explorant les frontières entre réalité et imagination. Une œuvre touchante qui inspire les jeunes à rêver grand et à croire en leurs visions.',
-            year: 2023,
+            year: 2025,
         },
         {
             id: 2,
@@ -47,10 +47,10 @@ const ArtProdige = () => {
         {
             id: 4,
             category: 'sound',
-            title: 'Symphonie Digitale',
-            author: 'Lucas Dubois',
-            image: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 280"%3E%3Crect fill="%23f59e0b" width="280" height="280"/%3E%3Cpath d="M 140 40 L 160 120 L 240 120 L 180 170 L 200 250 L 140 200 L 80 250 L 100 170 L 40 120 L 120 120 Z" fill="%23fbbf24"/%3E%3Ccircle cx="140" cy="140" r="80" fill="none" stroke="%23d97706" stroke-width="2"/%3E%3C/svg%3E',
-            description: 'Composition originale fusion musique électronique et instruments traditionnels. Une symphonie qui défie les frontières entre l\'ancien et le nouveau.',
+            title: 'Dieu D\'abord',
+            author: 'SKY F',
+            image: 'https://youtu.be/NKGc2DtqsZ8?si=Xmx-sctRbZDzqg3e',
+            description: '',
             duration: '8 min',
             year: 2023,
         },
@@ -110,7 +110,7 @@ const ArtProdige = () => {
                             </h1>
 
                             <p className="text-lg md:text-xl text-gray-300 font-light mb-10 leading-relaxed max-w-3xl mx-auto">
-                                Une galerie exceptionnelle mettant en avant les talents artistiques, littéraires et créatifs des élèves de l'École des Jeunes Prodiges.
+                                Une galerie exceptionnelle mettant en avant les talents artistiques, littéraires et créatifs des Jeunes Prodiges de Porto Novo.
                             </p>
 
                             {/* Stats */}
@@ -120,11 +120,11 @@ const ArtProdige = () => {
                                     <p className="text-xs text-gray-400 uppercase tracking-widest font-light">Œuvres</p>
                                 </div>
                                 <div className="p-4 bg-white/5 border border-white/10 rounded-xl backdrop-blur-sm hover:border-amber-500/50 transition-all duration-300">
-                                    <p className="text-3xl font-black text-amber-400 mb-1">5</p>
+                                    <p className="text-3xl font-black text-amber-400 mb-1">4</p>
                                     <p className="text-xs text-gray-400 uppercase tracking-widest font-light">Catégories</p>
                                 </div>
                                 <div className="p-4 bg-white/5 border border-white/10 rounded-xl backdrop-blur-sm hover:border-amber-500/50 transition-all duration-300">
-                                    <p className="text-3xl font-black text-amber-400 mb-1">2023</p>
+                                    <p className="text-3xl font-black text-amber-400 mb-1">2025</p>
                                     <p className="text-xs text-gray-400 uppercase tracking-widest font-light">Depuis</p>
                                 </div>
                             </div>
