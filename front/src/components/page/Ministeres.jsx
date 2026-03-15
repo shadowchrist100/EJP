@@ -182,7 +182,7 @@ const MinistryCard = ({ ministry, reversed, index }) => (
             <div className="mt-8">
                 <button className="group/btn relative inline-flex items-center gap-3 border border-amber-500/40 hover:border-amber-500 text-amber-500 hover:text-black text-[9px] font-black uppercase tracking-[0.3em] px-8 py-3 transition-all duration-400 overflow-hidden">
                     <span className="absolute inset-0 bg-amber-500 scale-x-0 group-hover/btn:scale-x-100 origin-left transition-transform duration-400" />
-                    <span className="relative">Rejoindre</span>
+                    <span className="relative"><a href="#rejoindre">Rejoindre</a></span>
                     <ArrowRight size={12} className="relative group-hover/btn:translate-x-1 transition-transform" />
                 </button>
             </div>
@@ -263,6 +263,7 @@ const ContactForm = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         setSubmitted(true);
+        
         setForm({ fullName: '', email: '', ministry: '', message: '' });
         setTimeout(() => setSubmitted(false), 4000);
     };
@@ -319,7 +320,7 @@ const ContactForm = () => {
                     </div>
 
                     {/* Form */}
-                    <form onSubmit={handleSubmit} className="w-full lg:w-[65%] space-y-8">
+                    <form onSubmit={handleSubmit} id="rejoindre" className="w-full lg:w-[65%] space-y-8">
                         {submitted && (
                             <div className="border border-amber-500/30 bg-amber-500/10 px-6 py-4 text-amber-300 text-sm font-bold flex items-center gap-3">
                                 <div className="w-1.5 h-1.5 bg-amber-500 rotate-45 shrink-0" />

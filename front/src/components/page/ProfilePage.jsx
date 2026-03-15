@@ -7,7 +7,7 @@ const ProfilePage = () => {
     const { user, logout } = useContext(AuthContext);
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState({
-        name: user?.name || '',
+        name: user?.firstName || '',
         email: user?.email || '',
         phone: user?.phone || '',
         location: user?.location || '',
@@ -56,7 +56,7 @@ const ProfilePage = () => {
 
     const handleCancel = () => {
         setFormData({
-            name: user?.name || '',
+            name: user?.firstName || '',
             email: user?.email || '',
             phone: user?.phone || '',
             location: user?.location || '',
@@ -151,7 +151,7 @@ const ProfilePage = () => {
 
                                     {/* User Info */}
                                     <h2 className="text-3xl font-black text-white mb-2 tracking-tight">
-                                        {user.name}
+                                        {user.firstName}
                                     </h2>
                                     <p className="text-amber-500 text-sm font-bold uppercase tracking-widest mb-6">
                                         Membre depuis {new Date(user.created_at).getFullYear()}
