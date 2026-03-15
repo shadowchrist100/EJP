@@ -140,7 +140,7 @@ const EventsPage = () => {
                 location: "EJP Porto",
                 title: "FIJ - Famille D'Impact Jeunes",
                 description: "Des soirées d'échanges et de communion avec ta famille d'impact. Moments de partage et de bénédictions.",
-                image: "/fij/image1.jpg"
+                image: "/fij/image.jpg"
             }
         ];
     });
@@ -184,10 +184,10 @@ const EventsPage = () => {
                     <div className="absolute inset-0 overflow-hidden">
                         <img
                             src={featuredEvent.image}
-                            className="w-full h-full object-cover scale-105 brightness-75 contrast-110 saturate-110"
+                            className="w-full h-full object-cover brightness-90 contrast-125 saturate-100"
                             alt="Featured"
                         />
-                        <div className="absolute inset-0 bg-linear-to-r from-black via-black/70 to-transparent" />
+                        <div className="absolute inset-0 bg-linear-to-r from-black via-black/50 to-transparent" />
                         <div className="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent" />
                     </div>
 

@@ -175,7 +175,7 @@ const Aboutfij = () => (
             <h2 className="font-display text-[clamp(2.5rem,7vw,5rem)] text-white leading-none mb-8">C'EST QUOI UNE FIJ ?</h2>
             <div className="w-16 h-px bg-amber-600 mx-auto mb-8" />
             <p className="text-gray-300 text-lg leading-relaxed font-light">
-                Les FIJ sont les cellules de l'Église des Jeunes d'Impact Centre Chrétien. Les jeunes se réunissent{' '}
+                Les FIJ sont les cellules de l'Église des Jeunes Prodiges. Les jeunes se réunissent{' '}
                 <span className="text-amber-400 font-semibold">tous les mardis de 19h14 à 20h45</span>{' '}
                 dans les maisons hôtes pour s'édifier et influencer leurs villes et quartiers avec les valeurs de Christ.{' '}
                 <span className="text-gray-500 italic">(Actes 5:42)</span>
