@@ -16,12 +16,9 @@ return new class extends Migration
             $table->string('firstName');
             $table->string('lastName');
             $table->string('email')->unique();
-            $table->integer('telephone')->nullable();
-            $table->text('message')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('image_path')->nullable();
             $table->string('password');
-            $table->boolean('prayed_salvation_prayer')->nullable(false);
             $table->rememberToken();
             $table->timestamps();
         });

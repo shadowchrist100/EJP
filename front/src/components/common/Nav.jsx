@@ -151,14 +151,14 @@ const Nav = () => {
                                             <User size={18} />
                                             Mon Profil
                                         </Link>
-                                        <Link
+                                        {/* <Link
                                             to="/settings"
                                             onClick={() => setIsAuthOpen(false)}
                                             className="flex items-center gap-3 px-6 py-4 text-sm text-white hover:bg-amber-600 hover:text-black transition-colors font-semibold"
                                         >
                                             <Settings size={18} />
                                             Paramètres
-                                        </Link>
+                                        </Link> */}
 
                                         {/* Divider */}
                                         <div className="my-2 border-t border-white/10" />

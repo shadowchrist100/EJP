@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Nav from '../common/Nav';
 import Footer from '../common/Footer';
-import { BookOpen, Palette, Film, Music, Image, ArrowRight, X, ChevronRight, Play, Download } from 'lucide-react';
+import { BookOpen, Palette, Film, Music, Image, ArrowRight, X, ChevronRight, Play, Download, Sparkles } from 'lucide-react';
 
 const ArtProdige = () => {
     const [selectedCategory, setSelectedCategory] = useState('all');
@@ -230,6 +230,65 @@ const ArtProdige = () => {
                                 <div className="p-4 bg-white/5 border border-white/10 rounded-xl backdrop-blur-sm hover:border-amber-500/50 transition-all duration-300">
                                     <p className="text-3xl font-black text-amber-400 mb-1">2024</p>
                                     <p className="text-xs text-gray-400 uppercase tracking-widest font-light">Depuis</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {/* Section Inspirante - Verset biblique */}
+                <section className="relative py-24 px-4 md:px-8 overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-r from-amber-500/10 via-yellow-500/5 to-amber-500/10 pointer-events-none" />
+                    <div className="absolute -top-20 -right-20 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl" />
+                    <div className="absolute -bottom-20 -left-20 w-96 h-96 bg-yellow-500/5 rounded-full blur-3xl" />
+
+                    <div className="container mx-auto max-w-4xl relative z-10">
+                        <div className="text-center animate-in fade-in slide-in-from-bottom-4 duration-700">
+                            {/* Icône inspirante */}
+                            <div className="inline-flex items-center justify-center mb-8">
+                                <div className="relative">
+                                    <div className="absolute inset-0 bg-amber-500/20 rounded-full blur-2xl animate-pulse" />
+                                    <div className="relative p-4 bg-gradient-to-br from-amber-500/20 to-yellow-500/10 rounded-full border border-amber-500/30">
+                                        <Sparkles className="text-amber-400" size={32} />
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Titre */}
+                            <h2 className="text-3xl md:text-5xl font-black text-white mb-8 tracking-tighter leading-tight">
+                                Remplis de l'<span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-600">Esprit Divin</span>
+                            </h2>
+
+                            {/* Verset biblique */}
+                            <blockquote className="mb-8 relative">
+                                <div className="absolute left-0 top-0 w-1 h-12 bg-gradient-to-b from-amber-500 to-transparent" />
+                                <p className="text-lg md:text-xl text-gray-300 font-light leading-relaxed italic pl-6 max-w-3xl mx-auto">
+                                    <span className="text-amber-400 font-bold">"</span>Je l'ai rempli de l'Esprit de Dieu, de sagesse, d'intelligence, et de savoir pour toutes sortes d'ouvrages.<span className="text-amber-400 font-bold">"</span>
+                                </p>
+                                <p className="text-sm text-gray-500 mt-4">Exode 35:31</p>
+                            </blockquote>
+
+                            {/* Message inspirant */}
+                            <div className="space-y-6 max-w-3xl mx-auto">
+                                <p className="text-base md:text-lg text-gray-300 font-light leading-relaxed">
+                                    Chaque jeune Prodige porte en lui les dons divins : la <span className="text-amber-400 font-semibold">créativité</span> de l'Esprit, la <span className="text-amber-400 font-semibold">sagesse</span> pour guider ses œuvres, et l'<span className="text-amber-400 font-semibold">intelligence</span> pour transformer ses rêves en réalité.
+                                </p>
+
+                                <p className="text-base md:text-lg text-gray-300 font-light leading-relaxed">
+                                    Ces <span className="text-amber-400 font-semibold">œuvres d'art, de littérature et de création</span> ne sont pas seulement des expressions personnelles — elles sont des témoignages vivants d'une génération remplie de l'Esprit, appelée à <span className="text-amber-400 font-semibold">transformer son environnement</span> et à <span className="text-amber-400 font-semibold">influencer le monde</span> avec les valeurs du Royaume.
+                                </p>
+
+                                <p className="text-base md:text-lg text-gray-300 font-light leading-relaxed">
+                                    Nous célébrons chaque talent, chaque vision, chaque création — car <span className="text-amber-400 font-semibold">tous les ouvrages</span> entrepris avec l'Esprit de Dieu portent une puissance transformatrice.
+                                </p>
+                            </div>
+
+                            {/* Separator */}
+                            <div className="mt-12 pt-8 border-t border-white/10">
+                                <div className="flex items-center justify-center gap-4">
+                                    <div className="w-8 h-px bg-gradient-to-r from-transparent to-amber-500/50" />
+                                    <span className="text-xs text-amber-400 font-black uppercase tracking-widest">Inspirés • Créatifs • Impactants</span>
+                                    <div className="w-8 h-px bg-gradient-to-l from-transparent to-amber-500/50" />
                                 </div>
                             </div>
                         </div>

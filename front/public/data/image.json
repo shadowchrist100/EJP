@@ -9,126 +9,222 @@
         "id": 2,
         "category": "events",
         "title": "Culte du Dimanche",
-        "url": "../images/culte.jpg"
+        "url": "../images/culte3.jpeg"
     },
     {
         "id": 3,
         "category": "events",
         "title": "Culte du Dimanche",
-        "url": "../images/culte1.jpg"
+        "url": "../images/culte1.jpeg"
     },
     {
         "id": 4,
         "category": "events",
         "title": "Culte du Dimanche",
-        "url": "../images/culte2.jpg"
+        "url": "../images/culte4.jpeg"
     },
     {
         "id": 5,
         "category": "events",
-        "title": "Conférence Jeunesse",
-        "url": "../images/photo1.jpg"
+        "title": "Culte du Dimanche",
+        "url": "../images/culte5.jpeg"
     },
     {
         "id": 6,
+        "category": "events",
+        "title": "Culte du Dimanche",
+        "url": "../images/culte6.jpeg"
+    },
+    {
+        "id": 7,
+        "category": "events",
+        "title": "Culte du Dimanche",
+        "url": "../images/culte7.jpeg"
+    },
+    {
+        "id": 8,
+        "category": "events",
+        "title": "Culte du Dimanche",
+        "url": "../images/culte8.jpeg"
+    },
+    {
+        "id": 9,
+        "category": "events",
+        "title": "Culte du Dimanche",
+        "url": "../images/culte9.jpeg"
+    },
+    {
+        "id": 10,
+        "category": "events",
+        "title": "Ambrasé.e.s",
+        "url": "../images/embrases.jpeg"
+    },
+    {
+        "id": 11,
+        "category": "events",
+        "title": "Ambrasé.e.s",
+        "url": "../images/embrases1.jpeg"
+    },
+    {
+        "id": 12,
+        "category": "events",
+        "title": "Ambrasé.e.s",
+        "url": "../images/embrases2.jpeg"
+    },
+    {
+        "id": 13,
+        "category": "events",
+        "title": "Ambrasé.e.s",
+        "url": "../images/embrases3.jpeg"
+    },
+    {
+        "id": 14,
+        "category": "events",
+        "title": "Ambrasé.e.s",
+        "url": "../images/embrases5.jpeg"
+    },
+    {
+        "id": 15,
+        "category": "events",
+        "title": "Ambrasé.e.s",
+        "url": "../images/embrases7.jpeg"
+    },
+    {
+        "id": 16,
+        "category": "events",
+        "title": "Ambrasé.e.s",
+        "url": "../images/embrases8.jpeg"
+    },
+    {
+        "id": 17,
+        "category": "events",
+        "title": "Ambrasé.e.s",
+        "url": "../images/embrases9.jpeg"
+    },
+    {
+        "id": 18,
         "category": "worship",
         "title": "Louange",
         "url": "../images/photo2.jpg"
     },
     {
-        "id": 7,
+        "id": 19,
         "category": "community",
         "title": "Réunion FIJ",
         "url": "../fij/image.jpg"
     },
     {
-        "id":8,
+        "id":20,
         "category": "community",
         "title":"Réunion FIJ",
         "url":"../fij/image1.jpg"
     },
     {
-        "id":9,
+        "id":21,
         "category":"community",
         "title":"Réunion FIJ",
         "url":"../fij/image2.jpg"
     },
     {
-        "id":10,
+        "id":22,
         "category":"community",
         "title":"Réunion FIJ",
         "url":"../fij/fij_amour.jpg"
     },
     {
-        "id":11,
+        "id":23,
         "category":"community",
         "title":"Réunion FIJ",
         "url":"../fij/fij_flamme.jpeg"
     },
     {
-        "id":12,
+        "id":24,
         "category":"community",
         "title":"Réunion FIJ",
         "url":"../fij/fij_tokpota.jpeg"
     },
     {
-        "id": 13,
+        "id": 25,
         "category": "events",
         "title": "Baptême",
-        "url": "../images/image.jpg"
+        "url": "../images/bapteme.jpeg"
     },
     {
-        "id": 14,
+        "id": 26,
+        "category": "events",
+        "title": "Baptême",
+        "url": "../images/bapteme1.jpeg"
+    },
+    {
+        "id": 27,
+        "category": "events",
+        "title": "Baptême",
+        "url": "../images/bapteme2.jpeg"
+    },
+    {
+        "id": 28,
+        "category": "events",
+        "title": "Baptême",
+        "url": "../images/bapteme3.jpeg"
+    },
+    {
+        "id": 29,
+        "category": "events",
+        "title": "Baptême",
+        "url": "../images/bapteme4.jpeg"
+    },
+    {
+        "id": 30,
+        "category": "events",
+        "title": "Baptême",
+        "url": "../images/bapteme5.jpeg"
+    },
+    {
+        "id": 31,
+        "category": "events",
+        "title": "Baptême",
+        "url": "../images/bapteme6.jpeg"
+    },
+    {
+        "id": 32,
+        "category": "events",
+        "title": "Baptême",
+        "url": "../images/bapteme7.jpeg"
+    },
+    {
+        "id": 33,
         "category": "worship",
         "title": "Prière",
         "url": "../images/pray.jpg"
     },
     {
-        "id": 15,
+        "id": 34,
         "category": "worship",
         "title": "Prière",
         "url": "../images/pray1.jpg"
     },
     {
-        "id": 16,
+        "id": 35,
         "category": "worship",
         "title": "Prière",
         "url": "../images/pray2.jpg"
     },
     {
-        "id": 17,
+        "id": 36,
         "category": "worship",
         "title": "Prière",
         "url": "../images/pray3.jpg"
     },
     {
-        "id": 18,
+        "id": 37,
         "category": "worship",
         "title": "Prière",
         "url": "../images/pray4.jpg"
     },
     {
-        "id": 19,
+        "id": 38,
         "category": "community",
         "title": "Rencontre",
         "url": "../images/image.jpg"
-    },
-    {
-        "id": 20,
-        "category": "events",
-        "title": "Camp Jeunesse",
-        "url": "../images/image.jpg"
-    },
-    {
-        "id": 21,
-        "category": "worship",
-        "title": "Concert",
-        "url": "../images/image.jpg"
-    },
-    {
-        "id": 22,
-        "category": "events",
-        "title": "Culte du Dimanche",
-        "url": "../images/culte.jpg"
     }
 ]

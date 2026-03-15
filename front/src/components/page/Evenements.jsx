@@ -116,7 +116,7 @@ const EventsPage = () => {
                 location: "EJP Porto",
                 title: "Embrasé.e.s",
                 description: "Une soirée de prière et d'adoration où tu es ambrasés par le Saint Esprit. Un moment spirituel intense pour recharger ton âme.",
-                image: "/images/culte1.jpg"
+                image: "/images/embrases4.jpeg"
             },
             {
                 id: 2,
@@ -128,7 +128,7 @@ const EventsPage = () => {
                 location: "EJP Porto",
                 title: "CULTE EJP",
                 description: "Un culte, une expérience! Rejoins-nous pour un moment de communion fraternelle et de louange ensemble.",
-                image: "/images/culte.jpg"
+                image: "/images/culte2.jpeg"
             },
             {
                 id: 3,

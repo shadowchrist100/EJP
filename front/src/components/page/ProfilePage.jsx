@@ -1,20 +1,23 @@
 import React, { useState, useContext } from 'react';
-import {Nav, Footer} from "../"
+import { Nav, Footer } from "../"
 import { AuthContext } from '../AuthContext';
+import { apiFetch } from '../../util/api'; 
 import { User, Mail, Phone, MapPin, Calendar, Edit2, Save, X, ArrowRight, LogOut } from 'lucide-react';
 
 const ProfilePage = () => {
-    const { user, logout } = useContext(AuthContext);
+    const { user, logout, updateUser, access_token } = useContext(AuthContext);
     const [isEditing, setIsEditing] = useState(false);
     const [formData, setFormData] = useState({
-        name: user?.firstName || '',
+        firstName: user?.firstName || '',
+        lastName: user?.lastName || '',
         email: user?.email || '',
-        phone: user?.phone || '',
-        location: user?.location || '',
+        telephone: user?.telephone || '',
+        localisation: user?.localisation || '',
         bio: user?.bio || ''
     });
     const [isSaving, setIsSaving] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -22,27 +25,51 @@ const ProfilePage = () => {
             ...prev,
             [name]: value
         }));
+        setErrorMessage('');
     };
 
     const handleSave = async () => {
         setIsSaving(true);
+        setErrorMessage('');
+        setSuccessMessage('');
+
         try {
-            // Simuler une sauvegarde - remplacer par votre API
-            const response = await fetch('/api/update_profile', {
+            const data = await apiFetch('/profile', {
                 method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${localStorage.getItem('access_token')}`
+                headers:{
+                    'Authorization': `Bearer ${access_token}`
                 },
                 body: JSON.stringify(formData)
             });
 
-            if (response.ok) {
-                setSuccessMessage('Profil mis à jour avec succès!');
-                setIsEditing(false);
-                setTimeout(() => setSuccessMessage(''), 3000);
+            // Si on arrive ici, c'est que la réponse était ok (200-299)
+            if (!data.user) {
+                throw new Error('Données utilisateur manquantes dans la réponse');
             }
+
+            // Mettre à jour le context global avec les nouvelles données
+            // Cela reflète l'utilisateur partout dans l'app
+            updateUser(data.user);
+
+            // Mettre à jour aussi l'état local pour la cohérence UI
+            setFormData({
+                firstName: data.user.firstName || '',
+                lastName: data.user.lastName || '',
+                email: data.user.email || '',
+                telephone: data.user.telephone || '',
+                localisation: data.user.localisation || '',
+                bio: data.user.bio || ''
+            });
+
+            setSuccessMessage('✓ Profil mis à jour avec succès!');
+            setIsEditing(false);
+
+            // Effacer le message de succès après 3 secondes
+            setTimeout(() => setSuccessMessage(''), 3000);
         } catch (error) {
+            // error.message contient soit le message d'erreur de Laravel
+            // soit le message d'erreur par défaut d'apiFetch
+            setErrorMessage(error.message || 'Une erreur s\'est produite lors de la mise à jour du profil');
             console.error('Erreur lors de la mise à jour:', error);
         } finally {
             setIsSaving(false);
@@ -50,19 +77,25 @@ const ProfilePage = () => {
     };
 
     const handleLogout = async () => {
-        await logout();
-        window.location.href = '/';
+        try {
+            await logout();
+            // logout() redirige déjà vers /login dans le context
+        } catch (error) {
+            console.error('Erreur lors de la déconnexion:', error);
+        }
     };
 
     const handleCancel = () => {
         setFormData({
-            name: user?.firstName || '',
+            firstName: user?.firstName || '',
+            lastName: user?.lastName || '',
             email: user?.email || '',
-            phone: user?.phone || '',
-            location: user?.location || '',
+            telephone: user?.telephone || '',
+            localisation: user?.localisation || '',
             bio: user?.bio || ''
         });
         setIsEditing(false);
+        setErrorMessage('');
     };
 
     if (!user) {
@@ -77,7 +110,8 @@ const ProfilePage = () => {
     }
 
     // Fonction pour obtenir les initiales
-    const getInitials = (name) => {
+    const getInitials = (firstName, lastName) => {
+        const name = `${firstName || ''} ${lastName || ''}`.trim();
         if (!name) return "?";
         return name
             .split(' ')
@@ -101,13 +135,18 @@ const ProfilePage = () => {
         return colors[index];
     };
 
+    const displayName = `${user?.firstName || ''} ${user?.lastName || ''}`.trim() || 'Utilisateur';
+
     return (
         <div className="relative flex min-h-screen flex-col bg-black text-gray-400">
             <div className='fixed top-0 right-0 left-0 z-50'>
                 <Nav />
             </div>
 
-            <main className="grow pt-20">
+            {/* Spacer pour compenser la hauteur de la Nav fixe */}
+            <div className="h-20 lg:h-32" />
+
+            <main className="grow">
                 {/* Hero Section */}
                 <section className="relative min-h-[50vh] flex items-center justify-center overflow-hidden px-4 md:px-8">
                     <div className="absolute inset-0 overflow-hidden">
@@ -136,7 +175,14 @@ const ProfilePage = () => {
                         {/* Success Message */}
                         {successMessage && (
                             <div className="mb-8 p-4 bg-gradient-to-r from-amber-500/20 to-yellow-500/10 border border-amber-500/50 rounded-2xl text-amber-400 font-bold text-center animate-in fade-in slide-in-from-bottom-4">
-                                ✓ {successMessage}
+                                {successMessage}
+                            </div>
+                        )}
+
+                        {/* Error Message */}
+                        {errorMessage && (
+                            <div className="mb-8 p-4 bg-gradient-to-r from-red-500/20 to-red-500/10 border border-red-500/50 rounded-2xl text-red-400 font-bold text-center animate-in fade-in slide-in-from-bottom-4">
+                                ⚠️ {errorMessage}
                             </div>
                         )}
 
@@ -145,13 +191,13 @@ const ProfilePage = () => {
                             <div className="lg:col-span-1">
                                 <div className="bg-gradient-to-br from-zinc-950 to-black border border-white/10 rounded-3xl p-8 text-center">
                                     {/* Avatar */}
-                                    <div className={`w-24 h-24 ${getAvatarColor(user.name)} rounded-full flex items-center justify-center text-white font-black text-3xl border-4 border-amber-400/50 mx-auto mb-6 shadow-2xl shadow-amber-500/20`}>
-                                        {getInitials(user.name)}
+                                    <div className={`w-24 h-24 ${getAvatarColor(user.firstName)} rounded-full flex items-center justify-center text-white font-black text-3xl border-4 border-amber-400/50 mx-auto mb-6 shadow-2xl shadow-amber-500/20`}>
+                                        {getInitials(user.firstName, user.lastName)}
                                     </div>
 
                                     {/* User Info */}
                                     <h2 className="text-3xl font-black text-white mb-2 tracking-tight">
-                                        {user.firstName}
+                                        {displayName}
                                     </h2>
                                     <p className="text-amber-500 text-sm font-bold uppercase tracking-widest mb-6">
                                         Membre depuis {new Date(user.created_at).getFullYear()}
@@ -161,18 +207,18 @@ const ProfilePage = () => {
                                     <div className="space-y-3 mb-8 pt-8 border-t border-white/10">
                                         <div className="flex items-center gap-2 text-gray-400">
                                             <Mail size={16} className="text-amber-500" />
-                                            <span className="text-sm">{user.email}</span>
+                                            <span className="text-sm break-all">{user.email}</span>
                                         </div>
-                                        {user.phone && (
+                                        {user.telephone && (
                                             <div className="flex items-center gap-2 text-gray-400">
                                                 <Phone size={16} className="text-amber-500" />
-                                                <span className="text-sm">{user.phone}</span>
+                                                <span className="text-sm">{user.telephone}</span>
                                             </div>
                                         )}
-                                        {user.location && (
+                                        {user.localisation && (
                                             <div className="flex items-center gap-2 text-gray-400">
                                                 <MapPin size={16} className="text-amber-500" />
-                                                <span className="text-sm">{user.location}</span>
+                                                <span className="text-sm">{user.localisation}</span>
                                             </div>
                                         )}
                                     </div>
@@ -209,18 +255,35 @@ const ProfilePage = () => {
                                             </h3>
 
                                             <div className="space-y-6">
-                                                {/* Name */}
+                                                {/* First Name */}
                                                 <div>
                                                     <label className="block text-white font-bold text-sm mb-3 uppercase tracking-widest">
                                                         <User size={16} className="inline mr-2" />
-                                                        Nom Complet
+                                                        Prénom
                                                     </label>
                                                     <input
                                                         type="text"
-                                                        name="name"
-                                                        value={formData.name}
+                                                        name="firstName"
+                                                        value={formData.firstName}
                                                         onChange={handleInputChange}
-                                                        className="w-full bg-black border-2 border-white/10 focus:border-amber-500 text-white px-6 py-4 rounded-xl outline-none transition-all"
+                                                        placeholder="Ton prénom"
+                                                        className="w-full bg-black border-2 border-white/10 focus:border-amber-500 text-white px-6 py-4 rounded-xl outline-none transition-all placeholder-gray-600"
+                                                    />
+                                                </div>
+
+                                                {/* Last Name */}
+                                                <div>
+                                                    <label className="block text-white font-bold text-sm mb-3 uppercase tracking-widest">
+                                                        <User size={16} className="inline mr-2" />
+                                                        Nom
+                                                    </label>
+                                                    <input
+                                                        type="text"
+                                                        name="lastName"
+                                                        value={formData.lastName}
+                                                        onChange={handleInputChange}
+                                                        placeholder="Ton nom"
+                                                        className="w-full bg-black border-2 border-white/10 focus:border-amber-500 text-white px-6 py-4 rounded-xl outline-none transition-all placeholder-gray-600"
                                                     />
                                                 </div>
 
@@ -235,7 +298,8 @@ const ProfilePage = () => {
                                                         name="email"
                                                         value={formData.email}
                                                         onChange={handleInputChange}
-                                                        className="w-full bg-black border-2 border-white/10 focus:border-amber-500 text-white px-6 py-4 rounded-xl outline-none transition-all"
+                                                        placeholder="ton.email@exemple.com"
+                                                        className="w-full bg-black border-2 border-white/10 focus:border-amber-500 text-white px-6 py-4 rounded-xl outline-none transition-all placeholder-gray-600"
                                                     />
                                                 </div>
 
@@ -247,11 +311,11 @@ const ProfilePage = () => {
                                                     </label>
                                                     <input
                                                         type="tel"
-                                                        name="phone"
-                                                        value={formData.phone}
+                                                        name="telephone"
+                                                        value={formData.telephone}
                                                         onChange={handleInputChange}
                                                         placeholder="+229 XX XXX XXX"
-                                                        className="w-full bg-black border-2 border-white/10 focus:border-amber-500 text-white px-6 py-4 rounded-xl outline-none transition-all"
+                                                        className="w-full bg-black border-2 border-white/10 focus:border-amber-500 text-white px-6 py-4 rounded-xl outline-none transition-all placeholder-gray-600"
                                                     />
                                                 </div>
 
@@ -263,11 +327,11 @@ const ProfilePage = () => {
                                                     </label>
                                                     <input
                                                         type="text"
-                                                        name="location"
-                                                        value={formData.location}
+                                                        name="localisation"
+                                                        value={formData.localisation}
                                                         onChange={handleInputChange}
                                                         placeholder="Ville, Pays"
-                                                        className="w-full bg-black border-2 border-white/10 focus:border-amber-500 text-white px-6 py-4 rounded-xl outline-none transition-all"
+                                                        className="w-full bg-black border-2 border-white/10 focus:border-amber-500 text-white px-6 py-4 rounded-xl outline-none transition-all placeholder-gray-600"
                                                     />
                                                 </div>
 
@@ -282,7 +346,7 @@ const ProfilePage = () => {
                                                         onChange={handleInputChange}
                                                         placeholder="Parle un peu de toi..."
                                                         rows="4"
-                                                        className="w-full bg-black border-2 border-white/10 focus:border-amber-500 text-white px-6 py-4 rounded-xl outline-none transition-all resize-none"
+                                                        className="w-full bg-black border-2 border-white/10 focus:border-amber-500 text-white px-6 py-4 rounded-xl outline-none transition-all resize-none placeholder-gray-600"
                                                     />
                                                 </div>
 
@@ -291,14 +355,15 @@ const ProfilePage = () => {
                                                     <button
                                                         onClick={handleSave}
                                                         disabled={isSaving}
-                                                        className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-yellow-500 text-black px-6 py-4 rounded-xl font-black uppercase text-[10px] tracking-widest hover:shadow-2xl hover:shadow-amber-500/50 transition-all disabled:opacity-50"
+                                                        className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-yellow-500 text-black px-6 py-4 rounded-xl font-black uppercase text-[10px] tracking-widest hover:shadow-2xl hover:shadow-amber-500/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                                                     >
                                                         <Save size={16} />
                                                         {isSaving ? 'Sauvegarde...' : 'Enregistrer'}
                                                     </button>
                                                     <button
                                                         onClick={handleCancel}
-                                                        className="flex-1 flex items-center justify-center gap-2 bg-white/5 border border-white/20 text-white px-6 py-4 rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-white/10 transition-all"
+                                                        disabled={isSaving}
+                                                        className="flex-1 flex items-center justify-center gap-2 bg-white/5 border border-white/20 text-white px-6 py-4 rounded-xl font-black uppercase text-[10px] tracking-widest hover:bg-white/10 transition-all disabled:opacity-50"
                                                     >
                                                         <X size={16} />
                                                         Annuler
@@ -313,13 +378,23 @@ const ProfilePage = () => {
                                             </h3>
 
                                             <div className="space-y-6">
-                                                {/* Name */}
+                                                {/* First Name */}
                                                 <div className="pb-6 border-b border-white/10">
                                                     <p className="text-xs font-black text-amber-400 uppercase tracking-widest mb-2">
-                                                        Nom Complet
+                                                        Prénom
                                                     </p>
                                                     <p className="text-lg text-white font-bold">
-                                                        {formData.name || 'Non renseigné'}
+                                                        {formData.firstName || 'Non renseigné'}
+                                                    </p>
+                                                </div>
+
+                                                {/* Last Name */}
+                                                <div className="pb-6 border-b border-white/10">
+                                                    <p className="text-xs font-black text-amber-400 uppercase tracking-widest mb-2">
+                                                        Nom
+                                                    </p>
+                                                    <p className="text-lg text-white font-bold">
+                                                        {formData.lastName || 'Non renseigné'}
                                                     </p>
                                                 </div>
 
@@ -339,7 +414,7 @@ const ProfilePage = () => {
                                                         Téléphone
                                                     </p>
                                                     <p className="text-lg text-white font-bold">
-                                                        {formData.phone || 'Non renseigné'}
+                                                        {formData.telephone || 'Non renseigné'}
                                                     </p>
                                                 </div>
 
@@ -349,7 +424,7 @@ const ProfilePage = () => {
                                                         Localisation
                                                     </p>
                                                     <p className="text-lg text-white font-bold">
-                                                        {formData.location || 'Non renseigné'}
+                                                        {formData.localisation || 'Non renseigné'}
                                                     </p>
                                                 </div>
 
@@ -409,11 +484,11 @@ const ProfilePage = () => {
                                         <ArrowRight size={14} className="ml-auto text-gray-500 group-hover:text-amber-400 transition-colors" />
                                     </a>
                                     <a
-                                        href="/galerie"
+                                        href="/artprodige"
                                         className="flex items-center gap-2 p-4 bg-white/5 hover:bg-amber-600/20 rounded-xl transition-all group"
                                     >
                                         <span className="text-amber-500 group-hover:text-amber-400">🎨</span>
-                                        <span className="text-white font-bold group-hover:text-amber-400 transition-colors">Galerie</span>
+                                        <span className="text-white font-bold group-hover:text-amber-400 transition-colors">ArtProdige</span>
                                         <ArrowRight size={14} className="ml-auto text-gray-500 group-hover:text-amber-400 transition-colors" />
                                     </a>
                                     <a
