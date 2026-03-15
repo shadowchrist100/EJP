@@ -81,6 +81,10 @@ export const AuthProvider = (props) => {
         }
     }
 
+    const updateUser = (user)=>{
+        set_user(user)
+    }
+
     const logout = async () => {
         try {
             await apiFetch("/logout", {
@@ -106,6 +110,7 @@ export const AuthProvider = (props) => {
         is_loading,
         error,
         login,
+        updateUser,
         logout,
         refresh_access_token
     }}>
