@@ -1,10 +1,5 @@
 [
-    {
-        "id": 1,
-        "category": "events",
-        "title": "Culte du Dimanche",
-        "url": "../images/photo.jpg"
-    },
+    
     {
         "id": 2,
         "category": "events",
@@ -47,12 +42,7 @@
         "title": "Culte du Dimanche",
         "url": "../images/culte8.jpeg"
     },
-    {
-        "id": 9,
-        "category": "events",
-        "title": "Culte du Dimanche",
-        "url": "../images/culte9.jpeg"
-    },
+    
     {
         "id": 10,
         "category": "events",
@@ -100,48 +90,6 @@
         "category": "events",
         "title": "Ambrasé.e.s",
         "url": "../images/embrases9.jpeg"
-    },
-    {
-        "id": 18,
-        "category": "worship",
-        "title": "Louange",
-        "url": "../images/photo2.jpg"
-    },
-    {
-        "id": 19,
-        "category": "community",
-        "title": "Réunion FIJ",
-        "url": "../fij/image.jpg"
-    },
-    {
-        "id":20,
-        "category": "community",
-        "title":"Réunion FIJ",
-        "url":"../fij/image1.jpg"
-    },
-    {
-        "id":21,
-        "category":"community",
-        "title":"Réunion FIJ",
-        "url":"../fij/image2.jpg"
-    },
-    {
-        "id":22,
-        "category":"community",
-        "title":"Réunion FIJ",
-        "url":"../fij/fij_amour.jpg"
-    },
-    {
-        "id":23,
-        "category":"community",
-        "title":"Réunion FIJ",
-        "url":"../fij/fij_flamme.jpeg"
-    },
-    {
-        "id":24,
-        "category":"community",
-        "title":"Réunion FIJ",
-        "url":"../fij/fij_tokpota.jpeg"
     },
     {
         "id": 25,
@@ -220,11 +168,5 @@
         "category": "worship",
         "title": "Prière",
         "url": "../images/pray4.jpg"
-    },
-    {
-        "id": 38,
-        "category": "community",
-        "title": "Rencontre",
-        "url": "../images/image.jpg"
     }
 ]
