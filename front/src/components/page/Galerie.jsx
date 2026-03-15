@@ -162,11 +162,11 @@ const Card = ({ image, index, onClick, catName }) => {
             }}
             onClick={() => onClick(image)}
         >
-            {/* Image */}
+            {/* Image - NETTE PAR DÉFAUT */}
             <img
                 src={image.url}
                 alt={image.title}
-                className="w-full h-full object-cover transition-transform duration-1200 group-hover:scale-105 grayscale-[0.4] group-hover:grayscale-0"
+                className="w-full h-full object-cover transition-transform duration-1200 group-hover:scale-105"
                 loading="lazy"
             />
 
@@ -399,7 +399,7 @@ const Galerie = () => {
                                     onClick={() => setSelectedImage(image)}
                                 >
                                     <div className="w-16 h-16 rounded-xl overflow-hidden shrink-0 border border-white/6">
-                                        <img src={image.url} alt={image.title} className="w-full h-full object-cover grayscale-[0.5] group-hover:grayscale-0 transition-all duration-500" />
+                                        <img src={image.url} alt={image.title} className="w-full h-full object-cover transition-all duration-500" />
                                     </div>
                                     <div className="flex-1 min-w-0">
                                         <p className="text-amber-500/70 text-[8px] font-black tracking-[0.4em] uppercase mb-1">
