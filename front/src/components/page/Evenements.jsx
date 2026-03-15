@@ -6,7 +6,7 @@ const EventCard = ({ event }) => {
     const monthNames = ['JAN', 'FÉV', 'MAR', 'AVR', 'MAI', 'JUN', 'JUL', 'AOU', 'SEP', 'OCT', 'NOV', 'DÉC'];
 
     return (
-        <div className="group relative bg-zinc-950 border border-white/5 rounded-4xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-amber-600/5 flex flex-col h-full">
+        <div className="group relative pt-4 mt-10 bg-zinc-950 border border-white/5 rounded-4xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:shadow-amber-600/5 flex flex-col h-full">
             {/* Date Badge flottant */}
             <div className="absolute top-6 left-6 z-20 bg-amber-600 text-black px-4 py-2 rounded-xl text-center shadow-xl">
                 <span className="block text-lg font-black leading-none">{event.day}</span>
@@ -24,7 +24,7 @@ const EventCard = ({ event }) => {
             </div>
 
             {/* Content */}
-            <div className="p-8 flex flex-col grow">
+            <div className="p-20 flex flex-col grow">
                 <div className="flex flex-wrap items-center gap-4 mb-4 text-amber-500/60">
                     <div className="flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest">
                         <Clock size={12} /> {event.time}
@@ -170,13 +170,17 @@ const EventsPage = () => {
 
     return (
         <div className="bg-black min-h-screen text-gray-400 font-sans">
+            {/* Fixed Nav */}
             <div className='fixed top-0 right-0 left-0 z-50'>
                 <Nav />
             </div>
 
             <main className="">
+                {/* Spacer pour compenser la hauteur de la Nav fixe */}
+                <div className="h-20 lg:h-32" />
+
                 {/* Hero Section: Featured Event */}
-                <section className="relative min-h-[85vh] flex items-center">
+                <section className="relative min-h-[70vh] md:min-h-[80vh] lg:min-h-[85vh] flex items-center pt-12 md:pt-20 lg:pt-24">
                     <div className="absolute inset-0 overflow-hidden">
                         <img
                             src={featuredEvent.image}
