@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Nav from '../common/Nav';
 import Footer from '../common/Footer';
-import { BookOpen, Palette, Film, Music, Image, ArrowRight, X, ChevronRight, Play, Download, Sparkles } from 'lucide-react';
+import { BookOpen, Palette, Film, Music, Image, ArrowRight, X, ChevronRight, Play, Download, Sparkles, BookMarkedIcon } from 'lucide-react';
 
 const ArtProdige = () => {
     const [selectedCategory, setSelectedCategory] = useState('all');
@@ -12,7 +12,8 @@ const ArtProdige = () => {
         { id: 'book', label: 'Livres', icon: BookOpen },
         { id: 'art', label: 'Art Visuel', icon: Palette },
         { id: 'film', label: 'Métrage', icon: Film },
-        { id: 'sound', label: 'Son', icon: Music },
+        { id: 'sound', label: 'Music', icon: Music },
+        {id: 'bd', label: 'BD', icon: BookMarkedIcon}
     ];
 
     // Fonction pour extraire l'ID YouTube d'une URL
@@ -34,7 +35,7 @@ const ArtProdige = () => {
             title: 'Sentinelles',
             author: 'Charles SANDAH',
             image: '/sentinelles.png',
-            description: 'Un recueil de contes poétiques explorant les frontières entre réalité et imagination. Une œuvre touchante qui inspire les jeunes à rêver grand et à croire en leurs visions.',
+            description: '',
             year: 2025,
             type: 'image',
             downloadUrl: 'https://example.com/sentinelles.pdf',
@@ -52,7 +53,7 @@ const ArtProdige = () => {
         {
             id: 3,
             category: 'film',
-            title: 'Derrière le voil',
+            title: 'Derrière le voile',
             author: 'EJP Porto',
             youtubeUrl: 'https://youtu.be/lOf1ls3giIw?si=c-qyP2tH44Z1u__q',
             description: 'Court métrage expérimental jouant avec les effets de lumière et d\'ombre. Une œuvre cinématographique captivante sur la beauté des instants éphémères.',

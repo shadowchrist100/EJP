@@ -1,17 +1,20 @@
 import { useState, useContext } from "react";
 import { User, ChevronDown, X, LogOut, Settings } from 'lucide-react'
-import { Link } from "react-router-dom";
-import { AuthContext } from "../AuthContext"; 
+import { useLocation, Link } from "react-router-dom";
+import { AuthContext } from "../AuthContext";
 
 const Nav = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isAuthOpen, setIsAuthOpen] = useState(false);
     const { user, logout, is_loading } = useContext(AuthContext);
+    const location = useLocation();
 
-    const navLinks = [
+
+    const displayNavLinks = [
         { name: 'Accueil', href: '/' },
         { name: 'Événements', href: '/evenements' },
         { name: 'Ministères', href: '/ministeres' },
+        { name: 'Art&Prodiges', href: '/artprodige' },
         { name: 'Rejoindre une FIJ', href: '/fij' },
         { name: 'Priere du Salut', href: '/salvation' },
         { name: 'Galerie', href: '/galerie' },
@@ -19,11 +22,15 @@ const Nav = () => {
         { name: 'Faire un Don', href: '/dons' }
     ];
 
-    // Lien ArtProdige uniquement si connecté
-    const displayNavLinks = [{ name: 'Art&Prodige', href: '/artprodige', special: true }, ...navLinks] ;
-
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
     const closeMenu = () => setIsMenuOpen(false);
+
+    const isActive = (href) => {
+        if (href === '/') {
+            return location.pathname === '/';
+        }
+        return location.pathname.startsWith(href);
+    };
 
     const handleLogout = async () => {
         try {
@@ -75,20 +82,22 @@ const Nav = () => {
                     {/* Navigation Menu - Center */}
                     <div className="flex-1 flex items-center justify-center px-8">
                         <ul className="flex items-center gap-3 list-none m-0 p-0 flex-wrap justify-center">
-                            {displayNavLinks.map((link) => (
-                                <li key={link.name} className="menu-item">
-                                    <Link
-                                        to={link.href}
-                                        className={`wpr-menu-item wpr-pointer-item inline-block px-4 py-2 text-[11px] font-black uppercase tracking-[0.15em] transition-all duration-300 rounded-lg whitespace-nowrap ${
-                                            link.special
-                                                ? 'text-amber-500 hover:text-amber-400 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30'
-                                                : 'text-gray-400 hover:text-amber-500 hover:bg-white/10'
-                                        }`}
-                                    >
-                                        {link.name}
-                                    </Link>
-                                </li>
-                            ))}
+                            {displayNavLinks.map((link) => {
+                                const active = isActive(link.href);
+                                return (
+                                    <li key={link.name} className="menu-item">
+                                        <Link
+                                            to={link.href}
+                                            className={`wpr-menu-item wpr-pointer-item inline-block px-4 py-2 text-[11px] font-black uppercase tracking-[0.15em] transition-all duration-300 rounded-lg whitespace-nowrap ${active
+                                                    ? 'text-amber-500 hover:text-amber-400 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30'
+                                                    : 'text-gray-400 hover:text-amber-500 hover:bg-white/10'
+                                                }`}
+                                        >
+                                            {link.name}
+                                        </Link>
+                                    </li>
+                                );
+                            })}
                         </ul>
                     </div>
 
@@ -104,7 +113,7 @@ const Nav = () => {
                                 <div className={`w-14 h-14 ${getAvatarColor(user.firstName)} rounded-full flex items-center justify-center text-white font-black text-lg border-3 border-amber-400/50 group-hover:border-amber-400 transition-colors shadow-lg shadow-amber-500/20`}>
                                     {getInitials(user.firstName)}
                                 </div>
-                                
+
                                 {/* Username & Chevron */}
                                 <div className="text-left min-w-max">
                                     <p className="text-sm font-black uppercase tracking-widest text-white leading-tight">
@@ -227,21 +236,23 @@ const Nav = () => {
                     <div className="container mx-auto px-6 py-6 space-y-3">
                         {/* Mobile Nav Links */}
                         <ul className="space-y-2 list-none m-0 p-0">
-                            {displayNavLinks.map(link => (
-                                <li key={link.name} className="menu-item">
-                                    <Link
-                                        to={link.href}
-                                        onClick={closeMenu}
-                                        className={`block px-5 py-3 text-sm font-bold uppercase tracking-wider rounded-lg transition-all ${
-                                            link.special
-                                                ? 'text-amber-500 bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/50'
-                                                : 'text-gray-300 hover:text-amber-500 hover:bg-white/10 border border-transparent hover:border-amber-500/30'
-                                        }`}
-                                    >
-                                        {link.name}
-                                    </Link>
-                                </li>
-                            ))}
+                            {displayNavLinks.map(link => {
+                                const active = isActive(link.href);
+                                return (
+                                    <li key={link.name} className="menu-item">
+                                        <Link
+                                            to={link.href}
+                                            onClick={closeMenu}
+                                            className={`block px-5 py-3 text-sm font-bold uppercase tracking-wider rounded-lg transition-all ${active
+                                                    ? 'text-amber-500 bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/50'
+                                                    : 'text-gray-300 hover:text-amber-500 hover:bg-white/10 border border-transparent hover:border-amber-500/30'
+                                                }`}
+                                        >
+                                            {link.name}
+                                        </Link>
+                                    </li>
+                                );
+                            })}
                         </ul>
 
                         {/* Divider */}
