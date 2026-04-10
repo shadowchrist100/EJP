@@ -1,6 +1,7 @@
 import { Calendar, MapPin, Clock, ArrowRight, Share2 } from 'lucide-react';
 import { Nav, Footer, Contact } from '../.'
 import { useState, useMemo } from 'react';
+import ComingNext from './ComingNext';
 
 const EventCard = ({ event }) => {
     const monthNames = ['JAN', 'FÉV', 'MAR', 'AVR', 'MAI', 'JUN', 'JUL', 'AOU', 'SEP', 'OCT', 'NOV', 'DÉC'];
@@ -245,30 +246,8 @@ const EventsPage = () => {
                     </div>
                 </section>
 
-                {/* Upcoming Events Grid */}
-                {otherEvents.length > 0 && (
-                    <section className="py-32 px-6">
-                        <div className="container mx-auto max-w-[1550px]">
-                            <div className="flex justify-between items-end mb-16 border-b border-white/5 pb-8">
-                                <div>
-                                    <h3 className="text-4xl font-bold text-white tracking-tighter">AUTRES <span className="text-amber-500 italic">RENDEZ-VOUS</span></h3>
-                                    <p className="text-gray-500 text-sm mt-2 font-light tracking-widest uppercase">Ne manquez aucun moment d'impact</p>
-                                </div>
-                                <div className="hidden md:flex gap-4">
-                                    <button className="p-4 border border-white/10 rounded-full hover:bg-white/5 transition-all text-white hover:text-amber-500">
-                                        <Share2 size={18} />
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                                {otherEvents.map(event => (
-                                    <EventCard key={event.id} event={event} />
-                                ))}
-                            </div>
-                        </div>
-                    </section>
-                )}
+                {/* Coming Next Animation Section */}
+                <ComingNext events={events} />
                 <Contact />
             </main>
             <Footer />
