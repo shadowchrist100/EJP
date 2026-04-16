@@ -6,9 +6,11 @@ import { apiFetch } from '../../util/api';
 const SalvationPrayer = () => {
     const [step, setStep] = useState(1); // 1: Prayer, 2: Form, 3: Confirmation
     const [formData, setFormData] = useState({
-        name: '',
+        lastName: '',
+        firstName: '',
         email: '',
-        phone: '',
+        password: '',
+        telephone: '',
         message: ''
     });
     const [submitted, setSubmitted] = useState(false);
@@ -23,16 +25,18 @@ const SalvationPrayer = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (formData.name && formData.email) {
+        if (formData.firstName && formData.email) {
             setSubmitted(true);
             setStep(3);
-            // const data = await apiFetch("/reborn", {
-            //     method: "POST",
-            //     body: JSON.stringify(formData)
-            // });
+            console.log(formData);
+            
+            const data = await apiFetch("/salvation", {
+                method: "POST",
+                body: JSON.stringify(formData)
+            });
             // Reset form after 5 seconds
             setTimeout(() => {
-                setFormData({ name: '', email: '', phone: '', message: '' });
+                setFormData({ lastName: '', firstName:'', email: '', password: '', telephone: '', message: '' });
                 setStep(1);
                 setSubmitted(false);
             }, 5000);
@@ -237,18 +241,27 @@ const SalvationPrayer = () => {
                                             </label>
                                             <input
                                                 type="text"
-                                                name="name"
-                                                value={formData.name}
+                                                name="lastName"
+                                                value={formData.lastName}
                                                 onChange={handleInputChange}
-                                                placeholder="Jean Dupont"
+                                                placeholder="Dupont"
                                                 className="w-full bg-black border-2 border-white/10 focus:border-amber-500 text-white px-6 py-4 rounded-xl outline-none transition-all placeholder-gray-600"
+                                                required
+                                            />
+                                            <input
+                                                type="text"
+                                                name="firstName"
+                                                value={formData.firstName}
+                                                onChange={handleInputChange}
+                                                placeholder="Jean"
+                                                className="w-full mt-4 bg-black border-2 border-white/10 focus:border-amber-500 text-white px-6 py-4 rounded-xl outline-none transition-all placeholder-gray-600"
                                                 required
                                             />
                                         </div>
 
                                         {/* Email */}
                                         <div>
-                                            <label className="block text-white font-bold text-sm mb-3 uppercase tracking-widest">
+                                            <label className="block  text-white font-bold text-sm mb-3 uppercase tracking-widest">
                                                 <Mail size={16} className="inline mr-2" />
                                                 Email
                                             </label>
@@ -263,6 +276,22 @@ const SalvationPrayer = () => {
                                             />
                                         </div>
 
+                                        {/* Password */}
+                                        <div>
+                                            <label className="block text-white font-bold text-sm mb-3 uppercase tracking-widest">
+                                                Password
+                                            </label>
+                                            <input
+                                                type="password"
+                                                name="password"
+                                                value={formData.password}
+                                                onChange={handleInputChange}
+                                                placeholder="Mot de passe"
+                                                className="w-full bg-black border-2 border-white/10 focus:border-amber-500 text-white px-6 py-4 rounded-xl outline-none transition-all placeholder-gray-600"
+                                                required
+                                            />
+                                        </div>
+
                                         {/* Phone */}
                                         <div>
                                             <label className="block text-white font-bold text-sm mb-3 uppercase tracking-widest">
@@ -271,8 +300,8 @@ const SalvationPrayer = () => {
                                             </label>
                                             <input
                                                 type="tel"
-                                                name="phone"
-                                                value={formData.phone}
+                                                name="telephone"
+                                                value={formData.telephone}
                                                 onChange={handleInputChange}
                                                 placeholder="+229 XX XXX XXX"
                                                 className="w-full bg-black border-2 border-white/10 focus:border-amber-500 text-white px-6 py-4 rounded-xl outline-none transition-all placeholder-gray-600"
@@ -335,10 +364,10 @@ const SalvationPrayer = () => {
                                     </p>
                                     <div className="flex gap-4 justify-center">
                                         <button
-                                            onClick={() => window.location.href = '/'}
+                                            onClick={() => window.location.href = '/login'}
                                             className="bg-white/5 border border-white/20 text-white px-10 py-3 rounded-xl font-bold uppercase text-[10px] tracking-widest hover:bg-white/10 transition-all"
                                         >
-                                            Retour à l'Accueil
+                                            Connecte toi
                                         </button>
                                     </div>
                                 </div>

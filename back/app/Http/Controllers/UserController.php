@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\User;
+
+
 
 class UserController extends Controller
 {
@@ -40,6 +43,23 @@ class UserController extends Controller
             'message' => 'Profil mis à jour avec succès',
             'user' => $user
         ], 200);
+    }
+
+    public function salvation(Request $request){
+        $validated = $request->validate([
+            'lastName' => ['required', 'max:50'],
+            'firstName' => ['required', 'max:50'],
+            'email' => ['required', 'email', 'unique:users', 'max:50'],
+            'password' => ['required', ''],
+            'telephone' => ['nullable', 'max:20'],
+            'message' => ['nullable', 'string', 'max:50'],    
+        ]);
+
+        $validated['prayed_salvation_prayer'] = true;
+
+        User::create($validated);
+
+        return response()->json(['succes' => 'Utilisateur crée'], 200);
     }
 
     /**

@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class AskToMinistry extends Model
+class MinistryRequest extends Model
 {
     //
     protected $fillable = [

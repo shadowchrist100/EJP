@@ -8,6 +8,7 @@ export {default as VisionSection} from './VisionSection';
 // Assets export 
 export {default as  BergerDimitri  } from  '../assets/images/ejp_berger_dimitri.jpeg';
 export {default as BergerSamuel} from '../assets/images/ejp_berger_samuel.png';
+export {default as PP } from '../assets/images/pp.jpeg'
 export {default as logo} from '../assets/images/ejp_logo.jpg';
 export {default as fij1} from '../assets/images/image.jpg';
 export {default as fij2} from '../assets/images/image1.jpg';
