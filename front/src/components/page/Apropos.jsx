@@ -16,8 +16,7 @@ const MissionSection = () => {
             title: "CONQUÉRIR",
             description: "Imposer les standards du royaume de Dieu afin d'établir la domination de Christ dans nos territoires, à travers l'evangelisation et l'influence"
         }
-    ];
-
+    ]
     return (
         <section className="py-12 px-4 ">
             <div className="container mx-auto max-w-6xl">

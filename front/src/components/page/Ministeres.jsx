@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Nav from '../common/Nav';
 import Footer from '../common/Footer';
 import { ArrowRight } from 'lucide-react';
+import { AuthContext } from '../AuthContext';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { apiFetch } from '../../util/api';
 
 /* ─── Global styles ─────────────────────────────────────────────────── */
 const GlobalStyles = () => (
@@ -256,39 +259,138 @@ const MinistriesSection = () => {
 };
 
 /* ─── Contact Form ───────────────────────────────────────────────────── */
+const Field = ({ label, name, touched, errors, children }) => (
+    <div>
+        <label className="block text-gray-600 text-[9px] font-black tracking-[0.4em] uppercase mb-2">{label}</label>
+        <div className="field-wrap relative">
+            {children}
+            <div className="field-line" />
+        </div>
+        {/*  Message d'erreur par champ */}
+        {touched[name] && errors[name] && (
+            <p className="mt-1.5 text-red-400 text-[10px] font-medium tracking-wide flex items-center gap-1.5">
+                <span className="w-1 h-1 bg-red-400 rounded-full inline-block flex-shrink-0" />
+                {errors[name]}
+            </p>
+        )}
+    </div>
+);
 const ContactForm = () => {
-    const [form, setForm] = useState({ fullName: '', email: '', ministry: '', message: '' });
-    const [submitted, setSubmitted] = useState(false);
+    const navigate = useNavigate();
+    const { user, access_token, is_loading } = useContext(AuthContext)
 
-    const handleSubmit = (e) => {
+    useEffect(() => {
+        if (!is_loading && !user) {
+            navigate('/login');
+        }
+    }, [user, is_loading, navigate]);
+
+    const initialForm = { nom: '', email: '', ministry_name: '', message: '' };
+
+    const [form, setForm] = useState(initialForm);
+    const [errors, setErrors] = useState({});
+    const [status, setStatus] = useState('idle'); // 'idle' | 'loading' | 'success' | 'error'
+    const [touched, setTouched] = useState({});
+
+    const validate = (data) => {
+        const errs = {};
+        if (!data.nom.trim())
+            errs.nom = 'Le nom est requis';
+        else if (data.nom.trim().length < 2)
+            errs.nom = 'Le nom doit contenir au moins 2 caractères.';
+
+
+        if (!data.email.trim())
+            errs.email = "L'email est requis.";
+        else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email))
+            errs.email = 'Adresse email invalide';
+
+
+        if (!data.ministry_name) {
+            errs.ministry_name = 'Veillez sélectionner un ministère.';
+        }
+
+        if (!data.message.trim())
+            errs.message = 'Le message est requis'
+
+        return errs;
+    }
+
+    const handleBlur = (e) => {
+        const { name } = e.target;
+        setTouched(prev => ({ ...prev, [name]: true }));
+        setErrors(validate(form));
+    };
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        const updated = { ...form, [name]: value };
+        setForm(updated);
+        if (touched[name]) {
+            setErrors(validate(updated))
+        }
+    }
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        setSubmitted(true);
-        
-        setForm({ fullName: '', email: '', ministry: '', message: '' });
-        setTimeout(() => setSubmitted(false), 4000);
+
+        setTouched({ nom: true, email: true, ministry_name: true, message: true });
+        const errs = validate(form);
+        if (Object.keys(errs).length > 0) {
+            setErrors(errs)
+            return;
+        }
+        setStatus('Chargement')
+
+        try {
+            const data = await apiFetch('/ministry_request', {
+                method: 'POST',
+                body: JSON.stringify(form),
+                headers: {
+                    'Authorization': `Bearer ${access_token}`
+                }
+            });
+
+            setForm(initialForm);
+            setTouched({});
+            setErrors({})
+            setTimeout(() => setStatus('idle'), 5000);
+
+        } catch (error) {
+            // setErrors(errs.message || 'Une erreur est survenue.');
+            // setStatus('error');
+            setStatus('error');
+            setTimeout(() => setStatus('idle'), 5000);
+        } 
     };
 
     const ministryOptions = ['Communication', 'Chorale', 'Audio Visuel', 'Secrétariat', 'Entretiens', 'Protocole', 'Art et Expression'];
 
-    const Field = ({ label, children }) => (
-        <div>
-            <label className="block text-gray-600 text-[9px] font-black tracking-[0.4em] uppercase mb-2">{label}</label>
-            <div className="field-wrap relative">
-                {children}
-                <div className="field-line" />
-            </div>
-        </div>
-    );
+
 
     const inputCls = "w-full bg-transparent border-b border-white/10 py-3 text-white placeholder-zinc-700 text-sm font-light outline-none transition-colors duration-300 focus:border-amber-500/0";
+    const isFormDirty = Object.values(touched).some(Boolean);
+    const hasErrors = Object.keys(validate(form)).length > 0;
+
+    if (is_loading) {
+        return (
+            <div className="flex flex-col items-center justify-center h-screen bg-black">
+                <div className="relative">
+                    <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-amber-500" />
+                    <div className="absolute inset-0 rounded-full border-2 border-amber-500/20 animate-pulse" />
+                </div>
+                <span className="text-amber-500 font-bold text-lg mt-6">
+                    Vérification de la session...
+                </span>
+            </div>
+        );
+    }
 
     return (
         <section className="relative py-28 px-4 bg-zinc-950 border-t border-white/4 overflow-hidden">
-            {/* Ambient */}
+            {/* Ambiance déco */}
             <div className="absolute top-0 right-0 w-96 h-96 bg-amber-600/5 rounded-full blur-[100px] pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-72 h-72 bg-amber-600/3 rounded-full blur-[80px] pointer-events-none" />
-
-            {/* Watermark */}
             <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none overflow-hidden">
                 <span className="font-display text-[20vw] text-white/[0.012] leading-none uppercase">SERVIR</span>
             </div>
@@ -296,7 +398,7 @@ const ContactForm = () => {
             <div className="max-w-5xl mx-auto relative z-10">
                 <div className="flex flex-col lg:flex-row gap-16 lg:gap-20 items-start">
 
-                    {/* Left column */}
+                    {/* Colonne gauche */}
                     <div className="w-full lg:w-[35%] lg:sticky lg:top-32">
                         <div className="flex items-center gap-4 mb-6">
                             <div className="w-8 h-px bg-amber-600/50" />
@@ -310,7 +412,7 @@ const ContactForm = () => {
                             Rejoins l'aventure S.T.A.R. et mets tes talents au service d'une vision plus grande. Ton engagement change les vies.
                         </p>
                         <div className="space-y-4 border-l border-white/6 pl-6">
-                            {['Croissance personnelle', 'Impact communautaire', 'Connexions spirituelles'].map((item) => (
+                            {['Croissance personnelle', 'Impact communautaire', 'Connexions spirituelles'].map(item => (
                                 <div key={item} className="flex items-center gap-3">
                                     <div className="w-1.5 h-1.5 bg-amber-500 rotate-45 shrink-0" />
                                     <span className="text-gray-500 text-sm font-light">{item}</span>
@@ -319,54 +421,95 @@ const ContactForm = () => {
                         </div>
                     </div>
 
-                    {/* Form */}
-                    <form onSubmit={handleSubmit} id="rejoindre" className="w-full lg:w-[65%] space-y-8">
-                        {submitted && (
+                    {/* Formulaire */}
+                    <form onSubmit={handleSubmit} id="rejoindre" className="w-full lg:w-[65%] space-y-8" noValidate>
+
+                        {/* ✅ Bandeau succès */}
+                        {status === 'success' && (
                             <div className="border border-amber-500/30 bg-amber-500/10 px-6 py-4 text-amber-300 text-sm font-bold flex items-center gap-3">
                                 <div className="w-1.5 h-1.5 bg-amber-500 rotate-45 shrink-0" />
                                 Merci ! Nous avons reçu ta demande. À très bientôt.
                             </div>
                         )}
 
+                        {/* ✅ Bandeau erreur serveur */}
+                        {status === 'error' && (
+                            <div className="border border-red-500/30 bg-red-500/10 px-6 py-4 text-red-300 text-sm font-bold flex items-center gap-3">
+                                <div className="w-1.5 h-1.5 bg-red-500 rotate-45 shrink-0" />
+                                Une erreur est survenue. Veuillez réessayer.
+                            </div>
+                        )}
+
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <Field label="Nom complet">
-                                <input name="fullName" value={form.fullName} onChange={e => setForm({ ...form, fullName: e.target.value })}
-                                    className={inputCls} placeholder="Jean d'Impact" />
+                            <Field label="Nom complet" name="nom" touched={touched} errors={errors} >
+                                <input
+                                    name="nom" value={form.nom}
+                                    onChange={handleInputChange} onBlur={handleBlur}
+                                    className={`${inputCls} ${touched.nom && errors.nom ? 'border-b-red-500/50' : ''}`}
+                                    placeholder="Jean d'Impact"
+                                    autoComplete="name"
+                                />
                             </Field>
-                            <Field label="Email">
-                                <input name="email" type="email" value={form.email} onChange={e => setForm({ ...form, email: e.target.value })}
-                                    className={inputCls} placeholder="vous@email.com" />
+                            <Field label="Email" name="email" touched={touched} errors={errors} >
+                                <input
+                                    name="email" type="email" value={form.email}
+                                    onChange={handleInputChange} onBlur={handleBlur}
+                                    className={`${inputCls} ${touched.email && errors.email ? 'border-b-red-500/50' : ''}`}
+                                    placeholder="vous@email.com"
+                                    autoComplete="email"
+                                />
                             </Field>
                         </div>
 
-                        <Field label="Ministère d'intérêt">
-                            <select name="ministry" value={form.ministry} onChange={e => setForm({ ...form, ministry: e.target.value })}
-                                className={`${inputCls} appearance-none cursor-pointer`}>
+                        <Field label="Ministère d'intérêt" name="ministry_name" touched={touched} errors={errors} >
+                            <select
+                                name="ministry_name" value={form.ministry_name}
+                                onChange={handleInputChange} onBlur={handleBlur}
+                                className={`${inputCls} appearance-none cursor-pointer ${touched.ministry_name && errors.ministry_name ? 'border-b-red-500/50' : ''}`}
+                            >
                                 <option value="">Sélectionne un ministère...</option>
                                 {ministryOptions.map(m => <option key={m} value={m}>{m}</option>)}
                             </select>
                             <ArrowRight size={14} className="absolute right-0 top-1/2 -translate-y-1/2 text-amber-500/50 pointer-events-none rotate-90" />
                         </Field>
 
-                        <Field label="Message">
-                            <textarea name="message" value={form.message} onChange={e => setForm({ ...form, message: e.target.value })}
-                                className={`${inputCls} resize-none`} style={{ height: '100px' }}
-                                placeholder="Parle-nous de toi et de tes motivations..." />
+                        <Field label="Message" name="message" touched={touched} errors={errors} >
+                            <textarea
+                                name="message" value={form.message}
+                                onChange={handleInputChange} onBlur={handleBlur}
+                                className={`${inputCls} resize-none ${touched.message && errors.message ? 'border-b-red-500/50' : ''}`}
+                                style={{ height: '100px' }}
+                                placeholder="Parle-nous de toi et de tes motivations..."
+                            />
+                            {/* ✅ Compteur de caractères */}
+                            <span className="absolute right-0 bottom-4 text-[10px] text-gray-600">
+                                {form.message.length}/20 min
+                            </span>
                         </Field>
 
+                        {/* ✅ Bouton avec état loading */}
                         <button
                             type="submit"
-                            className="group relative inline-flex items-center gap-4 bg-amber-600 hover:bg-amber-500 text-black px-12 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all duration-300 overflow-hidden"
+                            disabled={status === 'loading' || (isFormDirty && hasErrors)}
+                            className="group relative inline-flex items-center gap-4 bg-amber-600 hover:bg-amber-500 disabled:bg-zinc-800 disabled:text-zinc-500 disabled:cursor-not-allowed text-black px-12 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all duration-300 overflow-hidden"
                         >
-                            <span className="relative z-10">Envoyer ma demande</span>
-                            <ArrowRight size={14} className="relative z-10 group-hover:translate-x-1 transition-transform" />
+                            <span className="relative z-10">
+                                {status === 'loading' ? 'Envoi en cours...' : 'Envoyer ma demande'}
+                            </span>
+                            {status === 'loading' ? (
+                                <svg className="relative z-10 animate-spin" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                    <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+                                </svg>
+                            ) : (
+                                <ArrowRight size={14} className="relative z-10 group-hover:translate-x-1 transition-transform" />
+                            )}
                             <div className="absolute inset-0 bg-white/15 -translate-x-full group-hover:translate-x-full transition-transform duration-500 skew-x-12" />
                         </button>
                     </form>
                 </div>
             </div>
         </section>
-    );
+    )
 };
 
 /* ─── Page ───────────────────────────────────────────────────────────── */
