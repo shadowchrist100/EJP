@@ -1,7 +1,7 @@
 import React, { useState, useContext } from 'react';
-import { Nav, Footer } from "../"
+import { Nav, Footer,Contact } from "../"
 import { AuthContext } from '../AuthContext';
-import { apiFetch } from '../../util/api'; 
+import { apiFetch } from '../../util/api';
 import { User, Mail, Phone, MapPin, Calendar, Edit2, Save, X, ArrowRight, LogOut } from 'lucide-react';
 
 const ProfilePage = () => {
@@ -36,7 +36,7 @@ const ProfilePage = () => {
         try {
             const data = await apiFetch('/profile', {
                 method: 'PUT',
-                headers:{
+                headers: {
                     'Authorization': `Bearer ${access_token}`
                 },
                 body: JSON.stringify(formData)
@@ -182,7 +182,7 @@ const ProfilePage = () => {
                         {/* Error Message */}
                         {errorMessage && (
                             <div className="mb-8 p-4 bg-gradient-to-r from-red-500/20 to-red-500/10 border border-red-500/50 rounded-2xl text-red-400 font-bold text-center animate-in fade-in slide-in-from-bottom-4">
-                                ⚠️ {errorMessage}
+                                {errorMessage}
                             </div>
                         )}
 
@@ -505,6 +505,13 @@ const ProfilePage = () => {
                     </div>
                 </section>
             </main>
+
+            <section id="contact" className="py-32 bg-zinc-950">
+                <Contact verset={{
+                    verset: "Or, la vie éternelle, c'est qu'ils te connaissent, toi, le seul vrai Dieu, et celui que tu as envoyé, Jésus Christ",
+                    ref: 'Jean 17:3'
+                }} />
+            </section>
 
             <Footer />
         </div>

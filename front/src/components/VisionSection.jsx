@@ -20,16 +20,14 @@ const VisionSection = ({ audioPath }) => {
 
     // ─── Jouer le son si toutes les conditions sont réunies ─────────────────────
     const tryPlay = useCallback(() => {
-        if (!audioRef.current) { console.log('⚠️ tryPlay: pas d\'audio'); return; }
-        if (!isUnlockedRef.current) { console.log('⚠️ tryPlay: audio verrouillé'); return; }
+        if (!audioRef.current) { return; }
+        if (!isUnlockedRef.current) { return; }
 
         // Priorité à isVisibleRef, fallback sur getBoundingClientRect (plus fiable)
         const visible = isVisibleRef.current || isSectionInView();
-        console.log('🎯 tryPlay — visible:', visible);
 
         if (visible) {
             audioRef.current.play().catch(err => {
-                console.error('❌ Erreur play:', err.message);
             });
         }
     }, [isSectionInView]);
@@ -37,7 +35,6 @@ const VisionSection = ({ audioPath }) => {
     // ─── 1. Créer l'objet Audio au montage ──────────────────────────────────────
     useEffect(() => {
         if (!audioPath) return;
-        console.log('🎵 Création audio:', audioPath);
 
         const audio = new Audio(audioPath);
         audio.loop = true;
@@ -45,7 +42,6 @@ const VisionSection = ({ audioPath }) => {
         audioRef.current = audio;
 
         return () => {
-            console.log('🧹 Nettoyage audio');
             audio.pause();
             audio.src = '';
             audioRef.current = null;
@@ -58,7 +54,6 @@ const VisionSection = ({ audioPath }) => {
 
         const unlock = async () => {
             if (isUnlockedRef.current) return;
-            console.log('👆 Interaction détectée — tentative déblocage audio');
 
             // Retirer les listeners immédiatement pour éviter les appels multiples
             document.removeEventListener('click', unlock);
@@ -85,17 +80,14 @@ const VisionSection = ({ audioPath }) => {
                 }
 
                 isUnlockedRef.current = true;
-                console.log('✅ Audio débloqué');
 
                 // Mettre à jour isVisibleRef via getBoundingClientRect
                 // car l'IntersectionObserver peut avoir une valeur obsolète
                 isVisibleRef.current = isSectionInView();
-                console.log('👁️ Visibilité au moment du unlock:', isVisibleRef.current);
 
                 tryPlay();
 
             } catch (err) {
-                console.error('❌ Erreur déblocage:', err.message);
             }
         };
 
@@ -113,9 +105,8 @@ const VisionSection = ({ audioPath }) => {
     // ─── 3. IntersectionObserver : jouer/stopper selon la visibilité ────────────
     useEffect(() => {
         const section = sectionRef.current;
-        if (!section) { console.warn('⚠️ sectionRef est null'); return; }
+        if (!section) {  return; }
 
-        console.log('👁️ Création IntersectionObserver');
 
         // Initialiser isVisibleRef dès la création de l'observer
         isVisibleRef.current = isSectionInView();
@@ -123,12 +114,10 @@ const VisionSection = ({ audioPath }) => {
         const observer = new IntersectionObserver(
             ([entry]) => {
                 isVisibleRef.current = entry.isIntersecting;
-                console.log('📍 Section visible:', entry.isIntersecting);
 
                 if (entry.isIntersecting) {
                     tryPlay();
                 } else if (audioRef.current) {
-                    console.log('⏸️ Pause audio');
                     audioRef.current.pause();
                     audioRef.current.currentTime = 0;
                 }
@@ -139,7 +128,6 @@ const VisionSection = ({ audioPath }) => {
         observer.observe(section);
 
         return () => {
-            console.log('🧹 Observer déconnecté');
             observer.disconnect();
         };
     }, [tryPlay, isSectionInView]);

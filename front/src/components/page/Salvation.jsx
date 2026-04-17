@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import {Nav, Footer} from '../'
-import { Heart, Check, ArrowRight, Mail, User, Phone } from 'lucide-react';
+import { Nav, Footer,Contact } from '../'
+import { Heart, ArrowRight, Mail, User, Phone } from 'lucide-react';
 import { apiFetch } from '../../util/api';
 
 const SalvationPrayer = () => {
@@ -29,14 +29,14 @@ const SalvationPrayer = () => {
             setSubmitted(true);
             setStep(3);
             console.log(formData);
-            
+
             const data = await apiFetch("/salvation", {
                 method: "POST",
                 body: JSON.stringify(formData)
             });
             // Reset form after 5 seconds
             setTimeout(() => {
-                setFormData({ lastName: '', firstName:'', email: '', password: '', telephone: '', message: '' });
+                setFormData({ lastName: '', firstName: '', email: '', password: '', telephone: '', message: '' });
                 setStep(1);
                 setSubmitted(false);
             }, 5000);
@@ -55,7 +55,7 @@ const SalvationPrayer = () => {
             icon: "✝️"
         },
         {
-            title: "Confess",
+            title: "Confesse",
             description: "Confesse Jésus comme ton Seigneur et Sauveur personnel",
             icon: "💬"
         },
@@ -408,6 +408,13 @@ const SalvationPrayer = () => {
                     </div>
                 </section>
             </main>
+
+            <section id="contact" className="py-32 bg-zinc-950">
+                <Contact verset={{
+                    verset: "Si tu confesses de ta bouche le Seigneur Jésus, et si tu crois dans ton coeur que Dieu l'a ressuscité des morts, tu seras sauvé.",
+                    ref: 'Romains 10:9'
+                }} />
+            </section>
 
             <Footer />
         </div>

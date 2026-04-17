@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useContext } from 'react';
-import Nav from '../common/Nav';
-import Footer from '../common/Footer';
+import {Contact, Nav, Footer} from '../';
 import { ArrowRight } from 'lucide-react';
 import { AuthContext } from '../AuthContext';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { apiFetch } from '../../util/api';
 
 /* ─── Global styles ─────────────────────────────────────────────────── */
@@ -361,10 +360,10 @@ const ContactForm = () => {
             // setStatus('error');
             setStatus('error');
             setTimeout(() => setStatus('idle'), 5000);
-        } 
+        }
     };
 
-    const ministryOptions = ['Communication', 'Chorale', 'Audio Visuel', 'Secrétariat', 'Entretiens', 'Protocole', 'Art et Expression'];
+    const ministryOptions = ['Communication', 'Prodige', 'Audio Visuel', 'Secrétariat', 'Entretiens', 'Protocole', 'Art et Expression'];
 
 
 
@@ -559,6 +558,14 @@ const MinistriesPage = () => (
                 <ContactForm />
             </div>
         </main>
+
+        {/* 7. Contact */}
+        <section id="contact" className="py-32 bg-zinc-950">
+            <Contact verset={{
+                verset: "Comme de bons dispensateurs des diverses grâces de Dieu, que chacun de vous mette au service des autres le don qu'il a reçu",
+                ref: '1 Pierre 4:10'
+            }} />
+        </section>
 
         <footer className="bg-black border-t border-white/4">
             <Footer />

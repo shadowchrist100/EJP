@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Nav, Footer } from "../"
+import { Nav, Footer, Contact } from "../"
 import { Heart, Check, ArrowRight, Zap, Users, Globe } from 'lucide-react';
 
 // Hero Section Component
@@ -100,7 +100,7 @@ const DonationOptions = () => {
                 <div className="relative group animate-in fade-in slide-in-from-bottom-4">
                     {/* Card Background */}
                     <div className="absolute inset-0 bg-linear-to-br from-amber-500/20 to-yellow-500/10 border-2 border-amber-500/50 rounded-3xl group-hover:border-amber-400 transition-all duration-300" />
-                    
+
                     {/* Glow Effect */}
                     <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl blur-2xl bg-amber-500/20" />
 
@@ -441,7 +441,7 @@ const FAQSection = () => {
             question: "Les dons sont-ils sécurisés?",
             answer: "Oui, tous les dons sont traités via un processus de paiement sécurisés (FedaPay ). Tes informations sont cryptées et protégées."
         },
-        
+
         {
             id: 5,
             question: "Comment je peux suivre l'impact de mon don?",
@@ -530,7 +530,12 @@ const DonationPage = () => {
                     </div>
                 </section>
             </main>
-
+            <section id="contact" className="py-32 bg-zinc-950">
+                <Contact verset={{
+                    verset: "Que chacun donne comme il l'a résolu en son coeur, sans tristesse ni contrainte; car Dieu aime celui qui donne avec joie.",
+                    ref: '2 Corinthiens 9:7'
+                }} />
+            </section>
             <Footer />
         </div>
     );

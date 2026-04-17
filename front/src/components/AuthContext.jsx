@@ -12,7 +12,7 @@ export const AuthProvider = (props) => {
     const [is_loading, set_is_loading] = useState(true);
     const [error, set_error] = useState(null);
 
-    // 🔒 Le verrou pour empêcher le double refresh
+    //  Le verrou pour empêcher le double refresh
     const isRefreshing = useRef(false);
 
     const refresh_access_token = async () => {

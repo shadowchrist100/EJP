@@ -8,7 +8,6 @@ const AuthComponent = (props) => {
 
     // Vérifier que is_loading est bien défini
     if (is_loading === undefined) {
-        console.error("❌ ERREUR: is_loading est undefined. Vérifie le nom dans AuthContext!");
         return (
             <div className="flex items-center justify-center h-screen bg-black">
                 <p className="text-red-500 font-bold">Erreur de configuration</p>
@@ -36,7 +35,6 @@ const AuthComponent = (props) => {
 
     // Redirection si pas d'utilisateur
     if (user === null) {
-        console.warn("⚠️ Accès refusé - Pas d'utilisateur authentifié");
         return <Navigate to="/login" replace />
     }
 

@@ -248,8 +248,15 @@ const EventsPage = () => {
 
                 {/* Coming Next Animation Section */}
                 <ComingNext events={events} />
-                <Contact />
+                {/* <Contact /> */}
             </main>
+
+            <section id="contact" className="py-32 bg-zinc-950">
+                <Contact verset={{
+                    verset: "O Dieu! tu es mon Dieu, je te cherche; Mon âme a soif de toi, mon corps soupire après toi, Dans une terre aride, desséchée, sans eau",
+                    ref: 'Psaume 63: 2'
+                }} />
+            </section>
             <Footer />
         </div>
     );

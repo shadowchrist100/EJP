@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import Nav from '../common/Nav';
-import Footer from '../common/Footer';
+import {Nav, Footer, Contact} from '../';
 import { BookOpen, Palette, Film, Music, Image, ArrowRight, X, ChevronRight, Play, Download, Sparkles, BookMarkedIcon } from 'lucide-react';
 
 const ArtProdige = () => {
@@ -13,7 +12,7 @@ const ArtProdige = () => {
         { id: 'art', label: 'Art Visuel', icon: Palette },
         { id: 'film', label: 'Métrage', icon: Film },
         { id: 'sound', label: 'Music', icon: Music },
-        {id: 'bd', label: 'BD', icon: BookMarkedIcon}
+        { id: 'bd', label: 'BD', icon: BookMarkedIcon }
     ];
 
     // Fonction pour extraire l'ID YouTube d'une URL
@@ -390,9 +389,9 @@ const ArtProdige = () => {
 
                                 {/* Image - Adaptée pour tous les types (livres, art, etc.) */}
                                 <div className="mb-8 rounded-2xl overflow-hidden bg-gradient-to-br from-zinc-800 to-black border border-white/10 flex items-center justify-center p-6 min-h-64">
-                                    <img 
-                                        src={expandedWork.image} 
-                                        alt={expandedWork.title} 
+                                    <img
+                                        src={expandedWork.image}
+                                        alt={expandedWork.title}
                                         className="max-h-96 w-auto object-contain"
                                     />
                                 </div>
@@ -455,6 +454,13 @@ const ArtProdige = () => {
                     </div>
                 )}
             </main>
+
+            <section id="contact" className="py-32 bg-zinc-950">
+                <Contact verset={{
+                    verset: " toute grâce excellente et tout don parfait descendent d'en haut, du Père des lumières, chez lequel il n'y a ni changement ni ombre de variation.",
+                    ref: 'Jacques 1:17'
+                }} />
+            </section>
 
             <Footer />
 

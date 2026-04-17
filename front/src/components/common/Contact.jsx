@@ -1,5 +1,5 @@
 import {Quote} from 'lucide-react';
-const Contact = () => (
+const Contact = ({verset}) => (
     <div className="container mx-auto px-6 max-w-6xl relative z-10">
         {/* Header */}
         <div className="text-center mb-16">
@@ -48,10 +48,8 @@ const Contact = () => (
                     <div className="w-8 h-8 border border-amber-500/30 flex items-center justify-center mx-auto mb-8">
                         <Quote size={14} className="text-amber-500/60" />
                     </div>
-                    <span className="text-amber-500/60 text-[9px] font-black tracking-[0.5em] uppercase block mb-6">Luc 14:23</span>
-                    <p className="font-display text-[clamp(1.4rem,3vw,2rem)] text-white leading-tight tracking-wide uppercase mb-8">
-                        Va dans les chemins et le long des haies, et ceux que tu trouveras, contrains-les d'entrer
-                    </p>
+                    <span className="text-amber-500/60 text-[9px] font-black tracking-[0.5em] uppercase block mb-6">{verset.ref}</span>
+                    <p className="font-display text-[clamp(1.4rem,3vw,2rem)] text-white leading-tight tracking-wide uppercase mb-8"> {verset.verset} </p>
                     <div className="w-10 h-px bg-amber-600/40 mx-auto mb-6" />
                     <p className="text-gray-600 text-[9px] font-black tracking-[0.4em] uppercase">Église Jeunes Prodiges</p>
                 </div>

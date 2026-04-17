@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { ChevronLeft, ChevronRight, X, Grid3X3, LayoutList } from 'lucide-react';
-import Nav from '../common/Nav';
-import Footer from '../common/Footer';
+import {Nav, Footer, Contact} from '../';
+
 /* ─── SKELETON ──────────────────────────────────────────────────────────────── */
 const Skeleton = () => (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -20,16 +20,16 @@ const Skeleton = () => (
 
 /* ─── CATEGORIES ────────────────────────────────────────────────────────────── */
 const categories = [
-    { id: 'all',       name: 'Tout',        icon: '✦' },
-    { id: 'events',    name: 'Événements',  icon: '◈' },
-    { id: 'worship',   name: 'Louange',     icon: '♪' },
-    { id: 'community', name: 'Communauté',  icon: '◎' },
+    { id: 'all', name: 'Tout', icon: '✦' },
+    { id: 'events', name: 'Événements', icon: '◈' },
+    { id: 'worship', name: 'Louange', icon: '♪' },
+    { id: 'community', name: 'Communauté', icon: '◎' },
 ];
 
 /* ─── LIGHTBOX ──────────────────────────────────────────────────────────────── */
 const Lightbox = ({ image, images, onClose, onPrev, onNext }) => {
     const currentIndex = images.findIndex(img => img.id === image.id);
-    const touchStartX  = useRef(null);
+    const touchStartX = useRef(null);
 
     // Lock body scroll while lightbox is open
     useEffect(() => {
@@ -41,9 +41,9 @@ const Lightbox = ({ image, images, onClose, onPrev, onNext }) => {
     // Keyboard navigation
     useEffect(() => {
         const onKey = (e) => {
-            if (e.key === 'ArrowLeft')  onPrev();
+            if (e.key === 'ArrowLeft') onPrev();
             if (e.key === 'ArrowRight') onNext();
-            if (e.key === 'Escape')     onClose();
+            if (e.key === 'Escape') onClose();
         };
         document.addEventListener('keydown', onKey);
         return () => document.removeEventListener('keydown', onKey);
@@ -51,7 +51,7 @@ const Lightbox = ({ image, images, onClose, onPrev, onNext }) => {
 
     // Swipe touch
     const onTouchStart = (e) => { touchStartX.current = e.touches[0].clientX; };
-    const onTouchEnd   = (e) => {
+    const onTouchEnd = (e) => {
         if (touchStartX.current === null) return;
         const delta = e.changedTouches[0].clientX - touchStartX.current;
         if (Math.abs(delta) > 50) { delta < 0 ? onNext() : onPrev(); }
@@ -150,7 +150,7 @@ const Lightbox = ({ image, images, onClose, onPrev, onNext }) => {
 const Card = ({ image, index, onClick, catName }) => {
     // Alternate aspect ratios for visual rhythm
     const aspects = ['aspect-[4/5]', 'aspect-[4/6]', 'aspect-[4/5]', 'aspect-square', 'aspect-[4/5]', 'aspect-[4/6]'];
-    const aspect  = aspects[index % aspects.length];
+    const aspect = aspects[index % aspects.length];
 
     return (
         <div
@@ -207,11 +207,11 @@ const Card = ({ image, index, onClick, catName }) => {
 
 /* ─── GALERIE ───────────────────────────────────────────────────────────────── */
 const Galerie = () => {
-    const [images, setImages]           = useState([]);
+    const [images, setImages] = useState([]);
     const [selectedImage, setSelectedImage] = useState(null);
-    const [filter, setFilter]           = useState('all');
-    const [loading, setLoading]         = useState(true);
-    const [viewMode, setViewMode]       = useState('grid'); // grid | list
+    const [filter, setFilter] = useState('all');
+    const [loading, setLoading] = useState(true);
+    const [viewMode, setViewMode] = useState('grid'); // grid | list
 
     useEffect(() => {
         fetch('/data/image.json')
@@ -298,9 +298,9 @@ const Galerie = () => {
                         {/* Stats row */}
                         <div className="flex items-center justify-center gap-8 mt-12">
                             {[
-                                { label: 'Photos',     value: images.length },
+                                { label: 'Photos', value: images.length },
                                 { label: 'Catégories', value: categories.length - 1 },
-                                { label: 'Années',     value: '3+' },
+                                { label: 'Années', value: '3+' },
                             ].map(({ label, value }) => (
                                 <div key={label} className="text-center">
                                     <p className="text-2xl font-black text-white tracking-tighter">{value}</p>
@@ -427,7 +427,14 @@ const Galerie = () => {
                         onNext={goToNext}
                     />
                 )}
-            <Footer/>
+
+                <section id="contact" className="py-32 bg-zinc-950">
+                    <Contact verset={{
+                        verset: "Souvenez-vous des prodiges qu'il a faits, De ses miracles et des jugements de sa bouche",
+                        ref: '1 Chroniques 16:12'
+                    }} />
+                </section>
+                <Footer />
 
             </section>
         </>
