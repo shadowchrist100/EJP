@@ -1,4 +1,4 @@
-import { logo } from ".."
+import { logo } from "../../assets"
 export default function Footer() {
     return (
         <div className="container mx-auto px-6 pt-9">

@@ -73,7 +73,7 @@ const Nav = () => {
                 {/* Desktop Navigation - Single Row */}
                 <div className="hidden lg:flex items-center justify-between h-25 gap-6 py-4">
                     {/* Logo - Left (flex-shrink-0 to stay close to left) */}
-                    <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity flex-shrink-0">
+                    <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity shrink-0">
                         <h1 className="text-3xl font-black text-white tracking-tighter uppercase">
                             EJP<span className="text-amber-500">.</span>PORTO
                         </h1>
@@ -102,7 +102,7 @@ const Nav = () => {
                     </div>
 
                     {/* Auth Dropdown - Right (flex-shrink-0 to stay close to right) */}
-                    <div className="relative flex-shrink-0">
+                    <div className="relative shrink-0">
                         {!is_loading && user ? (
                             // Utilisateur connecté
                             <button
@@ -123,7 +123,7 @@ const Nav = () => {
                                         Connecté
                                     </p>
                                 </div>
-                                <ChevronDown size={16} className={`transition-transform text-amber-500 flex-shrink-0 ml-2 ${isAuthOpen ? 'rotate-180' : ''}`} />
+                                <ChevronDown size={16} className={`transition-transform text-amber-500 shrink-0 ml-2 ${isAuthOpen ? 'rotate-180' : ''}`} />
                             </button>
                         ) : (
                             // Utilisateur non connecté
@@ -208,7 +208,7 @@ const Nav = () => {
                 {/* Mobile Layout */}
                 <div className="lg:hidden flex items-center justify-between h-20">
                     {/* Logo / Nom */}
-                    <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity flex-shrink-0">
+                    <Link to="/" className="flex items-center gap-3 hover:opacity-80 transition-opacity shrink-0">
                         <h1 className="text-xl font-black text-white tracking-tighter uppercase">
                             EJP<span className="text-amber-500">.</span>PORTO
                         </h1>
@@ -217,7 +217,7 @@ const Nav = () => {
                     {/* Mobile Toggle Button */}
                     <button
                         onClick={toggleMenu}
-                        className="text-white p-2 hover:bg-white/10 rounded-lg transition-colors flex-shrink-0"
+                        className="text-white p-2 hover:bg-white/10 rounded-lg transition-colors shrink-0"
                     >
                         {isMenuOpen ? (
                             <X size={28} />

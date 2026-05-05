@@ -13,7 +13,9 @@ const SalvationPrayer = () => {
         telephone: '',
         message: ''
     });
-    const [submitted, setSubmitted] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [error, setError] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -25,21 +27,25 @@ const SalvationPrayer = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (formData.firstName && formData.email) {
-            setSubmitted(true);
-            setStep(3);
-            console.log(formData);
+        setIsSubmitting(true);
+        setError('');
+        setSuccessMessage('');
 
-            const data = await apiFetch("/salvation", {
+        try {
+            await apiFetch("/salvation", {
                 method: "POST",
                 body: JSON.stringify(formData)
             });
+            setStep(3);
             // Reset form after 5 seconds
             setTimeout(() => {
                 setFormData({ lastName: '', firstName: '', email: '', password: '', telephone: '', message: '' });
                 setStep(1);
-                setSubmitted(false);
             }, 5000);
+        } catch (err) {
+            setError(err.message || "Une erreur est survenue lors de l'envoi");
+        } finally {
+            setIsSubmitting(false);
         }
     };
 

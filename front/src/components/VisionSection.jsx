@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useCallback } from 'react';
-import { BergerDimitri } from '.';
-import { BergerSamuel } from '.';
+import { BergerDimitri } from '../assets';
+import { BergerSamuel } from '../assets';
 
 const VisionSection = ({ audioPath }) => {
     const audioRef = useRef(null);
@@ -87,6 +87,8 @@ const VisionSection = ({ audioPath }) => {
 
                 tryPlay();
 
+            // eslint-disable-next-line no-unused-vars
+            // eslint-disable-next-line no-unused-vars
             } catch (err) {
             }
         };

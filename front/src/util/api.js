@@ -1,4 +1,3 @@
-const isDevelopment = import.meta.env.MODE === 'development';
 const BASE_URL = '/api' 
 
 export const apiFetch = async (endpoint, options = {}) => {

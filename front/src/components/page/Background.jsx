@@ -34,6 +34,7 @@ const BackgroundSlider = () => {
         }, 5000); // Change toutes les 5 secondes
 
         return () => clearInterval(interval);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []); // Dépendances vides pour que ça tourne en continu
 
     const goToNext = () => {
