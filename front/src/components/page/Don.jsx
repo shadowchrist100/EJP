@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 import { Nav, Footer, Contact } from "../"
 import { Heart, Check, ArrowRight, Zap, Users, Globe } from 'lucide-react';
 
@@ -15,50 +16,69 @@ const DonationHero = () => {
 
             {/* Content */}
             <div className="container mx-auto px-6 relative z-10 pt-2 mb-2">
-                <div className="max-w-4xl mx-auto text-center animate-in fade-in slide-in-from-bottom-4 duration-700">
-                    <div className="inline-flex items-center gap-3 mb-8 px-4 py-2 bg-amber-500/10 border border-amber-500/30 rounded-full backdrop-blur-sm group hover:bg-amber-500/20 transition-all duration-300">
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8 }}
+                    className="max-w-4xl mx-auto text-center"
+                >
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.2, duration: 0.5 }}
+                        className="inline-flex items-center gap-3 mb-8 px-4 py-2 bg-amber-500/10 border border-amber-500/30 rounded-full backdrop-blur-sm group hover:bg-amber-500/20 transition-all duration-300"
+                    >
                         <Heart className="text-amber-500 animate-pulse" size={16} />
                         <span className="text-amber-500 font-bold tracking-[0.3em] uppercase text-xs">
                             Soutenir la Vision
                         </span>
-                    </div>
+                    </motion.div>
 
-                    <h1 className="text-5xl sm:text-7xl md:text-8xl font-black text-white mb-8 tracking-tighter leading-none">
+                    <motion.h1
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4, duration: 0.6 }}
+                        className="text-5xl sm:text-7xl md:text-8xl font-black text-white mb-8 tracking-tighter leading-none"
+                    >
                         Sois <span className="text-transparent bg-clip-text bg-linear-to-r from-amber-200 via-yellow-400 to-amber-600">Partenaire</span> de la Vision E.J.P
-                    </h1>
+                    </motion.h1>
 
-                    <p className="text-xl md:text-2xl text-gray-300 font-light mb-12 leading-relaxed max-w-3xl mx-auto">
+                    <motion.p
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.6, duration: 0.8 }}
+                        className="text-xl md:text-2xl text-gray-300 font-light mb-12 leading-relaxed max-w-3xl mx-auto"
+                    >
                         Ton don finance les événements, les ministères et l'impact communautaire de l'EJP. Chaque contribution propulse notre vision vers les extrémités de la Terre.
-                    </p>
+                    </motion.p>
 
                     {/* Impact Stats */}
-                    <div className="flex items-center justify-center mb-12 max-w-2xl mx-auto">
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.8, duration: 0.5 }}
+                        className="flex items-center justify-center mb-12 max-w-2xl mx-auto"
+                    >
                         <div className=" p-4 bg-white/5 border border-white/10 rounded-xl backdrop-blur-sm hover:border-amber-500/50 transition-all duration-300">
                             <p className="text-3xl font-black text-amber-400 mb-2">100+</p>
                             <p className="text-xs text-gray-400 uppercase tracking-widest font-light">Jeunes impactés</p>
                         </div>
-                    </div>
-                    {/* <div className="grid grid-cols-3 gap-6 mb-12 max-w-2xl mx-auto">
-                        <div className="p-4 bg-white/5 border border-white/10 rounded-xl backdrop-blur-sm hover:border-amber-500/50 transition-all duration-300">
-                            <p className="text-3xl font-black text-amber-400 mb-2">100+</p>
-                            <p className="text-xs text-gray-400 uppercase tracking-widest font-light">Jeunes impactés</p>
-                        </div>
-                        <div className="p-4 bg-white/5 border border-white/10 rounded-xl backdrop-blur-sm hover:border-amber-500/50 transition-all duration-300">
-                            <p className="text-3xl font-black text-amber-400 mb-2">12</p>
-                            <p className="text-xs text-gray-400 uppercase tracking-widest font-light">Ministères actifs</p>
-                        </div>
-                        <div className="p-4 bg-white/5 border border-white/10 rounded-xl backdrop-blur-sm hover:border-amber-500/50 transition-all duration-300">
-                            <p className="text-3xl font-black text-amber-400 mb-2">7</p>
-                            <p className="text-xs text-gray-400 uppercase tracking-widest font-light">Pays touchés</p>
-                        </div>
-                    </div> */}
+                    </motion.div>
 
                     {/* CTA Button */}
-                    <a href="#donation-options" className="inline-flex items-center gap-2 bg-linear-to-r from-amber-500 to-yellow-500 text-black px-10 py-4 rounded-full font-black uppercase text-sm tracking-widest hover:shadow-2xl hover:shadow-amber-500/50 transition-all duration-300 group">
+                    <motion.a
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 1, duration: 0.5 }}
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.95 }}
+                        href="#donation-options"
+                        className="inline-flex items-center gap-2 bg-linear-to-r from-amber-500 to-yellow-500 text-black px-10 py-4 rounded-full font-black uppercase text-sm tracking-widest hover:shadow-2xl hover:shadow-amber-500/50 transition-all duration-300 group"
+                    >
                         <span>Commencer un don</span>
                         <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                    </a>
-                </div>
+                    </motion.a>
+                </motion.div>
             </div>
         </section>
     );
@@ -87,17 +107,29 @@ const DonationOptions = () => {
 
             <div className="container mx-auto max-w-4xl relative z-10">
                 {/* Section Title */}
-                <div className="text-center mb-16 animate-in fade-in slide-in-from-bottom-4">
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.6 }}
+                    className="text-center mb-16"
+                >
                     <h2 className="text-5xl md:text-6xl font-black text-white mb-4 tracking-tighter">
                         Soutenir la <span className="text-transparent bg-clip-text bg-linear-to-r from-amber-400 to-yellow-500">Vision</span>
                     </h2>
                     <p className="text-gray-400 text-lg font-light italic">
                         Peu importe le montant, chaque don compte et crée un impact réel
                     </p>
-                </div>
+                </motion.div>
 
                 {/* Custom Donation Card */}
-                <div className="relative group animate-in fade-in slide-in-from-bottom-4">
+                <motion.div
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
+                    className="relative group"
+                >
                     {/* Card Background */}
                     <div className="absolute inset-0 bg-linear-to-br from-amber-500/20 to-yellow-500/10 border-2 border-amber-500/50 rounded-3xl group-hover:border-amber-400 transition-all duration-300" />
 
@@ -157,10 +189,16 @@ const DonationOptions = () => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </motion.div>
 
                 {/* Trust Badges */}
-                <div className="mt-16 grid grid-cols-3 gap-6 animate-in fade-in slide-in-from-bottom-4" style={{ animationDelay: '100ms' }}>
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ duration: 0.6, delay: 0.4 }}
+                    className="mt-16 grid grid-cols-3 gap-6"
+                >
                     <div className="text-center p-6 bg-white/5 border border-white/10 rounded-2xl hover:border-amber-500/30 transition-all">
                         <div className="text-3xl mb-3">🔒</div>
                         <p className="text-white font-black text-sm mb-1">Sécurisé</p>
@@ -176,7 +214,7 @@ const DonationOptions = () => {
                         <p className="text-white font-black text-sm mb-1">Flexible</p>
                         <p className="text-gray-500 text-xs font-light">Montant libre</p>
                     </div>
-                </div>
+                </motion.div>
             </div>
         </section>
     );
@@ -365,22 +403,31 @@ const ImpactSection = () => {
 
             <div className="container mx-auto max-w-6xl relative z-10">
                 {/* Title */}
-                <div className="text-center mb-20">
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.6 }}
+                    className="text-center mb-20"
+                >
                     <h2 className="text-5xl md:text-6xl font-black text-white mb-4 tracking-tighter">
                         Où va votre <span className="text-transparent bg-clip-text bg-linear-to-r from-amber-400 to-yellow-500">Don</span>
                     </h2>
                     <p className="text-gray-400 text-lg font-light">
                         100% de transparence sur l'utilisation de vos contributions
                     </p>
-                </div>
+                </motion.div>
 
                 {/* Impact Cards */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
                     {impacts.map((impact, idx) => (
-                        <div
+                        <motion.div
                             key={idx}
-                            className="group relative bg-linear-to-br from-zinc-950 to-black border border-white/10 rounded-3xl p-8 hover:border-amber-500/50 transition-all duration-300 animate-in fade-in slide-in-from-bottom-4"
-                            style={{ animationDelay: `${idx * 100}ms` }}
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-100px" }}
+                            transition={{ duration: 0.5, delay: idx * 0.2 }}
+                            className="group relative bg-linear-to-br from-zinc-950 to-black border border-white/10 rounded-3xl p-8 hover:border-amber-500/50 transition-all duration-300"
                         >
                             {/* Glow */}
                             <div className="absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-100 bg-amber-500/10 blur-2xl transition-opacity" />
@@ -397,12 +444,18 @@ const ImpactSection = () => {
                                     {impact.description}
                                 </p>
                             </div>
-                        </div>
+                        </motion.div>
                     ))}
                 </div>
 
                 {/* Budget Breakdown */}
-                <div className="bg-linear-to-br from-amber-500/5 to-yellow-500/5 border-2 border-amber-500/20 rounded-3xl p-10">
+                <motion.div
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.8 }}
+                    className="bg-linear-to-br from-amber-500/5 to-yellow-500/5 border-2 border-amber-500/20 rounded-3xl p-10"
+                >
                     <h3 className="text-2xl font-black text-white mb-8">Allocation des ressources</h3>
                     <div className="space-y-6">
                         {[
@@ -425,7 +478,7 @@ const ImpactSection = () => {
                             </div>
                         ))}
                     </div>
-                </div>
+                </motion.div>
             </div>
         </section>
     );
@@ -453,19 +506,28 @@ const FAQSection = () => {
         <section className="py-32 px-4 md:px-8 relative bg-linear-to-b from-black to-zinc-900/50">
             <div className="container mx-auto max-w-4xl">
                 {/* Title */}
-                <div className="text-center mb-16">
+                <motion.div
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.6 }}
+                    className="text-center mb-16"
+                >
                     <h2 className="text-5xl md:text-6xl font-black text-white mb-4 tracking-tighter">
                         Questions <span className="text-transparent bg-clip-text bg-linear-to-r from-amber-400 to-yellow-500">Fréquentes</span>
                     </h2>
-                </div>
+                </motion.div>
 
                 {/* FAQs */}
                 <div className="space-y-4">
                     {faqs.map((faq, idx) => (
-                        <div
+                        <motion.div
                             key={faq.id}
-                            className="group border-2 border-white/10 rounded-2xl overflow-hidden transition-all duration-300 hover:border-amber-500/50 animate-in fade-in slide-in-from-bottom-4"
-                            style={{ animationDelay: `${idx * 50}ms` }}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-50px" }}
+                            transition={{ duration: 0.4, delay: idx * 0.1 }}
+                            className="group border-2 border-white/10 rounded-2xl overflow-hidden transition-all duration-300 hover:border-amber-500/50"
                         >
                             <button
                                 onClick={() => setOpenFAQ(openFAQ === faq.id ? null : faq.id)}
@@ -486,7 +548,7 @@ const FAQSection = () => {
                                     </p>
                                 </div>
                             )}
-                        </div>
+                        </motion.div>
                     ))}
                 </div>
             </div>
@@ -515,19 +577,30 @@ const DonationPage = () => {
                         <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-yellow-500/10 rounded-full blur-3xl" />
                     </div>
 
-                    <div className="container mx-auto max-w-4xl text-center relative z-10">
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true, margin: "-100px" }}
+                        transition={{ duration: 0.8 }}
+                        className="container mx-auto max-w-4xl text-center relative z-10"
+                    >
                         <h2 className="text-5xl md:text-6xl font-black text-white mb-6 tracking-tighter">
                             Prêt à <span className="text-transparent bg-clip-text bg-linear-to-r from-amber-400 to-yellow-500">Transformer</span> des Vies?
                         </h2>
                         <p className="text-gray-400 text-lg font-light mb-10 max-w-2xl mx-auto">
                             Rejoins les centaines de partenaires qui soutiennent la vision S.T.A.R. et créent un impact durable.
                         </p>
-                        <a href="#donation-options" className="inline-flex items-center gap-2 bg-linear-to-r from-amber-500 to-yellow-500 text-black px-12 py-5 rounded-full font-black uppercase text-sm tracking-widest hover:shadow-2xl hover:shadow-amber-500/50 transition-all duration-300 group">
+                        <motion.a
+                            whileHover={{ scale: 1.05 }}
+                            whileTap={{ scale: 0.95 }}
+                            href="#donation-options"
+                            className="inline-flex items-center gap-2 bg-linear-to-r from-amber-500 to-yellow-500 text-black px-12 py-5 rounded-full font-black uppercase text-sm tracking-widest hover:shadow-2xl hover:shadow-amber-500/50 transition-all duration-300 group"
+                        >
                             <Heart size={18} />
                             <span>Faire un don maintenant</span>
                             <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                        </a>
-                    </div>
+                        </motion.a>
+                    </motion.div>
                 </section>
             </main>
             <section id="contact" className="py-32 bg-zinc-950">

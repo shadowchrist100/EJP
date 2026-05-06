@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react';
-import {Contact, Nav, Footer} from '../';
+import { Contact, Nav, Footer } from '../';
 import { ArrowRight } from 'lucide-react';
 import { AuthContext } from '../AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { apiFetch } from '../../util/api';
+import { motion, AnimatePresence } from 'framer-motion';
 
 /* ─── Global styles ─────────────────────────────────────────────────── */
 const GlobalStyles = () => (
@@ -83,70 +84,119 @@ const GlobalStyles = () => (
     `}</style>
 );
 
+/* ─── Variants d'Animation ─────────────────────────────────────────── */
+
+const fadeInUp = {
+    hidden: { opacity: 0, y: 40 },
+    visible: (custom) => ({
+        opacity: 1,
+        y: 0,
+        transition: {
+            duration: 0.8,
+            ease: [0.16, 1, 0.3, 1],
+            delay: custom * 0.1
+        }
+    })
+};
+
+const staggerContainer = {
+    hidden: { opacity: 0 },
+    visible: {
+        opacity: 1,
+        transition: { staggerChildren: 0.2 }
+    }
+};
+
 /* ─── Hero Banner ────────────────────────────────────────────────────── */
-const Banner = () => (
-    <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
-        {/* Tag */}
-        <div className="mb-8 opacity-0 anim-up d-100">
-            <span className="inline-flex items-center gap-3 text-amber-400/80 tracking-[0.5em] text-[9px] uppercase font-bold">
-                <span className="w-8 h-px bg-amber-500/60 inline-block anim-line" />
-                Engagement & Service
-                <span className="w-8 h-px bg-amber-500/60 inline-block" />
-            </span>
-        </div>
+const Banner = () => {
+    const starLetters = "S.T.A.R.".split('');
 
-        {/* Title */}
-        <div className="mb-6 opacity-0 anim-up d-200">
-            <h1 className="font-display leading-none tracking-wide uppercase">
-                <span className="block text-[clamp(2.5rem,9vw,7rem)] text-white">Deviens un(e)</span>
-                <span className="block text-[clamp(3rem,12vw,9rem)] shimmer-gold star-word">
-                    {'S.T.A.R.'.split('').map((c, i) => (
-                        <span key={i} className="star-letter" style={{ transitionDelay: `${i * 40}ms` }}>{c}</span>
-                    ))}
+    return (
+        <motion.div
+            initial="hidden"
+            animate="visible"
+            className="relative z-10 text-center px-6 max-w-4xl mx-auto"
+        >
+            {/* Tag */}
+            <motion.div custom={1} variants={fadeInUp} className="mb-8">
+                <span className="inline-flex items-center gap-3 text-amber-400/80 tracking-[0.5em] text-[9px] uppercase font-bold">
+                    <motion.span
+                        initial={{ scaleX: 0 }}
+                        animate={{ scaleX: 1 }}
+                        transition={{ duration: 1, delay: 0.5 }}
+                        className="w-8 h-px bg-amber-500/60 inline-block origin-left"
+                    />
+                    Engagement & Service
+                    <motion.span
+                        initial={{ scaleX: 0 }}
+                        animate={{ scaleX: 1 }}
+                        transition={{ duration: 1, delay: 0.5 }}
+                        className="w-8 h-px bg-amber-500/60 inline-block origin-right"
+                    />
                 </span>
-            </h1>
-        </div>
+            </motion.div>
 
-        {/* Acronym definition */}
-        <div className="mb-12 opacity-0 anim-up d-300">
-            <div className="inline-block border-l-2 border-amber-500/60 pl-6 text-left">
-                <p className="text-white/70 text-base md:text-lg font-light italic leading-relaxed">
-                    "<span className="font-black text-amber-400 not-italic">S</span>erviteur
-                    <span className="font-black text-amber-400 not-italic"> T</span>ravaillant
-                    <span className="font-black text-amber-400 not-italic"> A</span>ctivement pour le
-                    <span className="font-black text-amber-400 not-italic"> R</span>oyaume"
-                </p>
-            </div>
-        </div>
+            {/* Title */}
+            <motion.div custom={2} variants={fadeInUp} className="mb-6">
+                <h1 className="font-display leading-none tracking-wide uppercase">
+                    <span className="block text-[clamp(2.5rem,9vw,7rem)] text-white">Deviens un(e)</span>
+                    <span className="block text-[clamp(3rem,12vw,9rem)] shimmer-gold flex justify-center">
+                        {starLetters.map((c, i) => (
+                            <motion.span
+                                key={i}
+                                whileHover={{ y: -10, color: "#fbbf24" }}
+                                className="cursor-default"
+                            >
+                                {c}
+                            </motion.span>
+                        ))}
+                    </span>
+                </h1>
+            </motion.div>
 
-        {/* CTA */}
-        <div className="opacity-0 anim-up d-500">
-            <a
-                href="#ministries-list"
-                className="group inline-flex items-center gap-4 bg-amber-600 hover:bg-amber-500 text-black px-10 py-4 font-black text-[10px] uppercase tracking-[0.25em] transition-all duration-300 shadow-lg shadow-amber-900/30 overflow-hidden relative"
-            >
-                <span className="relative z-10">Trouve ton Ministère</span>
-                <ArrowRight size={16} className="relative z-10 group-hover:translate-x-1 transition-transform" />
-                <div className="absolute inset-0 bg-white/10 -translate-x-full group-hover:translate-x-full transition-transform duration-500 skew-x-12" />
-            </a>
-        </div>
-    </div>
-);
+            {/* Definition */}
+            <motion.div custom={3} variants={fadeInUp} className="mb-12">
+                <div className="inline-block border-l-2 border-amber-500/60 pl-6 text-left">
+                    <p className="text-white/70 text-base md:text-lg font-light italic leading-relaxed">
+                        "<span className="font-black text-amber-400 not-italic">S</span>erviteur
+                        <span className="font-black text-amber-400 not-italic"> T</span>ravaillant
+                        <span className="font-black text-amber-400 not-italic"> A</span>ctivement pour le
+                        <span className="font-black text-amber-400 not-italic"> R</span>oyaume"
+                    </p>
+                </div>
+            </motion.div>
+
+            {/* CTA */}
+            <motion.div custom={4} variants={fadeInUp} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <a href="#ministries-list" className="group inline-flex items-center gap-4 bg-amber-600 text-black px-10 py-4 font-black text-[10px] uppercase tracking-[0.25em] relative overflow-hidden">
+                    <span className="relative z-10">Trouve ton Ministère</span>
+                    <ArrowRight size={16} className="relative z-10 group-hover:translate-x-2 transition-transform" />
+                </a>
+            </motion.div>
+        </motion.div>
+    );
+}
 
 /* ─── Ministry Card ──────────────────────────────────────────────────── */
 const MinistryCard = ({ ministry, reversed, index }) => (
-    <div
-        className={`ministry-card group relative bg-zinc-900 border border-white/6 hover:border-amber-500/25 overflow-hidden flex flex-col ${reversed ? 'lg:flex-row-reverse' : 'lg:flex-row'} transition-all duration-700`}
-        style={{ opacity: 0, animation: `float-up 0.8s cubic-bezier(0.16,1,0.3,1) ${index * 80}ms forwards` }}
+
+    <motion.div
+        initial={{ opacity: 0, x: reversed ? 50 : -50 }}
+        whileInView={{ opacity: 1, x: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+        className={`ministry-card group relative bg-zinc-900 border border-white/6 hover:border-amber-500/25 overflow-hidden flex flex-col ${reversed ? 'lg:flex-row-reverse' : 'lg:flex-row'} `}
     >
         {/* Image */}
         <div className="w-full lg:w-[58%] relative overflow-hidden" style={{ minHeight: '320px' }}>
             {ministry.image ? (
                 <>
-                    <img
+                    <motion.img
+                        whileHover={{ scale: 1.1 }}
+                        transition={{ duration: 1.5 }}
                         src={ministry.image}
                         alt={ministry.title}
-                        className="ministry-img absolute inset-0 w-full h-full object-cover grayscale brightness-75"
+                        className="ministry-img absolute inset-0 w-full h-full object-cover grayscale brightness-75 hover:grayscale-0 transition-all duration-700 "
                     />
                     <div className={`absolute inset-0 bg-gradient-to-${reversed ? 'l' : 'r'} from-zinc-900 via-zinc-900/30 to-transparent z-10`} />
                 </>
@@ -167,9 +217,12 @@ const MinistryCard = ({ ministry, reversed, index }) => (
         {/* Content */}
         <div className="w-full lg:w-[42%] p-8 lg:p-12 flex flex-col justify-between relative z-10">
             {/* Index number */}
-            <span className="font-display text-6xl text-white/4 absolute top-6 right-8 leading-none select-none">
+            <motion.span
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 0.05 }}
+                className="font-display text-6xl text-white/4 absolute top-6 right-8 leading-none select-none">
                 {String(index + 1).padStart(2, '0')}
-            </span>
+            </motion.span>
 
             <div>
                 <div className="w-8 h-px bg-amber-500 mb-6 anim-line" />
@@ -182,17 +235,17 @@ const MinistryCard = ({ ministry, reversed, index }) => (
             </div>
 
             <div className="mt-8">
-                <button className="group/btn relative inline-flex items-center gap-3 border border-amber-500/40 hover:border-amber-500 text-amber-500 hover:text-black text-[9px] font-black uppercase tracking-[0.3em] px-8 py-3 transition-all duration-400 overflow-hidden">
+                <motion.button whileHover={{ x: 10 }} className="group/btn relative inline-flex items-center gap-3 border border-amber-500/40 hover:border-amber-500 text-amber-500 hover:text-black text-[9px] font-black uppercase tracking-[0.3em] px-8 py-3 transition-all duration-400 overflow-hidden">
                     <span className="absolute inset-0 bg-amber-500 scale-x-0 group-hover/btn:scale-x-100 origin-left transition-transform duration-400" />
                     <span className="relative"><a href="#rejoindre">Rejoindre</a></span>
                     <ArrowRight size={12} className="relative group-hover/btn:translate-x-1 transition-transform" />
-                </button>
+                </motion.button>
             </div>
         </div>
 
         {/* Hover glow line */}
         <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-amber-500/0 to-transparent group-hover:via-amber-500/50 transition-all duration-700" />
-    </div>
+    </motion.div>
 );
 
 /* ─── Ministries Section ─────────────────────────────────────────────── */
@@ -398,7 +451,12 @@ const ContactForm = () => {
                 <div className="flex flex-col lg:flex-row gap-16 lg:gap-20 items-start">
 
                     {/* Colonne gauche */}
-                    <div className="w-full lg:w-[35%] lg:sticky lg:top-32">
+                    <motion.div
+                        initial={{ opacity: 0, x: -30 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true }}
+                        className="w-full lg:w-[35%] lg:sticky lg:top-32"
+                    >
                         <div className="flex items-center gap-4 mb-6">
                             <div className="w-8 h-px bg-amber-600/50" />
                             <span className="text-amber-500/70 text-[9px] font-black uppercase tracking-[0.5em]">Rejoins-nous</span>
@@ -418,93 +476,106 @@ const ContactForm = () => {
                                 </div>
                             ))}
                         </div>
-                    </div>
+                    </motion.div>
 
                     {/* Formulaire */}
-                    <form onSubmit={handleSubmit} id="rejoindre" className="w-full lg:w-[65%] space-y-8" noValidate>
-
-                        {/* ✅ Bandeau succès */}
-                        {status === 'success' && (
-                            <div className="border border-amber-500/30 bg-amber-500/10 px-6 py-4 text-amber-300 text-sm font-bold flex items-center gap-3">
-                                <div className="w-1.5 h-1.5 bg-amber-500 rotate-45 shrink-0" />
-                                Merci ! Nous avons reçu ta demande. À très bientôt.
-                            </div>
-                        )}
-
-                        {/* ✅ Bandeau erreur serveur */}
-                        {status === 'error' && (
-                            <div className="border border-red-500/30 bg-red-500/10 px-6 py-4 text-red-300 text-sm font-bold flex items-center gap-3">
-                                <div className="w-1.5 h-1.5 bg-red-500 rotate-45 shrink-0" />
-                                Une erreur est survenue. Veuillez réessayer.
-                            </div>
-                        )}
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <Field label="Nom complet" name="nom" touched={touched} errors={errors} >
-                                <input
-                                    name="nom" value={form.nom}
-                                    onChange={handleInputChange} onBlur={handleBlur}
-                                    className={`${inputCls} ${touched.nom && errors.nom ? 'border-b-red-500/50' : ''}`}
-                                    placeholder="Jean d'Impact"
-                                    autoComplete="name"
-                                />
-                            </Field>
-                            <Field label="Email" name="email" touched={touched} errors={errors} >
-                                <input
-                                    name="email" type="email" value={form.email}
-                                    onChange={handleInputChange} onBlur={handleBlur}
-                                    className={`${inputCls} ${touched.email && errors.email ? 'border-b-red-500/50' : ''}`}
-                                    placeholder="vous@email.com"
-                                    autoComplete="email"
-                                />
-                            </Field>
-                        </div>
-
-                        <Field label="Ministère d'intérêt" name="ministry_name" touched={touched} errors={errors} >
-                            <select
-                                name="ministry_name" value={form.ministry_name}
-                                onChange={handleInputChange} onBlur={handleBlur}
-                                className={`${inputCls} appearance-none cursor-pointer ${touched.ministry_name && errors.ministry_name ? 'border-b-red-500/50' : ''}`}
-                            >
-                                <option value="">Sélectionne un ministère...</option>
-                                {ministryOptions.map(m => <option key={m} value={m}>{m}</option>)}
-                            </select>
-                            <ArrowRight size={14} className="absolute right-0 top-1/2 -translate-y-1/2 text-amber-500/50 pointer-events-none rotate-90" />
-                        </Field>
-
-                        <Field label="Message" name="message" touched={touched} errors={errors} >
-                            <textarea
-                                name="message" value={form.message}
-                                onChange={handleInputChange} onBlur={handleBlur}
-                                className={`${inputCls} resize-none ${touched.message && errors.message ? 'border-b-red-500/50' : ''}`}
-                                style={{ height: '100px' }}
-                                placeholder="Parle-nous de toi et de tes motivations..."
-                            />
-                            {/* ✅ Compteur de caractères */}
-                            <span className="absolute right-0 bottom-4 text-[10px] text-gray-600">
-                                {form.message.length}/20 min
-                            </span>
-                        </Field>
-
-                        {/* ✅ Bouton avec état loading */}
-                        <button
-                            type="submit"
-                            disabled={status === 'loading' || (isFormDirty && hasErrors)}
-                            className="group relative inline-flex items-center gap-4 bg-amber-600 hover:bg-amber-500 disabled:bg-zinc-800 disabled:text-zinc-500 disabled:cursor-not-allowed text-black px-12 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all duration-300 overflow-hidden"
-                        >
-                            <span className="relative z-10">
-                                {status === 'loading' ? 'Envoi en cours...' : 'Envoyer ma demande'}
-                            </span>
-                            {status === 'loading' ? (
-                                <svg className="relative z-10 animate-spin" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                    <path d="M21 12a9 9 0 1 1-6.219-8.56" />
-                                </svg>
-                            ) : (
-                                <ArrowRight size={14} className="relative z-10 group-hover:translate-x-1 transition-transform" />
+                    <motion.form
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        onSubmit={handleSubmit} id="rejoindre" className="w-full lg:w-[65%] space-y-8" noValidate
+                    >
+                        <AnimatePresence mode='wait'>
+                            {/* ✅ Bandeau succès */}
+                            {status === 'success' && (
+                                <motion.div
+                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    className="border border-amber-500/30 bg-amber-500/10 px-6 py-4 text-amber-300 text-sm font-bold p-8 text-center flex flex-col items-center gap-4">
+                                    <CheckCircle2 className="text-amber-500" size={40} />
+                                    <p className="text-white font-display text-2xl uppercase">Demande Envoyée !</p>
+                                    <p className="text-gray-400 text-sm">L'équipe S.T.A.R. reviendra vers toi très vite.</p>
+                                    <button onClick={() => setStatus('idle')} className="text-amber-500 text-[10px] uppercase underline mt-4">Nouvel envoi</button>
+                                    <div className="w-1.5 h-1.5 bg-amber-500 rotate-45 shrink-0" />
+                                    Merci ! Nous avons reçu ta demande. À très bientôt.
+                                </motion.div>
                             )}
-                            <div className="absolute inset-0 bg-white/15 -translate-x-full group-hover:translate-x-full transition-transform duration-500 skew-x-12" />
-                        </button>
-                    </form>
+
+                            {/* ✅ Bandeau erreur serveur */}
+                            {status === 'error' && (
+                                <div className="border border-red-500/30 bg-red-500/10 px-6 py-4 text-red-300 text-sm font-bold flex items-center gap-3">
+                                    <div className="w-1.5 h-1.5 bg-red-500 rotate-45 shrink-0" />
+                                    Une erreur est survenue. Veuillez réessayer.
+                                </div>
+                            )}
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <Field label="Nom complet" name="nom" touched={touched} errors={errors} >
+                                    <input
+                                        name="nom" value={form.nom}
+                                        onChange={handleInputChange} onBlur={handleBlur}
+                                        className={`${inputCls} ${touched.nom && errors.nom ? 'border-b-red-500/50' : ''}`}
+                                        placeholder="Jean d'Impact"
+                                        autoComplete="name"
+                                    />
+                                </Field>
+                                <Field label="Email" name="email" touched={touched} errors={errors} >
+                                    <input
+                                        name="email" type="email" value={form.email}
+                                        onChange={handleInputChange} onBlur={handleBlur}
+                                        className={`${inputCls} ${touched.email && errors.email ? 'border-b-red-500/50' : ''}`}
+                                        placeholder="vous@email.com"
+                                        autoComplete="email"
+                                    />
+                                </Field>
+                            </div>
+
+                            <Field label="Ministère d'intérêt" name="ministry_name" touched={touched} errors={errors} >
+                                <select
+                                    name="ministry_name" value={form.ministry_name}
+                                    onChange={handleInputChange} onBlur={handleBlur}
+                                    className={`${inputCls} appearance-none cursor-pointer ${touched.ministry_name && errors.ministry_name ? 'border-b-red-500/50' : ''}`}
+                                >
+                                    <option value="">Sélectionne un ministère...</option>
+                                    {ministryOptions.map(m => <option key={m} value={m}>{m}</option>)}
+                                </select>
+                                <ArrowRight size={14} className="absolute right-0 top-1/2 -translate-y-1/2 text-amber-500/50 pointer-events-none rotate-90" />
+                            </Field>
+
+                            <Field label="Message" name="message" touched={touched} errors={errors} >
+                                <textarea
+                                    name="message" value={form.message}
+                                    onChange={handleInputChange} onBlur={handleBlur}
+                                    className={`${inputCls} resize-none ${touched.message && errors.message ? 'border-b-red-500/50' : ''}`}
+                                    style={{ height: '100px' }}
+                                    placeholder="Parle-nous de toi et de tes motivations..."
+                                />
+                                {/* ✅ Compteur de caractères */}
+                                <span className="absolute right-0 bottom-4 text-[10px] text-gray-600">
+                                    {form.message.length}/20 min
+                                </span>
+                            </Field>
+
+                            {/* ✅ Bouton avec état loading */}
+                            <button
+                                type="submit"
+                                disabled={status === 'loading' || (isFormDirty && hasErrors)}
+                                className="group relative inline-flex items-center gap-4 bg-amber-600 hover:bg-amber-500 disabled:bg-zinc-800 disabled:text-zinc-500 disabled:cursor-not-allowed text-black px-12 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all duration-300 overflow-hidden"
+                            >
+                                <span className="relative z-10">
+                                    {status === 'loading' ? 'Envoi en cours...' : 'Envoyer ma demande'}
+                                </span>
+                                {status === 'loading' ? (
+                                    <svg className="relative z-10 animate-spin" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                        <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+                                    </svg>
+                                ) : (
+                                    <ArrowRight size={14} className="relative z-10 group-hover:translate-x-1 transition-transform" />
+                                )}
+                                <div className="absolute inset-0 bg-white/15 -translate-x-full group-hover:translate-x-full transition-transform duration-500 skew-x-12" />
+                            </button>
+                        </AnimatePresence>
+                    </motion.form>
                 </div>
             </div>
         </section>
@@ -523,10 +594,12 @@ const MinistriesPage = () => (
         <main className="grow">
             {/* Hero */}
             <section className="relative min-h-screen flex items-center justify-center overflow-hidden grain-overlay">
-                <div
-                    className="absolute inset-0 bg-cover bg-center"
+                <motion.div
+                    initial={{ scale: 1.2, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 0.4 }}
+                    transition={{ duration: 2 }}
+                    className="absolute inset-0 bg-cover bg-center bg-[url('/src/assets/fij3.jpeg')] "
                     style={{
-                        backgroundImage: `url('/src/assets/fij3.jpeg')`,
                         filter: 'brightness(0.35) contrast(1.1)',
                     }}
                 />
@@ -546,10 +619,13 @@ const MinistriesPage = () => (
                 </div>
 
                 {/* Scroll hint */}
-                <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-3 flex flex-col items-center gap-2 opacity-35">
+                <motion.div
+                    animate={{ y: [0, 10, 0] }}
+                    transition={{ repeat: Infinity, duration: 2 }}
+                    className="absolute bottom-10 left-1/2 -translate-x-1/2 z-3 flex flex-col items-center gap-2 opacity-35">
                     <span className="text-[9px] text-white/60 tracking-[0.3em] uppercase">Scroll</span>
                     <div className="w-px h-10 bg-linear-to-b from-white/60 to-transparent" />
-                </div>
+                </motion.div>
             </section>
 
             {/* Content */}
