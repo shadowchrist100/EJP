@@ -1,5 +1,5 @@
 import Nav from "../common/Nav";
-import { Contact } from "../../Index";
+import { Contact } from "../index";
 
 
 const MissionSection = () => {

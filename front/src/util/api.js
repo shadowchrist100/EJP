@@ -1,4 +1,3 @@
-const isDevelopment = import.meta.env.MODE === 'development';
 const BASE_URL = '/api' 
 
 export const apiFetch = async (endpoint, options = {}) => {
@@ -19,7 +18,9 @@ export const apiFetch = async (endpoint, options = {}) => {
         // Gestion automatique des erreurs HTTP (4xx, 5xx)
         if (!response.ok) {
             const errorData = await response.json().catch(() => ({}));
-            throw new Error(errorData.message || `Erreur: ${response.status}`);
+            console.log(errorData);
+            
+            throw new Error(errorData.error || `Erreur: ${response.error}`);
         }
 
         return await response.json();
