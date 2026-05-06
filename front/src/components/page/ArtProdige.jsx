@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
 import { Nav, Footer, Contact } from '../';
 import { BookOpen, Palette, Film, Music, Image, ArrowRight, X, ChevronRight, Play, Download, Sparkles, BookMarkedIcon } from 'lucide-react';
+import { art1,art2 } from '../../assets';
 
 const ArtProdige = () => {
     const [selectedCategory, setSelectedCategory] = useState('all');
@@ -95,6 +96,26 @@ const ArtProdige = () => {
             duration: '3 min',
             year: 2024,
             type: 'youtube',
+        },
+        {
+            id:7,
+            category: 'art',
+            title:'',
+            author:'',
+            image: art1,
+            description:'',
+            year:2025,
+            type:'image'
+        },
+        {
+            id:8,
+            category: 'art',
+            title:'',
+            author:'',
+            image: art2,
+            description:'',
+            year:2025,
+            type:'image'
         },
     ];
 
@@ -403,11 +424,11 @@ const ArtProdige = () => {
             >
                 <div
                     onClick={handleClickYoutube}
-                    className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-zinc-950 to-black border border-white/10 hover:border-amber-500/50 transition-colors duration-300"
+                    className="relative overflow-hidden rounded-2xl bg-linear-to-br from-zinc-950 to-black border border-white/10 hover:border-amber-500/50 transition-colors duration-300"
                 >
                     {/* Image avec zoom */}
                     <motion.div
-                        className="aspect-square overflow-hidden bg-gradient-to-br from-zinc-800 to-black"
+                        className="aspect-square overflow-hidden bg-linear-to-br from-zinc-800 to-black"
                         variants={imageVariants}
                         initial="initial"
                         whileHover="hover"
@@ -439,7 +460,7 @@ const ArtProdige = () => {
                         </motion.div>
                     ) : (
                         <motion.div
-                            className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-6"
+                            className="absolute inset-0 bg-linear-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-6"
                             variants={overlayVariants}
                             initial="hidden"
                             whileHover="visible"
@@ -449,7 +470,7 @@ const ArtProdige = () => {
                                 initial="hidden"
                                 whileHover="hover"
                                 whileTap="tap"
-                                className="inline-flex items-center gap-2 text-sm font-bold text-white bg-gradient-to-r from-amber-500 to-yellow-500 px-4 py-2 rounded-lg w-fit"
+                                className="inline-flex items-center gap-2 text-sm font-bold text-white bg-linear-to-r from-amber-500 to-yellow-500 px-4 py-2 rounded-lg w-fit"
                             >
                                 Voir plus
                                 <motion.div
@@ -532,7 +553,7 @@ const ArtProdige = () => {
                         />
                         <motion.div
                             style={{ y }}
-                            className="absolute inset-0 bg-gradient-to-b from-black via-black/95 to-zinc-900"
+                            className="absolute inset-0 bg-linear-to-b from-black via-black/95 to-zinc-900"
                         />
                     </div>
 
@@ -564,7 +585,7 @@ const ArtProdige = () => {
                                 className="text-5xl sm:text-6xl md:text-7xl font-black text-white mb-6 tracking-tighter leading-none"
                             >
                                 Découvrez les{' '}
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-600">
+                                <span className="text-transparent bg-clip-text bg-linear-to-r from-amber-200 via-yellow-400 to-amber-600">
                                     Œuvres
                                 </span>{' '}
                                 de nos Jeunes Prodiges
@@ -613,7 +634,7 @@ const ArtProdige = () => {
 
                 {/* ===== INSPIRATIONAL SECTION ===== */}
                 <section className="relative py-24 px-4 md:px-8 overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-r from-amber-500/10 via-yellow-500/5 to-amber-500/10 pointer-events-none" />
+                    <div className="absolute inset-0 bg-linear-to-r from-amber-500/10 via-yellow-500/5 to-amber-500/10 pointer-events-none" />
 
                     <motion.div
                         className="absolute -top-20 -right-20 w-96 h-96 bg-amber-500/10 rounded-full blur-3xl"
@@ -647,7 +668,7 @@ const ArtProdige = () => {
                                         variants={pulseVariants}
                                         animate="animate"
                                     />
-                                    <div className="relative p-4 bg-gradient-to-br from-amber-500/20 to-yellow-500/10 rounded-full border border-amber-500/30">
+                                    <div className="relative p-4 bg-linear-to-br from-amber-500/20 to-yellow-500/10 rounded-full border border-amber-500/30">
                                         <motion.div
                                             variants={spinVariants}
                                             animate="animate"
@@ -664,7 +685,7 @@ const ArtProdige = () => {
                                 className="text-3xl md:text-5xl font-black text-white mb-8 tracking-tighter leading-tight"
                             >
                                 Remplis de l'
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-600">
+                                <span className="text-transparent bg-clip-text bg-linear-to-r from-amber-200 via-yellow-400 to-amber-600">
                                     Esprit Divin
                                 </span>
                             </motion.h2>
@@ -674,7 +695,7 @@ const ArtProdige = () => {
                                 variants={itemVariants}
                                 className="mb-8 relative"
                             >
-                                <div className="absolute left-0 top-0 w-1 h-12 bg-gradient-to-b from-amber-500 to-transparent" />
+                                <div className="absolute left-0 top-0 w-1 h-12 bg-linear-to-b from-amber-500 to-transparent" />
                                 <p className="text-lg md:text-xl text-gray-300 font-light leading-relaxed italic pl-6 max-w-3xl mx-auto">
                                     <span className="text-amber-400 font-bold">"</span>Je l'ai rempli de
                                     l'Esprit de Dieu, de sagesse, d'intelligence, et de savoir pour
@@ -714,7 +735,7 @@ const ArtProdige = () => {
                             >
                                 <div className="flex items-center justify-center gap-4">
                                     <motion.div
-                                        className="h-px bg-gradient-to-r from-transparent to-amber-500/50"
+                                        className="h-px bg-linear-to-r from-transparent to-amber-500/50"
                                         variants={underlineVariants}
                                         initial="hidden"
                                         whileInView="visible"
@@ -724,7 +745,7 @@ const ArtProdige = () => {
                                         Inspirés • Créatifs • Impactants
                                     </span>
                                     <motion.div
-                                        className="h-px bg-gradient-to-l from-transparent to-amber-500/50"
+                                        className="h-px bg-linear-to-l from-transparent to-amber-500/50"
                                         variants={underlineVariants}
                                         initial="hidden"
                                         whileInView="visible"
@@ -739,7 +760,7 @@ const ArtProdige = () => {
 
                 {/* ===== GALLERY SECTION ===== */}
                 <section className="py-20 px-4 md:px-8 relative">
-                    <div className="absolute inset-0 bg-gradient-to-b from-black via-zinc-900/50 to-black pointer-events-none" />
+                    <div className="absolute inset-0 bg-linear-to-b from-black via-zinc-900/50 to-black pointer-events-none" />
 
                     <div className="container mx-auto max-w-7xl relative z-10">
                         <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
@@ -751,7 +772,7 @@ const ArtProdige = () => {
                                 viewport={{ once: true }}
                                 className="lg:col-span-1"
                             >
-                                <div className="sticky top-40 bg-gradient-to-br from-zinc-950 to-black border border-white/10 rounded-2xl p-6 backdrop-blur-sm hover:border-amber-500/30 transition-all duration-300">
+                                <div className="sticky top-40 bg-linear-to-br from-zinc-950 to-black border border-white/10 rounded-2xl p-6 backdrop-blur-sm hover:border-amber-500/30 transition-all duration-300">
                                     <h3 className="text-xl font-black text-white mb-6 tracking-tight">
                                         Catégories
                                     </h3>
@@ -775,11 +796,11 @@ const ArtProdige = () => {
                                                     onClick={() => setSelectedCategory(cat.id)}
                                                     className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 text-left group ${
                                                         isSelected
-                                                            ? 'bg-gradient-to-r from-amber-500 to-yellow-500 text-black font-bold shadow-lg shadow-amber-500/30'
+                                                            ? 'bg-linear-to-r from-amber-500 to-yellow-500 text-black font-bold shadow-lg shadow-amber-500/30'
                                                             : 'text-gray-300 hover:bg-white/5 hover:text-amber-400 border border-transparent hover:border-amber-500/30'
                                                     }`}
                                                 >
-                                                    <Icon className={`w-5 h-5 flex-shrink-0 transition-transform ${
+                                                    <Icon className={`w-5 h-5 shrink-0 transition-transform ${
                                                         isSelected ? '' : 'group-hover:scale-110'
                                                     }`} />
                                                     <span className="text-sm font-bold flex-1">
@@ -818,7 +839,7 @@ const ArtProdige = () => {
                                         {categories.find(c => c.id === selectedCategory)?.label}
                                     </motion.h2>
                                     <motion.div
-                                        className="h-1 bg-gradient-to-r from-amber-500 to-yellow-500 rounded-full"
+                                        className="h-1 bg-linear-to-r from-amber-500 to-yellow-500 rounded-full"
                                         variants={underlineVariants}
                                         initial="hidden"
                                         whileInView="visible"
@@ -884,7 +905,7 @@ const ArtProdige = () => {
                             exit="exit"
                         >
                             <motion.div
-                                className="bg-gradient-to-br from-zinc-900 to-black border-2 border-white/10 rounded-3xl w-full max-w-2xl my-8"
+                                className="bg-linear-to-br from-zinc-900 to-black border-2 border-white/10 rounded-3xl w-full max-w-2xl my-8"
                                 variants={modalVariants}
                                 initial="hidden"
                                 animate="visible"
@@ -911,7 +932,7 @@ const ArtProdige = () => {
                                             whileHover="hover"
                                             whileTap="tap"
                                             onClick={() => setExpandedWork(null)}
-                                            className="p-2 hover:bg-white/10 rounded-lg transition-colors flex-shrink-0"
+                                            className="p-2 hover:bg-white/10 rounded-lg transition-colors shrink-0"
                                         >
                                             <X className="w-6 h-6 text-gray-400" />
                                         </motion.button>
@@ -920,7 +941,7 @@ const ArtProdige = () => {
                                     {/* Modal Image */}
                                     <motion.div
                                         variants={itemVariants}
-                                        className="mb-8 rounded-2xl overflow-hidden bg-gradient-to-br from-zinc-800 to-black border border-white/10 flex items-center justify-center p-6 min-h-64"
+                                        className="mb-8 rounded-2xl overflow-hidden bg-linear-to-br from-zinc-800 to-black border border-white/10 flex items-center justify-center p-6 min-h-64"
                                     >
                                         <motion.img
                                             src={expandedWork.image}
@@ -999,7 +1020,7 @@ const ArtProdige = () => {
                                                     href={expandedWork.downloadUrl}
                                                     target="_blank"
                                                     rel="noopener noreferrer"
-                                                    className="w-full py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white rounded-xl font-black uppercase text-xs tracking-widest hover:shadow-2xl hover:shadow-green-500/40 transition-all duration-300 flex items-center justify-center gap-2 group"
+                                                    className="w-full py-3 bg-linear-to-r from-green-500 to-emerald-500 text-white rounded-xl font-black uppercase text-xs tracking-widest hover:shadow-2xl hover:shadow-green-500/40 transition-all duration-300 flex items-center justify-center gap-2 group"
                                                     variants={buttonVariants}
                                                     whileHover="hover"
                                                     whileTap="tap"
@@ -1011,7 +1032,7 @@ const ArtProdige = () => {
 
                                         <motion.button
                                             onClick={() => setExpandedWork(null)}
-                                            className="w-full py-3 bg-gradient-to-r from-amber-500 to-yellow-500 text-black rounded-xl font-black uppercase text-xs tracking-widest hover:shadow-2xl hover:shadow-amber-500/40 transition-all duration-300 flex items-center justify-center gap-2 group"
+                                            className="w-full py-3 bg-linear-to-r from-amber-500 to-yellow-500 text-black rounded-xl font-black uppercase text-xs tracking-widest hover:shadow-2xl hover:shadow-amber-500/40 transition-all duration-300 flex items-center justify-center gap-2 group"
                                             variants={buttonVariants}
                                             whileHover="hover"
                                             whileTap="tap"

@@ -54,7 +54,7 @@ const DonationHero = () => {
                     </div> */}
 
                     {/* CTA Button */}
-                    <a href="#donation-options" className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500 to-yellow-500 text-black px-10 py-4 rounded-full font-black uppercase text-sm tracking-widest hover:shadow-2xl hover:shadow-amber-500/50 transition-all duration-300 group">
+                    <a href="#donation-options" className="inline-flex items-center gap-2 bg-linear-to-r from-amber-500 to-yellow-500 text-black px-10 py-4 rounded-full font-black uppercase text-sm tracking-widest hover:shadow-2xl hover:shadow-amber-500/50 transition-all duration-300 group">
                         <span>Commencer un don</span>
                         <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                     </a>
@@ -367,7 +367,7 @@ const ImpactSection = () => {
                 {/* Title */}
                 <div className="text-center mb-20">
                     <h2 className="text-5xl md:text-6xl font-black text-white mb-4 tracking-tighter">
-                        Où va votre <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-500">Don</span>
+                        Où va votre <span className="text-transparent bg-clip-text bg-linear-to-r from-amber-400 to-yellow-500">Don</span>
                     </h2>
                     <p className="text-gray-400 text-lg font-light">
                         100% de transparence sur l'utilisation de vos contributions
@@ -379,7 +379,7 @@ const ImpactSection = () => {
                     {impacts.map((impact, idx) => (
                         <div
                             key={idx}
-                            className="group relative bg-gradient-to-br from-zinc-950 to-black border border-white/10 rounded-3xl p-8 hover:border-amber-500/50 transition-all duration-300 animate-in fade-in slide-in-from-bottom-4"
+                            className="group relative bg-linear-to-br from-zinc-950 to-black border border-white/10 rounded-3xl p-8 hover:border-amber-500/50 transition-all duration-300 animate-in fade-in slide-in-from-bottom-4"
                             style={{ animationDelay: `${idx * 100}ms` }}
                         >
                             {/* Glow */}
@@ -402,7 +402,7 @@ const ImpactSection = () => {
                 </div>
 
                 {/* Budget Breakdown */}
-                <div className="bg-gradient-to-br from-amber-500/5 to-yellow-500/5 border-2 border-amber-500/20 rounded-3xl p-10">
+                <div className="bg-linear-to-br from-amber-500/5 to-yellow-500/5 border-2 border-amber-500/20 rounded-3xl p-10">
                     <h3 className="text-2xl font-black text-white mb-8">Allocation des ressources</h3>
                     <div className="space-y-6">
                         {[
@@ -418,7 +418,7 @@ const ImpactSection = () => {
                                 </div>
                                 <div className="w-full bg-white/10 rounded-full h-3 overflow-hidden">
                                     <div
-                                        className={`h-full bg-gradient-to-r ${item.color}`}
+                                        className={`h-full bg-linear-to-r ${item.color}`}
                                         style={{ width: `${item.percent}%` }}
                                     />
                                 </div>
@@ -450,12 +450,12 @@ const FAQSection = () => {
     ];
 
     return (
-        <section className="py-32 px-4 md:px-8 relative bg-gradient-to-b from-black to-zinc-900/50">
+        <section className="py-32 px-4 md:px-8 relative bg-linear-to-b from-black to-zinc-900/50">
             <div className="container mx-auto max-w-4xl">
                 {/* Title */}
                 <div className="text-center mb-16">
                     <h2 className="text-5xl md:text-6xl font-black text-white mb-4 tracking-tighter">
-                        Questions <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-500">Fréquentes</span>
+                        Questions <span className="text-transparent bg-clip-text bg-linear-to-r from-amber-400 to-yellow-500">Fréquentes</span>
                     </h2>
                 </div>
 
@@ -509,7 +509,7 @@ const DonationPage = () => {
                 <FAQSection />
 
                 {/* Final CTA */}
-                <section className="py-24 px-4 bg-gradient-to-b from-black to-zinc-900 relative overflow-hidden">
+                <section className="py-24 px-4 bg-linear-to-b from-black to-zinc-900 relative overflow-hidden">
                     <div className="absolute inset-0">
                         <div className="absolute -top-40 -right-40 w-96 h-96 bg-amber-500/20 rounded-full blur-3xl" />
                         <div className="absolute -bottom-40 -left-40 w-96 h-96 bg-yellow-500/10 rounded-full blur-3xl" />
@@ -517,12 +517,12 @@ const DonationPage = () => {
 
                     <div className="container mx-auto max-w-4xl text-center relative z-10">
                         <h2 className="text-5xl md:text-6xl font-black text-white mb-6 tracking-tighter">
-                            Prêt à <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-400 to-yellow-500">Transformer</span> des Vies?
+                            Prêt à <span className="text-transparent bg-clip-text bg-linear-to-r from-amber-400 to-yellow-500">Transformer</span> des Vies?
                         </h2>
                         <p className="text-gray-400 text-lg font-light mb-10 max-w-2xl mx-auto">
                             Rejoins les centaines de partenaires qui soutiennent la vision S.T.A.R. et créent un impact durable.
                         </p>
-                        <a href="#donation-options" className="inline-flex items-center gap-2 bg-gradient-to-r from-amber-500 to-yellow-500 text-black px-12 py-5 rounded-full font-black uppercase text-sm tracking-widest hover:shadow-2xl hover:shadow-amber-500/50 transition-all duration-300 group">
+                        <a href="#donation-options" className="inline-flex items-center gap-2 bg-linear-to-r from-amber-500 to-yellow-500 text-black px-12 py-5 rounded-full font-black uppercase text-sm tracking-widest hover:shadow-2xl hover:shadow-amber-500/50 transition-all duration-300 group">
                             <Heart size={18} />
                             <span>Faire un don maintenant</span>
                             <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
