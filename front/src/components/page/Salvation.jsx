@@ -66,7 +66,7 @@ const HeroBanner = ({ onPrayClick }) => {
                 className="absolute -bottom-40 -left-40 w-80 h-80 bg-yellow-500/10 rounded-full blur-3xl pointer-events-none"
                 delay={1.5}
             />
-            <div className="absolute inset-0 bg-gradient-to-b from-black via-black/95 to-zinc-900" />
+            <div className="absolute inset-0 bg-linear-to-b from-black via-black/95 to-zinc-900" />
 
             <div className="container mx-auto max-w-4xl relative z-10">
                 <motion.div
@@ -99,7 +99,7 @@ const HeroBanner = ({ onPrayClick }) => {
                         className="text-5xl sm:text-6xl md:text-7xl font-black text-white mb-6 tracking-tighter leading-none"
                     >
                         La{' '}
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-amber-200 via-yellow-400 to-amber-600">
+                        <span className="text-transparent bg-clip-text bg-linear-to-r from-amber-200 via-yellow-400 to-amber-600">
                             Prière du Salut
                         </span>
                     </motion.h1>
@@ -119,7 +119,7 @@ const HeroBanner = ({ onPrayClick }) => {
                             href="#prayer"
                             whileHover={{ scale: 1.05, boxShadow: '0 0 40px rgba(245,158,11,0.4)' }}
                             whileTap={{ scale: 0.97 }}
-                            className="bg-gradient-to-r from-amber-500 to-yellow-500 text-black px-10 py-4 rounded-full font-black uppercase text-sm tracking-widest inline-flex items-center gap-2"
+                            className="bg-linear-to-r from-amber-500 to-yellow-500 text-black px-10 py-4 rounded-full font-black uppercase text-sm tracking-widest inline-flex items-center gap-2"
                         >
                             <Heart size={18} />
                             <span>Faire la prière</span>
@@ -145,7 +145,7 @@ const PrayerCard = ({ point, idx }) => (
         custom={idx * 0.1}
         whileHover={{ y: -8, boxShadow: '0 20px 60px rgba(245,158,11,0.15)' }}
         transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-        className="group bg-gradient-to-br from-zinc-950 to-black border border-white/10 hover:border-amber-500/50 rounded-2xl p-8 transition-colors duration-300 cursor-default"
+        className="group bg-linear-to-r from-zinc-950 to-black border border-white/10 hover:border-amber-500/50 rounded-2xl p-8 transition-colors duration-300 cursor-default"
     >
         <motion.div
             className="text-5xl mb-4"
@@ -178,7 +178,7 @@ const StepPrayer = ({ onNext }) => {
                 </motion.h2>
                 <motion.div
                     variants={{ hidden: { scaleX: 0 }, visible: { scaleX: 1, transition: { duration: 0.8, delay: 0.2 } } }}
-                    className="w-16 h-1 bg-gradient-to-r from-amber-500 to-yellow-500 rounded-full mb-12 origin-left"
+                    className="w-16 h-1 bg-linear-to-r from-amber-500 to-yellow-500 rounded-full mb-12 origin-left"
                 />
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     {prayerPoints.map((point, idx) => (
@@ -194,7 +194,7 @@ const StepPrayer = ({ onNext }) => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-80px' }}
                 transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-                className="bg-gradient-to-br from-amber-500/10 to-yellow-500/5 border-2 border-amber-500/30 rounded-3xl p-12 mb-12"
+                className="bg-linear-to-r from-amber-500/10 to-yellow-500/5 border-2 border-amber-500/30 rounded-3xl p-12 mb-12"
             >
                 <motion.h3
                     initial={{ opacity: 0 }}
@@ -223,7 +223,7 @@ const StepPrayer = ({ onNext }) => {
                         onClick={onNext}
                         whileHover={{ scale: 1.05, boxShadow: '0 0 40px rgba(245,158,11,0.35)' }}
                         whileTap={{ scale: 0.96 }}
-                        className="bg-gradient-to-r from-amber-500 to-yellow-500 text-black px-12 py-4 rounded-full font-black uppercase text-sm tracking-widest inline-flex items-center gap-2 mx-auto"
+                        className="bg-linear-to-r from-amber-500 to-yellow-500 text-black px-12 py-4 rounded-full font-black uppercase text-sm tracking-widest inline-flex items-center gap-2 mx-auto"
                     >
                         <span>J'ai Prié - S'inscrire Maintenant</span>
                         <motion.span
@@ -317,7 +317,7 @@ const StepForm = ({ onBack, onSuccess }) => {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
-                className="bg-gradient-to-br from-zinc-950 to-black border-2 border-white/10 rounded-3xl p-12"
+                className="bg-linear-to-br from-zinc-950 to-black border-2 border-white/10 rounded-3xl p-12"
             >
                 <motion.h2
                     initial={{ opacity: 0, x: -20 }}
@@ -401,7 +401,7 @@ const StepForm = ({ onBack, onSuccess }) => {
                             disabled={isSubmitting}
                             whileHover={!isSubmitting ? { scale: 1.02, boxShadow: '0 0 40px rgba(245,158,11,0.35)' } : {}}
                             whileTap={!isSubmitting ? { scale: 0.97 } : {}}
-                            className="w-full bg-gradient-to-r from-amber-500 to-yellow-500 disabled:from-zinc-700 disabled:to-zinc-600 text-black disabled:text-zinc-400 px-10 py-4 rounded-xl font-black uppercase text-sm tracking-widest flex items-center justify-center gap-2 transition-colors duration-300"
+                            className="w-full bg-linear-to-r from-amber-500 to-yellow-500 disabled:from-zinc-700 disabled:to-zinc-600 text-black disabled:text-zinc-400 px-10 py-4 rounded-xl font-black uppercase text-sm tracking-widest flex items-center justify-center gap-2 transition-colors duration-300"
                         >
                             {isSubmitting ? (
                                 <>
@@ -445,7 +445,7 @@ const StepConfirmation = () => (
             initial={{ opacity: 0, scale: 0.85 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="bg-gradient-to-br from-amber-500/20 to-yellow-500/10 border-2 border-amber-500/50 rounded-3xl p-16"
+            className="bg-linear-to-br from-amber-500/20 to-yellow-500/10 border-2 border-amber-500/50 rounded-3xl p-16"
         >
             <motion.div
                 initial={{ scale: 0, rotate: -30 }}
@@ -539,12 +539,12 @@ const TestimoniesSection = () => (
                         viewport={{ once: true, margin: '-50px' }}
                         transition={{ duration: 0.7, delay: idx * 0.15, ease: [0.16, 1, 0.3, 1] }}
                         whileHover={{ y: -8, boxShadow: '0 20px 60px rgba(245,158,11,0.15)', borderColor: 'rgba(245,158,11,0.3)' }}
-                        className="bg-gradient-to-br from-zinc-900 to-black border border-white/10 rounded-2xl p-8 transition-colors duration-300 cursor-default"
+                        className="bg-linear-to-br from-zinc-900 to-black border border-white/10 rounded-2xl p-8 transition-colors duration-300 cursor-default"
                     >
                         <div className="flex items-center gap-4 mb-6">
                             <motion.div
                                 whileHover={{ rotate: 5, scale: 1.1 }}
-                                className="w-14 h-14 bg-gradient-to-br from-amber-500 to-yellow-500 rounded-full flex items-center justify-center font-black text-black text-xl"
+                                className="w-14 h-14 bg-linear-to-br from-amber-500 to-yellow-500 rounded-full flex items-center justify-center font-black text-black text-xl"
                             >
                                 {testimony.image}
                             </motion.div>
@@ -581,7 +581,7 @@ const SalvationPrayer = () => {
 
                 {/* Steps Section */}
                 <section className="py-20 px-4 md:px-8 relative">
-                    <div className="absolute inset-0 bg-gradient-to-b from-black via-zinc-900/50 to-black pointer-events-none" />
+                    <div className="absolute inset-0 bg-linear-to-b from-black via-zinc-900/50 to-black pointer-events-none" />
                     <div className="container mx-auto max-w-6xl relative z-10">
                         <AnimatePresence mode="wait">
                             {step === 1 && (

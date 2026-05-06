@@ -140,7 +140,7 @@ const Banner = () => {
             <motion.div custom={2} variants={fadeInUp} className="mb-6">
                 <h1 className="font-display leading-none tracking-wide uppercase">
                     <span className="block text-[clamp(2.5rem,9vw,7rem)] text-white">Deviens un(e)</span>
-                    <span className="block text-[clamp(3rem,12vw,9rem)] shimmer-gold flex justify-center">
+                    <span className="text-[clamp(3rem,12vw,9rem)] shimmer-gold flex justify-center">
                         {starLetters.map((c, i) => (
                             <motion.span
                                 key={i}
@@ -321,7 +321,7 @@ const Field = ({ label, name, touched, errors, children }) => (
         {/*  Message d'erreur par champ */}
         {touched[name] && errors[name] && (
             <p className="mt-1.5 text-red-400 text-[10px] font-medium tracking-wide flex items-center gap-1.5">
-                <span className="w-1 h-1 bg-red-400 rounded-full inline-block flex-shrink-0" />
+                <span className="w-1 h-1 bg-red-400 rounded-full inline-block shrink-0" />
                 {errors[name]}
             </p>
         )}
