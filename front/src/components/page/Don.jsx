@@ -137,7 +137,7 @@ const DonationOptions = () => {
                     <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl blur-2xl bg-amber-500/20" />
 
                     {/* Content */}
-                    <div className="relative p-12 md:p-16">
+                    <div className="relative p-6 sm:p-12 md:p-16">
                         <div className="text-center">
                             {/* Icon */}
                             <div className="text-7xl mb-8 animate-bounce">💝</div>
@@ -197,7 +197,7 @@ const DonationOptions = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-50px" }}
                     transition={{ duration: 0.6, delay: 0.4 }}
-                    className="mt-16 grid grid-cols-3 gap-6"
+                    className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6"
                 >
                     <div className="text-center p-6 bg-white/5 border border-white/10 rounded-2xl hover:border-amber-500/30 transition-all">
                         <div className="text-3xl mb-3">🔒</div>
@@ -584,7 +584,7 @@ const DonationPage = () => {
                         transition={{ duration: 0.8 }}
                         className="container mx-auto max-w-4xl text-center relative z-10"
                     >
-                        <h2 className="text-5xl md:text-6xl font-black text-white mb-6 tracking-tighter">
+                        <h2 className="text-4xl sm:text-5xl md:text-6xl font-black text-white mb-6 tracking-tighter">
                             Prêt à <span className="text-transparent bg-clip-text bg-linear-to-r from-amber-400 to-yellow-500">Transformer</span> des Vies?
                         </h2>
                         <p className="text-gray-400 text-lg font-light mb-10 max-w-2xl mx-auto">

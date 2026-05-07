@@ -323,7 +323,7 @@ const ComingNext = ({ events }) => {
                 <div className="text-center mb-20">
                     <motion.h2
                         variants={titleVariants}
-                        className="text-5xl md:text-7xl font-black text-white tracking-tighter mb-4"
+                        className="text-4xl  md:text-7xl font-black text-white tracking-tighter mb-4"
                     >
                         PROCHAINEMENT
                     </motion.h2>

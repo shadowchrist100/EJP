@@ -195,17 +195,17 @@ const Banner = () => {
             <div className="mb-4 leading-none">
                 <AnimatedWord
                     text="LES FAMILLES"
-                    className="font-display text-[clamp(3.5rem,12vw,10rem)] leading-none tracking-wide text-white"
+                    className="font-display text-[clamp(2rem,10vw,10rem)] sm:text-[clamp(3.5rem,12vw,10rem)] leading-none tracking-wide text-white"
                     delay={0.2}
                 />
                 <AnimatedWord
                     text="D'IMPACT"
-                    className="font-display text-[clamp(3.5rem,12vw,10rem)] leading-none tracking-wide text-stroke"
+                    className="font-display text-[clamp(2rem,10vw,10rem)] sm:text-[clamp(3.5rem,12vw,10rem)] leading-none tracking-wide text-stroke"
                     delay={0.45}
                 />
                 <AnimatedWord
                     text="JEUNES"
-                    className="font-display text-[clamp(3.5rem,12vw,10rem)] leading-none tracking-wide text-amber-400"
+                    className="font-display text-[clamp(2rem,10vw,10rem)] sm:text-[clamp(3.5rem,12vw,10rem)] leading-none tracking-wide text-amber-400"
                     delay={0.68}
                 />
             </div>

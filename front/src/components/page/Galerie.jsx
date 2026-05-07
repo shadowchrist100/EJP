@@ -58,15 +58,15 @@ const Lightbox = ({ image, images, onClose, onPrev, onNext }) => {
                 whileHover={{ rotate: 90, scale: 1.1, color: '#f59e0b' }}
                 whileTap={{ scale: 0.9 }}
                 onClick={onClose}
-                className="absolute top-8 right-8 z-10 text-white/50 transition-colors"
+                className="absolute top-4 right-4 sm:top-8 sm:right-8 z-[10000] text-white/50 transition-colors"
             >
-                <X size={32} />
+                <X size={28} className="sm:w-8 sm:h-8" />
             </motion.button>
 
             {/* Boutons nav — glissent depuis les côtés */}
             {[
-                { side: 'left',  icon: <ChevronLeft size={24} />,  action: onPrev, hover: { x: -5 } },
-                { side: 'right', icon: <ChevronRight size={24} />, action: onNext, hover: { x:  5 } },
+                { side: 'left',  icon: <ChevronLeft size={20} />,  action: onPrev, hover: { x: -5 } },
+                { side: 'right', icon: <ChevronRight size={20} />, action: onNext, hover: { x:  5 } },
             ].map(({ side, icon, action, hover }) => (
                 <motion.button
                     key={side}
@@ -76,14 +76,14 @@ const Lightbox = ({ image, images, onClose, onPrev, onNext }) => {
                     whileHover={{ scale: 1.15, ...hover, backgroundColor: 'rgba(245,158,11,0.15)', borderColor: 'rgba(245,158,11,0.4)' }}
                     whileTap={{ scale: 0.9 }}
                     onClick={(e) => { e.stopPropagation(); action(); }}
-                    className={`absolute top-1/2 -translate-y-1/2 ${side === 'left' ? 'left-8' : 'right-8'} p-4 rounded-full bg-white/5 border border-white/10 text-white transition-colors`}
+                    className={`absolute top-1/2 -translate-y-1/2 ${side === 'left' ? 'left-2 sm:left-8' : 'right-2 sm:right-8'} p-3 sm:p-4 rounded-full bg-white/5 border border-white/10 text-white transition-colors z-20`}
                 >
                     {icon}
                 </motion.button>
             ))}
 
             {/* Image + barre + meta */}
-            <div className="max-w-5xl w-full px-24 flex flex-col items-center" onClick={e => e.stopPropagation()}>
+            <div className="max-w-5xl w-full px-4 sm:px-12 md:px-24 flex flex-col items-center" onClick={e => e.stopPropagation()}>
                 <AnimatePresence mode="wait">
                     <motion.div
                         key={image.id}
@@ -269,7 +269,7 @@ const HeroSection = () => {
                             animate={{ y: 0, rotateX: 0, opacity: 1 }}
                             transition={{ duration: 1, delay: wi * 0.18, ease: [0.16, 1, 0.3, 1] }}
                             style={{ perspective: 800, display: 'inline-block', marginRight: '0.3em' }}
-                            className={`text-7xl md:text-[10rem] font-black tracking-tighter uppercase leading-none ${wi === 1 ? 'text-amber-600 italic' : 'text-white'}`}
+                            className={`text-5xl sm:text-7xl md:text-[10rem] font-black tracking-tighter uppercase leading-none ${wi === 1 ? 'text-amber-600 italic' : 'text-white'}`}
                         >
                             {word}
                         </motion.span>
@@ -316,13 +316,13 @@ const FilterBar = ({ filter, setFilter, viewMode, setViewMode }) => (
     >
         {/* Filtres avec sliding pill */}
         <LayoutGroup>
-            <div className="flex gap-2 bg-zinc-900/60 p-1.5 rounded-full border border-white/5 backdrop-blur-sm">
+            <div className="flex flex-wrap justify-center gap-1 sm:gap-2 bg-zinc-900/60 p-1 sm:p-1.5 rounded-2xl sm:rounded-full border border-white/5 backdrop-blur-sm">
                 {categories.map(({ id, label }) => (
                     <motion.button
                         key={id}
                         onClick={() => setFilter(id)}
                         whileTap={{ scale: 0.95 }}
-                        className={`relative px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-widest transition-colors ${filter === id ? 'text-black' : 'text-gray-500 hover:text-white'}`}
+                        className={`relative px-4 sm:px-6 py-2 sm:py-2.5 rounded-full text-[9px] sm:text-[10px] font-black uppercase tracking-widest transition-colors ${filter === id ? 'text-black' : 'text-gray-500 hover:text-white'}`}
                     >
                         {filter === id && (
                             <motion.div
@@ -409,7 +409,7 @@ const Galerie = () => {
     };
 
     return (
-        <section className="min-h-screen bg-black text-gray-300">
+        <section className="min-h-screen bg-black text-gray-300 overflow-x-hidden">
 
             {/* Barre de progression */}
             <motion.div
