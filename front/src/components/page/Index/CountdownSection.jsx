@@ -65,25 +65,27 @@ const CountdownSection = () => {
                 </FadeIn>
 
                 {/* Timer */}
-                <FadeIn delay={0.4} direction="up" className="inline-flex items-end gap-0 border border-white/6 bg-black/40">
-                    {units.map(({ label, value }, i) => (
-                        <React.Fragment key={label}>
-                            <div className="flex flex-col items-center px-6 py-8 md:px-10 md:py-10 group">
-                                <span
-                                    className="font-display text-[clamp(2.5rem,7vw,5.5rem)] text-white leading-none digit-swap"
-                                >
-                                    {fmt(value)}
-                                </span>
-                                <span className="text-amber-600/60 text-[9px] font-black uppercase tracking-[0.35em] mt-3">
-                                    {label}
-                                </span>
-                            </div>
-                            {i < units.length - 1 && (
-                                <div className="self-center pb-6 text-amber-600/30 font-display text-4xl md:text-5xl select-none">:</div>
-                            )}
-                        </React.Fragment>
-                    ))}
-                </FadeIn>
+                <div className="flex justify-center">
+                    <FadeIn delay={0.4} direction="up" className="flex flex-wrap items-center justify-center border border-white/6 bg-black/40 max-w-full">
+                        {units.map(({ label, value }, i) => (
+                            <React.Fragment key={label}>
+                                <div className="flex flex-col items-center px-4 py-6 sm:px-6 sm:py-8 md:px-10 md:py-10 group min-w-[80px] sm:min-w-[110px]">
+                                    <span
+                                        className="font-display text-[clamp(1.75rem,8vw,5.5rem)] text-white leading-none digit-swap"
+                                    >
+                                        {fmt(value)}
+                                    </span>
+                                    <span className="text-amber-600/60 text-[7px] sm:text-[9px] font-black uppercase tracking-[0.2em] sm:tracking-[0.35em] mt-2 sm:mt-3">
+                                        {label}
+                                    </span>
+                                </div>
+                                {i < units.length - 1 && (
+                                    <div className="hidden sm:block self-center pb-6 text-amber-600/30 font-display text-2xl md:text-5xl select-none">:</div>
+                                )}
+                            </React.Fragment>
+                        ))}
+                    </FadeIn>
+                </div>
 
                 {/* Bottom note */}
                 <FadeIn delay={0.6} direction="up">

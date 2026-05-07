@@ -139,8 +139,8 @@ const Banner = () => {
             {/* Title */}
             <motion.div custom={2} variants={fadeInUp} className="mb-6">
                 <h1 className="font-display leading-none tracking-wide uppercase">
-                    <span className="block text-[clamp(2.5rem,9vw,7rem)] text-white">Deviens un(e)</span>
-                    <span className="text-[clamp(3rem,12vw,9rem)] shimmer-gold flex justify-center">
+                    <span className="block text-[clamp(1.75rem,9vw,7rem)] text-white">Deviens un(e)</span>
+                    <span className="text-[clamp(2.5rem,12vw,9rem)] shimmer-gold flex justify-center">
                         {starLetters.map((c, i) => (
                             <motion.span
                                 key={i}
