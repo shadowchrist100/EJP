@@ -134,12 +134,12 @@ const VisionSection = ({ audioPath }) => {
                     <div
                         key={pIdx}
                         style={{
-                            minHeight: '100vh',
+                            minHeight: '70vh',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
                             position: 'relative',
-                            padding: 'var(--space-section) 0',
+                            // padding: 'var(--space-section) 0',
                         }}
                     >
                         {/* Subtle gradient */}
