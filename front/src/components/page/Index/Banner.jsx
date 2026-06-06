@@ -13,7 +13,7 @@ const Banner = () => {
     }, [images.length]);
 
     return (
-        <section className="relative grain-overlay" style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', background: 'var(--color-scrim)' }}>
+        <section className="md:pt-22 relative grain-overlay" style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', background: 'var(--color-scrim)' }}>
             {/* Slideshow — cinematic photographic hero */}
             <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
                 {images.map((img, i) => (
@@ -52,8 +52,8 @@ const Banner = () => {
                                 alt="EJP Logo"
                                 style={{
                                     position: 'relative',
-                                    width: '64px',
-                                    height: '64px',
+                                    width: '70px',
+                                    height: '70px',
                                     borderRadius: '50%',
                                     border: '1px solid rgba(217,119,6,0.3)',
                                     objectFit: 'cover',
@@ -71,7 +71,7 @@ const Banner = () => {
                 </FadeIn>
 
                 {/* Display headline */}
-                <FadeIn stagger={2} direction="up">
+                <FadeIn stagger={2} direction="up" >
                     <h1 style={{ margin: 0 }}>
                         <span className="t-display" style={{ display: 'block', color: 'var(--color-on-primary)', fontSize: 'clamp(40px, 8vw, 80px)', marginBottom: 'var(--space-xs)' }}>
                             Église Jeunes
@@ -86,7 +86,7 @@ const Banner = () => {
                             <div className="hairline-amber" style={{ width: '120px', marginTop: 'var(--space-xs)' }} />
                         </div>
 
-                        <span className="shimmer-gold" style={{ display: 'block', fontSize: 'clamp(40px, 8vw, 80px)', fontWeight: 400, lineHeight: 1, letterSpacing: '-1.4px', fontStyle: 'italic' }}>
+                        <span className="shimmer-gold" style={{ display: 'block', fontSize: 'clamp(40px, 8vw, 80px)', fontWeight: 400, lineHeight: 1.2, letterSpacing: '-1.4px', fontStyle: 'italic' }}>
                             Prodiges
                         </span>
                     </h1>
