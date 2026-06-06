@@ -14,14 +14,11 @@ import Divider from './components/page/Index/Divider';
 
 const Index = () => {
     return (
-        <div className="bg-black min-h-screen text-gray-400 font-body selection:bg-amber-500/30">
+        <div style={{ background: 'var(--color-primary)', minHeight: '100vh', color: 'var(--color-graphite)' }}>
             {/* Fixed Navigation */}
-            <div className='fixed top-0 right-0 left-0 z-50'>
+            <div style={{ position: 'fixed', top: 0, right: 0, left: 0, zIndex: 50 }}>
                 <Nav />
             </div>
-
-            {/* Spacer */}
-            <div className="h-20 lg:h-32" />
 
             <Banner />
             
@@ -47,16 +44,14 @@ const Index = () => {
 
             <Divider />
 
-            <section id="contact" className="py-32 bg-zinc-950">
+            <section id="contact" style={{ padding: 'var(--space-section-lg) 0', background: 'var(--color-primary)' }}>
                 <Contact verset={{
                     verset: "Va dans les chemins et le long des haies, et ceux que tu trouveras, contrains-les d'entrer",
                     ref: 'Luc 14:23'
                 }} />
             </section>
 
-            <footer className="bg-black border-t border-white/4">
-                <Footer />
-            </footer>
+            <Footer />
         </div>
     );
 };

@@ -13,120 +13,128 @@ const Banner = () => {
     }, [images.length]);
 
     return (
-        <section className="relative h-screen flex items-start justify-center overflow-hidden bg-black grain-overlay">
-            {/* Slideshow */}
-            <div className="absolute inset-0 z-0">
+        <section className="relative grain-overlay" style={{ height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', background: 'var(--color-scrim)' }}>
+            {/* Slideshow — cinematic photographic hero */}
+            <div style={{ position: 'absolute', inset: 0, zIndex: 0 }}>
                 {images.map((img, i) => (
                     <div
                         key={i}
-                        className="absolute inset-0 bg-cover bg-center"
                         style={{
+                            position: 'absolute',
+                            inset: 0,
                             backgroundImage: `url(${img})`,
+                            backgroundSize: 'cover',
+                            backgroundPosition: 'center',
                             opacity: i === current ? 1 : 0,
-                            transform: i === current ? 'scale(1)' : 'scale(1.06)',
+                            transform: i === current ? 'scale(1)' : 'scale(1.05)',
                             transition: 'opacity 1.5s ease, transform 6s ease',
-                            filter: 'brightness(0.45) contrast(1.1)',
+                            filter: 'brightness(0.4) contrast(1.1)',
                         }}
                     />
                 ))}
-                {/* Layered gradients */}
-                <div className="absolute inset-0 bg-linear-to-t from-black via-black/30 to-black/70 z-10" />
-                <div className="absolute inset-0 bg-linear-to-r from-black/50 via-transparent to-black/50 z-10" />
+                {/* Gradient overlays */}
+                <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.2) 40%, rgba(0,0,0,0.5) 100%)', zIndex: 1 }} />
             </div>
 
-            {/* Geometric accents */}
-            <div className="absolute inset-0 z-10 pointer-events-none">
-                <div className="absolute top-1/3 left-12 w-px h-32 bg-linear-to-b from-transparent via-amber-500/40 to-transparent" />
-                <div className="absolute top-1/3 right-12 w-px h-32 bg-linear-to-b from-transparent via-amber-500/40 to-transparent" />
-                <div className="absolute bottom-32 left-1/4 right-1/4 h-px bg-linear-to-r from-transparent via-amber-500/20 to-transparent" />
-            </div>
+            {/* Content — editorial eyebrow + display lockup */}
+            <div className="section-container" style={{ position: 'relative', zIndex: 20, textAlign: 'center', maxWidth: '860px' }}>
+                {/* Atmospheric Orb */}
+                <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', width: '600px', height: '600px', zIndex: -1 }}>
+                    <div className="gradient-orb-amber" style={{ width: '100%', height: '100%' }} />
+                </div>
 
-            {/* Content */}
-            <div className="relative z-20 text-center px-6 max-w-5xl mx-auto pt-2 md:pt-1">
                 {/* Logo */}
-                <FadeIn delay={0.1} direction="none" className="mb-1 flex justify-center">
-                    <div className="relative">
-                        <div className="absolute inset-0 bg-amber-500/25 blur-3xl rounded-full scale-150" style={{ animation: 'glow-pulse 3s ease-in-out infinite' }} />
-                        <img
-                            src={logo}
-                            alt="EJP Logo"
-                            className="relative w-14 h-14 md:w-20 md:h-20 rounded-full border border-amber-500/40 shadow-2xl object-cover"
-                        />
+                <FadeIn stagger={0} direction="none" style={{ marginBottom: 'var(--space-lg)' }}>
+                    <div style={{ display: 'flex', justifyContent: 'center', marginBottom: 'var(--space-md)' }}>
+                        <div style={{ position: 'relative' }}>
+                            <img
+                                src={logo}
+                                alt="EJP Logo"
+                                style={{
+                                    position: 'relative',
+                                    width: '64px',
+                                    height: '64px',
+                                    borderRadius: '50%',
+                                    border: '1px solid rgba(217,119,6,0.3)',
+                                    objectFit: 'cover',
+                                }}
+                            />
+                        </div>
                     </div>
                 </FadeIn>
 
-                {/* Location tag */}
-                <FadeIn delay={0.2} direction="up" className="mb-4">
-                    <span className="text-amber-500/80 font-black tracking-[0.5em] uppercase text-[9px]">
+                {/* Eyebrow */}
+                <FadeIn stagger={1} direction="up">
+                    <p className="t-eyebrow" style={{ color: 'var(--color-amber)', opacity: 0.7, marginBottom: 'var(--space-lg)', letterSpacing: '3px' }}>
                         Porto-Novo · Bénin
-                    </span>
+                    </p>
                 </FadeIn>
 
-                {/* Main title */}
-                <FadeIn delay={0.3} direction="up">
-                    <h1 className="font-display leading-none tracking-wide uppercase">
-                        {/* Ligne 1 */}
-                        <span className="block text-[clamp(3rem,8vw,8.5rem)] text-white">
+                {/* Display headline */}
+                <FadeIn stagger={2} direction="up">
+                    <h1 style={{ margin: 0 }}>
+                        <span className="t-display" style={{ display: 'block', color: 'var(--color-on-primary)', fontSize: 'clamp(40px, 8vw, 80px)', marginBottom: 'var(--space-xs)' }}>
                             Église Jeunes
                         </span>
 
-                        {/* Bloc tagline encadré */}
-                        <div className="flex flex-col items-center my-3 md:my-4">
-                            <div className="w-24 md:w-36 h-px bg-linear-to-r from-transparent via-amber-500/70 to-transparent mb-2" />
-                            <p className="text-amber-500 font-bold tracking-[0.4em] text-[9px] md:text-[11px] uppercase font-body">
-                                Par les jeunes <span className="mx-2 text-white/20">|</span> Pour les jeunes
+                        {/* Tagline divider */}
+                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', margin: 'var(--space-md) 0' }}>
+                            <div className="hairline-amber" style={{ width: '120px', marginBottom: 'var(--space-xs)' }} />
+                            <p className="t-eyebrow" style={{ color: 'var(--color-amber)', letterSpacing: '2.5px', fontSize: '11px', margin: '8px 0' }}>
+                                Par les jeunes <span style={{ color: 'rgba(255,255,255,0.15)', margin: '0 8px' }}>|</span> Pour les jeunes
                             </p>
-                            <div className="w-24 md:w-36 h-px bg-linear-to-r from-transparent via-amber-500/70 to-transparent mt-3" />
+                            <div className="hairline-amber" style={{ width: '120px', marginTop: 'var(--space-xs)' }} />
                         </div>
 
-                        {/* Ligne 3 */}
-                        <span className="block text-[clamp(3rem,8vw,8.5rem)] shimmer-gold" style={{ fontStyle: 'italic' }}>
+                        <span className="shimmer-gold" style={{ display: 'block', fontSize: 'clamp(40px, 8vw, 80px)', fontWeight: 400, lineHeight: 1, letterSpacing: '-1.4px', fontStyle: 'italic' }}>
                             Prodiges
                         </span>
                     </h1>
                 </FadeIn>
 
                 {/* Thin separator */}
-                <FadeIn delay={0.4} direction="up">
-                    <div className="w-10 h-px bg-amber-500/40 mx-auto mt-2 mb-8" />
+                <FadeIn stagger={3} direction="up">
+                    <div style={{ width: '40px', height: '1px', background: 'rgba(217,119,6,0.4)', margin: 'var(--space-lg) auto var(--space-xl)' }} />
                 </FadeIn>
 
-                {/* CTAs */}
-                <FadeIn delay={0.5} direction="up" className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                    <Link
-                        to="/register"
-                        className="group relative bg-amber-600 hover:bg-amber-500 text-black px-10 py-4 text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-300 shadow-lg shadow-amber-900/30 overflow-hidden"
-                    >
-                        <span className="relative z-10">Rejoins-nous</span>
-                        <div className="absolute inset-0 bg-white/10 -translate-x-full group-hover:translate-x-full transition-transform duration-500 skew-x-12" />
-                    </Link>
-                    <Link
-                        to="/dons"
-                        className="border border-white/20 hover:border-amber-500/60 text-white/80 hover:text-white px-10 py-4 text-[10px] font-black uppercase tracking-[0.2em] backdrop-blur-sm transition-all duration-300"
-                    >
-                        Faire un don
-                    </Link>
+                {/* CTAs — button-primary-on-dark + button-ghost */}
+                <FadeIn stagger={4} direction="up">
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-md)', justifyContent: 'center', alignItems: 'center' }}>
+                        <Link to="/register" className="btn-primary" style={{ padding: '12px 32px', height: '44px' }}>
+                            Rejoins-nous
+                        </Link>
+                        <Link to="/dons" className="btn-ghost">
+                            Faire un don
+                        </Link>
+                    </div>
                 </FadeIn>
 
                 {/* Slide indicators */}
-                <FadeIn delay={0.6} direction="none" className="flex justify-center gap-2 mt-12">
-                    {images.map((_, i) => (
-                        <button
-                            key={i}
-                            onClick={() => setCurrent(i)}
-                            className="h-0.5 transition-all duration-500"
-                            style={{
-                                width: i === current ? '2.5rem' : '0.625rem',
-                                background: i === current ? '#d97706' : 'rgba(255,255,255,0.25)',
-                            }}
-                        />
-                    ))}
+                <FadeIn stagger={5} direction="none">
+                    <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', marginTop: 'var(--space-xxl)' }}>
+                        {images.map((_, i) => (
+                            <button
+                                key={i}
+                                onClick={() => setCurrent(i)}
+                                style={{
+                                    height: '2px',
+                                    width: i === current ? '40px' : '10px',
+                                    background: i === current ? 'var(--color-amber)' : 'rgba(255,255,255,0.2)',
+                                    border: 'none',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.5s ease',
+                                    borderRadius: '1px',
+                                    padding: 0,
+                                }}
+                            />
+                        ))}
+                    </div>
                 </FadeIn>
             </div>
 
             {/* Scroll indicator */}
-            <div className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2 opacity-40">
-                <div className="w-px h-10 bg-linear-to-b from-white/60 to-transparent" />
+            <div style={{ position: 'absolute', bottom: '40px', left: '50%', transform: 'translateX(-50%)', zIndex: 20, opacity: 0.3 }}>
+                <div style={{ width: '1px', height: '40px', background: 'linear-gradient(to bottom, rgba(255,255,255,0.6), transparent)' }} />
             </div>
         </section>
     );

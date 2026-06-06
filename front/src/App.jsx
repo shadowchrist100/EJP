@@ -9,6 +9,7 @@ import AuthComponent from './components/AuthComponent.jsx';
 import Index from "./Index.jsx";
 import Login from "./components/Auth/Login.jsx";
 import Register from "./components/Auth/Register.jsx";
+import ScrollToTop from './util/ScrollToTop.jsx';
 
 // Chargement paresseux (Lazy Loading) pour le reste des pages
 const Fij = React.lazy(() => import("./components/page/Fij.jsx"));
@@ -24,6 +25,7 @@ const ProfilePage = React.lazy(() => import('./components/page/ProfilePage.jsx')
 function App() {
     return (
         <BrowserRouter>
+            <ScrollToTop />
             <AuthProvider>
                 <Suspense fallback={<div className="h-screen w-screen flex items-center justify-center bg-black text-amber-500 font-display text-2xl animate-pulse">Chargement...</div>}>
                     <Routes>

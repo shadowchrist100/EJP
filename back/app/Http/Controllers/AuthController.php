@@ -50,7 +50,7 @@ class AuthController extends Controller
         $user  = User::create($validated);
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        Mail::to($validated['email'])->send(new VerificationMail());
+        // Mail::to($validated['email'])->send(new VerificationMail());
 
         return $this->respond_with_token($token, $user, 201);
     }
