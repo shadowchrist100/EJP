@@ -82,6 +82,8 @@ const Register = () => {
             
 
         } catch (err) {
+            console.log(err.message);
+            
             // Ici, "err.message" contient soit l'erreur 422 de Laravel, 
             // soit l'erreur de connexion réseau
             console.error("Détails de l'erreur d'inscription:", err);

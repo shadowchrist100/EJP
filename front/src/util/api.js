@@ -1,4 +1,4 @@
-const BASE_URL = '/api' 
+const BASE_URL = '/api'
 
 export const apiFetch = async (endpoint, options = {}) => {
     // Configuration par défaut (CORS, Headers, etc.)
@@ -9,7 +9,7 @@ export const apiFetch = async (endpoint, options = {}) => {
             'Accept': 'application/json',
             ...options.headers,
         },
-        credentials: 'include', 
+        credentials: 'include',
     };
 
     try {
@@ -18,13 +18,16 @@ export const apiFetch = async (endpoint, options = {}) => {
         // Gestion automatique des erreurs HTTP (4xx, 5xx)
         if (!response.ok) {
             const errorData = await response.json().catch(() => ({}));
-            console.log(errorData);
-            
-            throw new Error(errorData.error || `Erreur: ${response.error}`);
-        }
 
-        return await response.json();
+            throw new Error(errorData.message || `Error survenue : ${response.statusText} ` );
+        }
+        if (response.status !== 204) {
+            return await response.json();
+        }
+        return null;
     } catch (error) {
+        console.log(error.message);
+
         console.error("Erreur API:", error.message);
         throw error;
     }

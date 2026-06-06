@@ -1,75 +1,56 @@
 import React, { useRef, useEffect, useCallback } from 'react';
 import { BergerDimitri } from '../assets';
 import { BergerSamuel } from '../assets';
+import FadeIn from './common/FadeIn';
 
+/**
+ * VisionSection — two full-height editorial panels.
+ * DESIGN.md pattern: cinematic atmospheric interlude, eyebrow + display lockup,
+ * contained avatar with rounded-full, body text in graphite.
+ * Audio auto-plays when visible (intersection observer).
+ */
 const VisionSection = ({ audioPath }) => {
     const audioRef = useRef(null);
     const sectionRef = useRef(null);
     const isUnlockedRef = useRef(false);
     const isVisibleRef = useRef(false);
 
-    // ─── Utilitaire : la section est-elle actuellement dans le viewport ? ───────
     const isSectionInView = useCallback(() => {
         const el = sectionRef.current;
         if (!el) return false;
         const rect = el.getBoundingClientRect();
         const viewH = window.innerHeight || document.documentElement.clientHeight;
-        // Considère visible si au moins 30% de la section est à l'écran
         return rect.top < viewH * 0.7 && rect.bottom > viewH * 0.3;
     }, []);
 
-    // ─── Jouer le son si toutes les conditions sont réunies ─────────────────────
     const tryPlay = useCallback(() => {
-        if (!audioRef.current) { return; }
-        if (!isUnlockedRef.current) { return; }
-
-        // Priorité à isVisibleRef, fallback sur getBoundingClientRect (plus fiable)
+        if (!audioRef.current) return;
+        if (!isUnlockedRef.current) return;
         const visible = isVisibleRef.current || isSectionInView();
-
         if (visible) {
-            audioRef.current.play().catch(err => {
-            });
+            audioRef.current.play().catch(() => {});
         }
     }, [isSectionInView]);
 
-    // ─── 1. Créer l'objet Audio au montage ──────────────────────────────────────
     useEffect(() => {
         if (!audioPath) return;
-
         const audio = new Audio(audioPath);
         audio.loop = true;
         audio.volume = 0.3;
         audioRef.current = audio;
-
-        return () => {
-            audio.pause();
-            audio.src = '';
-            audioRef.current = null;
-        };
+        return () => { audio.pause(); audio.src = ''; audioRef.current = null; };
     }, [audioPath]);
 
-    // ─── 2. Débloquer l'autoplay au premier geste utilisateur ───────────────────
     useEffect(() => {
         if (isUnlockedRef.current) return;
-
         const unlock = async () => {
             if (isUnlockedRef.current) return;
-
-            // Retirer les listeners immédiatement pour éviter les appels multiples
             document.removeEventListener('click', unlock);
             document.removeEventListener('touchstart', unlock);
             document.removeEventListener('keydown', unlock);
-
             try {
-                // Résoudre le contexte AudioContext suspendu (obligatoire sur Safari/iOS)
                 const AudioCtx = window.AudioContext || window.webkitAudioContext;
-                if (AudioCtx) {
-                    const ctx = new AudioCtx();
-                    await ctx.resume();
-                    ctx.close();
-                }
-
-                // Lecture silencieuse pour débloquer l'autoplay
+                if (AudioCtx) { const ctx = new AudioCtx(); await ctx.resume(); ctx.close(); }
                 if (audioRef.current) {
                     const saved = audioRef.current.volume;
                     audioRef.current.volume = 0;
@@ -78,25 +59,15 @@ const VisionSection = ({ audioPath }) => {
                     audioRef.current.currentTime = 0;
                     audioRef.current.volume = saved;
                 }
-
                 isUnlockedRef.current = true;
-
-                // Mettre à jour isVisibleRef via getBoundingClientRect
-                // car l'IntersectionObserver peut avoir une valeur obsolète
                 isVisibleRef.current = isSectionInView();
-
                 tryPlay();
-
             // eslint-disable-next-line no-unused-vars
-            // eslint-disable-next-line no-unused-vars
-            } catch (err) {
-            }
+            } catch (err) {}
         };
-
         document.addEventListener('click', unlock);
         document.addEventListener('touchstart', unlock, { passive: true });
         document.addEventListener('keydown', unlock);
-
         return () => {
             document.removeEventListener('click', unlock);
             document.removeEventListener('touchstart', unlock);
@@ -104,140 +75,144 @@ const VisionSection = ({ audioPath }) => {
         };
     }, [tryPlay, isSectionInView]);
 
-    // ─── 3. IntersectionObserver : jouer/stopper selon la visibilité ────────────
     useEffect(() => {
         const section = sectionRef.current;
-        if (!section) {  return; }
-
-
-        // Initialiser isVisibleRef dès la création de l'observer
+        if (!section) return;
         isVisibleRef.current = isSectionInView();
-
         const observer = new IntersectionObserver(
             ([entry]) => {
                 isVisibleRef.current = entry.isIntersecting;
-
-                if (entry.isIntersecting) {
-                    tryPlay();
-                } else if (audioRef.current) {
-                    audioRef.current.pause();
-                    audioRef.current.currentTime = 0;
-                }
+                if (entry.isIntersecting) { tryPlay(); }
+                else if (audioRef.current) { audioRef.current.pause(); audioRef.current.currentTime = 0; }
             },
-            { threshold: 0.3 } // Abaissé de 0.5 → 0.3 pour déclencher plus facilement
+            { threshold: 0.3 }
         );
-
         observer.observe(section);
-
-        return () => {
-            observer.disconnect();
-        };
+        return () => observer.disconnect();
     }, [tryPlay, isSectionInView]);
 
+    /* Panel data */
+    const panels = [
+        {
+            eyebrow: 'Fondement',
+            headline: (
+                <>
+                    Une église suscitée pour accomplir le{' '}
+                    <span className="shimmer-gold" style={{ fontStyle: 'italic' }}>rêve de Dieu</span>
+                </>
+            ),
+            photo: BergerSamuel,
+            name: 'Samuel EBOUMBOU',
+            role: 'Berger Principal de EJP MONDE / Berger EJP CROISSY',
+        },
+        {
+            eyebrow: 'Notre Vision',
+            headline: (
+                <>
+                    "Nous sommes des{' '}
+                    <span className="shimmer-gold" style={{ fontStyle: 'italic' }}>Virus</span>{' '}
+                    dans le système appelé{' '}
+                    <span className="shimmer-gold" style={{ fontStyle: 'italic' }}>Monde</span>{' '}
+                    pour amener la{' '}
+                    <span className="shimmer-gold" style={{ fontStyle: 'italic' }}>Pensée</span>{' '}
+                    et le{' '}
+                    <span className="shimmer-gold" style={{ fontStyle: 'italic' }}>Rêve</span>{' '}
+                    de{' '}
+                    <span className="shimmer-gold" style={{ fontStyle: 'italic' }}>Dieu</span>"
+                </>
+            ),
+            photo: BergerDimitri,
+            name: 'Dimitri Dumas',
+            role: 'Berger de l\'EJP Porto Novo',
+        },
+    ];
+
     return (
-        <section ref={sectionRef} className="bg-black relative overflow-visible">
-            <div className="container mx-auto px-6 w-full">
-                <div className="space-y-0">
+        <section ref={sectionRef} style={{ background: 'var(--color-primary)', position: 'relative', overflow: 'visible' }}>
+            <div className="section-container">
+                {panels.map((panel, pIdx) => (
+                    <div
+                        key={pIdx}
+                        style={{
+                            minHeight: '100vh',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            position: 'relative',
+                            padding: 'var(--space-section) 0',
+                        }}
+                    >
+                        {/* Subtle gradient */}
+                        <div style={{
+                            position: 'absolute', inset: 0,
+                            background: pIdx === 0
+                                ? 'linear-gradient(to bottom, rgba(217,119,6,0.04), transparent, rgba(0,0,0,1))'
+                                : 'linear-gradient(to bottom, rgba(0,0,0,1), rgba(217,119,6,0.04), rgba(0,0,0,1))',
+                            pointerEvents: 'none',
+                        }} />
 
-                    {/* PREMIÈRE SECTION : Fondement */}
-                    <div className="min-h-screen flex items-center justify-center relative py-20">
-                        <div className="absolute inset-0 bg-linear-to-b from-amber-500/5 via-transparent to-black pointer-events-none" />
+                        <div style={{ maxWidth: '800px', width: '100%', textAlign: 'center', position: 'relative', zIndex: 10 }}>
+                            {/* Eyebrow */}
+                            <FadeIn stagger={0} direction="up">
+                                <p className="t-eyebrow" style={{ color: 'var(--color-amber)', opacity: 0.7, marginBottom: 'var(--space-xl)', letterSpacing: '3px' }}>
+                                    {panel.eyebrow}
+                                </p>
+                            </FadeIn>
 
-                        <div className="max-w-4xl mx-auto w-full text-center relative z-10">
-                            <h2 className="text-amber-500 font-black tracking-[0.4em] uppercase text-[10px] mb-8 animate-in fade-in slide-in-from-bottom-4">
-                                Fondement
-                            </h2>
-                            <h1
-                                className="text-4xl md:text-7xl font-black text-white leading-[1.05] tracking-wider uppercase mb-12 animate-in fade-in slide-in-from-bottom-4"
-                                style={{ animationDelay: '100ms' }}
-                            >
-                                Une église suscitée pour accomplir le{' '}
-                                <span className="italic text-transparent bg-clip-text bg-linear-to-r from-amber-200 to-amber-500">
-                                    rêve de Dieu
-                                </span>
-                            </h1>
+                            {/* Display headline */}
+                            <FadeIn stagger={1} direction="up">
+                                <h2 className="t-display" style={{
+                                    color: 'var(--color-on-primary)',
+                                    fontSize: 'clamp(28px, 5vw, 56px)',
+                                    marginBottom: 'var(--space-xxl)',
+                                    lineHeight: 1.1,
+                                }}>
+                                    {panel.headline}
+                                </h2>
+                            </FadeIn>
 
-                            <div
-                                className="flex flex-col items-center animate-in fade-in slide-in-from-bottom-4"
-                                style={{ animationDelay: '200ms' }}
-                            >
-                                <div className="w-16 h-1 bg-amber-600 mb-8" />
-                                <div className="mb-8 group">
-                                    <div className="relative w-40 h-40 mx-auto rounded-full overflow-hidden border-4 border-amber-500/50 shadow-2xl shadow-amber-600/30 hover:border-amber-400 transition-all duration-300">
-                                        <img
-                                            src={BergerSamuel}
-                                            alt="Samuel EBOUMBOU"
-                                            className="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-500 scale-105 group-hover:scale-100"
-                                        />
-                                        <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent" />
+                            {/* Hairline + Avatar */}
+                            <FadeIn stagger={2} direction="up">
+                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                                    <div style={{ width: '48px', height: '2px', background: 'var(--color-amber)', marginBottom: 'var(--space-xl)' }} />
+
+                                    <div style={{ position: 'relative', marginBottom: 'var(--space-lg)' }}>
+                                        <div style={{
+                                            width: '128px',
+                                            height: '128px',
+                                            borderRadius: '50%',
+                                            overflow: 'hidden',
+                                            border: '2px solid rgba(217,119,6,0.3)',
+                                            transition: 'border-color 0.3s',
+                                        }}>
+                                            <img
+                                                src={panel.photo}
+                                                alt={panel.name}
+                                                style={{
+                                                    width: '100%',
+                                                    height: '100%',
+                                                    objectFit: 'cover',
+                                                    objectPosition: 'top',
+                                                    filter: 'grayscale(30%)',
+                                                    transition: 'filter 0.5s',
+                                                }}
+                                                onMouseEnter={(e) => e.target.style.filter = 'grayscale(0%)'}
+                                                onMouseLeave={(e) => e.target.style.filter = 'grayscale(30%)'}
+                                            />
+                                        </div>
                                     </div>
+
+                                    <p className="t-eyebrow" style={{ color: 'var(--color-on-primary)', fontSize: '12px', letterSpacing: '2px', marginBottom: 'var(--space-xs)' }}>
+                                        {panel.name}
+                                    </p>
+                                    <p className="t-meta" style={{ color: 'var(--color-stone)' }}>
+                                        {panel.role}
+                                    </p>
                                 </div>
-                                <div className="space-y-3">
-                                    <p className="text-white font-black tracking-[0.3em] uppercase text-[12px]">Samuel EBOUMBOU</p>
-                                    <p className="text-gray-400 font-light tracking-[0.2em] uppercase text-[10px]">Berger Principal de EJP MONDE/Berger EJP CROISSY</p>
-                                </div>
-                            </div>
+                            </FadeIn>
                         </div>
                     </div>
-
-                    {/* DEUXIÈME SECTION : Notre Vision */}
-                    <div className="min-h-screen flex items-center justify-center relative py-20">
-                        <div className="absolute inset-0 bg-linear-to-b from-black via-amber-500/5 to-black pointer-events-none" />
-
-                        <div className="max-w-4xl mx-auto w-full text-center relative z-10">
-                            <h2 className="text-amber-500 font-black tracking-[0.4em] uppercase text-[10px] mb-8 animate-in fade-in slide-in-from-bottom-4">
-                                Notre Vision
-                            </h2>
-                            <h1
-                                className="text-4xl md:text-7xl font-bold text-white leading-[1.05] tracking-wider uppercase mb-12 animate-in fade-in slide-in-from-bottom-4"
-                                style={{ animationDelay: '100ms', wordSpacing: '0.1em' }}
-                            >
-                                " Nous sommes des {' '}
-                                <span className="italic text-transparent bg-clip-text bg-linear-to-r from-amber-200 to-amber-500">
-                                    Virus
-                                </span>{' '}
-                                dans le systeme appelé{' '}
-                                <span className="italic text-transparent bg-clip-text bg-linear-to-r from-amber-200 to-amber-500">
-                                    Monde
-                                </span>{' '}
-                                pour amener la {' '}
-                                <span className="italic text-transparent bg-clip-text bg-linear-to-r from-amber-200 to-amber-500">
-                                    Pensee
-                                </span>{' '}
-                                et le{' '}
-                                <span className="italic text-transparent bg-clip-text bg-linear-to-r from-amber-200 to-amber-500">
-                                    Reve
-                                </span>{' '}
-                                de{' '}
-                                <span className="italic text-transparent bg-clip-text bg-linear-to-r from-amber-200 to-amber-500">
-                                    Dieu
-                                </span>
-                            </h1>
-
-                            <div
-                                className="flex flex-col items-center animate-in fade-in slide-in-from-bottom-4"
-                                style={{ animationDelay: '200ms' }}
-                            >
-                                <div className="w-16 h-1 bg-amber-600 mb-8" />
-                                <div className="mb-8 group">
-                                    <div className="relative w-40 h-40 mx-auto rounded-full overflow-hidden border-4 border-amber-500/50 shadow-2xl shadow-amber-600/30 hover:border-amber-400 transition-all duration-300">
-                                        <img
-                                            src={BergerDimitri}
-                                            alt="Dimitri Dumas"
-                                            className="w-full h-full object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-500 scale-105 group-hover:scale-100"
-                                        />
-                                        <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent" />
-                                    </div>
-                                </div>
-                                <div className="space-y-3">
-                                    <p className="text-white font-black tracking-[0.3em] uppercase text-[12px]">Dimitri Dumas</p>
-                                    <p className="text-gray-400 font-light tracking-[0.2em] uppercase text-[10px]">Berger de l'EJP Porto Novo</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
+                ))}
             </div>
         </section>
     );

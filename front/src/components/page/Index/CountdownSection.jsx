@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 import FadeIn from '../../common/FadeIn';
 
 const CountdownSection = () => {
     const getTarget = () => {
         const now = new Date();
         const next = new Date();
-        const day = now.getDay(); // 0=Sun
+        const day = now.getDay();
         const daysUntilSun = day === 0 ? 7 : 7 - day;
         next.setDate(now.getDate() + daysUntilSun);
         next.setHours(15, 29, 0, 0);
@@ -29,7 +30,6 @@ const CountdownSection = () => {
     useEffect(() => {
         const id = setInterval(() => setTime(calc()), 1000);
         return () => clearInterval(id);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const units = [
@@ -40,57 +40,78 @@ const CountdownSection = () => {
     ];
 
     return (
-        <section className="relative bg-zinc-950 py-20 overflow-hidden border-t border-white/4">
-            {/* Ambient */}
-            <div className="absolute inset-0 pointer-events-none">
-                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-amber-600/5 rounded-full blur-[100px]" />
-                <div className="absolute inset-0 opacity-[0.015]"
-                    style={{ backgroundImage: 'repeating-linear-gradient(0deg, #d97706 0, #d97706 1px, transparent 0, transparent 40px)' }} />
-            </div>
+        <section className="section-spacing-lg" style={{ background: 'var(--color-primary)', overflow: 'hidden', position: 'relative' }}>
+            {/* Subtle ambient glow */}
+            <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: '500px', height: '250px', background: 'rgba(217,119,6,0.04)', borderRadius: '50%', filter: 'blur(120px)', pointerEvents: 'none' }} />
 
-            <div className="container mx-auto px-6 relative z-10 text-center">
-                {/* Header */}
-                <FadeIn delay={0.2} direction="up" className="mb-12">
-                    <div className="flex items-center justify-center gap-4 mb-4">
-                        <div className="w-8 h-px bg-amber-600/50" />
-                        <span className="text-amber-500/70 text-[9px] font-black uppercase tracking-[0.5em]">Prochain culte</span>
-                        <div className="w-8 h-px bg-amber-600/50" />
-                    </div>
-                    <h2 className="font-display text-[clamp(2rem,6vw,4.5rem)] text-white leading-none tracking-wide uppercase">
-                        EJP Porto-Novo
-                    </h2>
-                    <p className="text-gray-600 text-xs tracking-[0.3em] uppercase mt-2 font-bold">
-                        Église des Jeunes Prodiges
+            <div className="section-container" style={{ position: 'relative', zIndex: 10, textAlign: 'center' }}>
+                {/* Editorial eyebrow + display lockup */}
+                <FadeIn stagger={0} direction="up">
+                    <p className="t-eyebrow" style={{ color: 'var(--color-amber)', opacity: 0.7, marginBottom: 'var(--space-sm)', letterSpacing: '2px' }}>
+                        Rendez-vous
                     </p>
                 </FadeIn>
 
-                {/* Timer */}
-                <div className="flex justify-center">
-                    <FadeIn delay={0.4} direction="up" className="flex flex-wrap items-center justify-center border border-white/6 bg-black/40 max-w-full">
+                <FadeIn stagger={1} direction="up">
+                    <h2 className="t-display" style={{ color: 'var(--color-on-primary)', fontSize: 'clamp(32px, 5vw, 49px)', marginBottom: 'var(--space-xs)' }}>
+                        Prochain Culte
+                    </h2>
+                </FadeIn>
+
+                <FadeIn stagger={2} direction="up">
+                    <p className="t-meta" style={{ color: 'var(--color-stone)', marginBottom: 'var(--space-xxl)' }}>
+                        Vivez l'impact en présentiel et en ligne
+                    </p>
+                </FadeIn>
+
+                {/* Timer grid — flat, hairline dividers, no shadow */}
+                <FadeIn stagger={3} direction="up">
+                    <div style={{
+                        display: 'grid',
+                        gridTemplateColumns: 'repeat(4, 1fr)',
+                        maxWidth: '700px',
+                        margin: '0 auto',
+                        border: '1px solid rgba(255,255,255,0.06)',
+                    }}>
                         {units.map(({ label, value }, i) => (
-                            <React.Fragment key={label}>
-                                <div className="flex flex-col items-center px-4 py-6 sm:px-6 sm:py-8 md:px-10 md:py-10 group min-w-[80px] sm:min-w-[110px]">
-                                    <span
-                                        className="font-display text-[clamp(1.75rem,8vw,5.5rem)] text-white leading-none digit-swap"
+                            <div
+                                key={label}
+                                style={{
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
+                                    padding: 'var(--space-xl) var(--space-md)',
+                                    borderLeft: i > 0 ? '1px solid rgba(255,255,255,0.06)' : 'none',
+                                }}
+                            >
+                                <div style={{ height: 'clamp(40px, 6vw, 72px)', display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
+                                    <motion.span
+                                        key={value}
+                                        initial={{ y: 12, opacity: 0 }}
+                                        animate={{ y: 0, opacity: 1 }}
+                                        transition={{ duration: 0.25, ease: [0.34, 1.56, 0.64, 1] }}
+                                        className="t-display"
+                                        style={{
+                                            color: 'var(--color-on-primary)',
+                                            fontSize: 'clamp(32px, 6vw, 56px)',
+                                            fontWeight: 300,
+                                            fontVariantNumeric: 'tabular-nums',
+                                        }}
                                     >
                                         {fmt(value)}
-                                    </span>
-                                    <span className="text-amber-600/60 text-[7px] sm:text-[9px] font-black uppercase tracking-[0.2em] sm:tracking-[0.35em] mt-2 sm:mt-3">
-                                        {label}
-                                    </span>
+                                    </motion.span>
                                 </div>
-                                {i < units.length - 1 && (
-                                    <div className="hidden sm:block self-center pb-6 text-amber-600/30 font-display text-2xl md:text-5xl select-none">:</div>
-                                )}
-                            </React.Fragment>
+                                <span className="t-micro-caps" style={{ color: 'var(--color-amber)', opacity: 0.6, marginTop: 'var(--space-sm)' }}>
+                                    {label}
+                                </span>
+                            </div>
                         ))}
-                    </FadeIn>
-                </div>
+                    </div>
+                </FadeIn>
 
-                {/* Bottom note */}
-                <FadeIn delay={0.6} direction="up">
-                    <p className="mt-8 text-gray-700 text-[10px] tracking-[0.4em] uppercase font-bold">
-                        Dimanche · 15h29 · Porto-Novo
+                <FadeIn stagger={4} direction="none">
+                    <p className="t-meta" style={{ color: 'var(--color-mute)', marginTop: 'var(--space-xl)', letterSpacing: '1px' }}>
+                        Dimanche · 15h29 · Porto-Novo, Bénin
                     </p>
                 </FadeIn>
             </div>
