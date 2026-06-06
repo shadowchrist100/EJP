@@ -132,6 +132,7 @@ const VisionSection = ({ audioPath }) => {
             <div className="section-container">
                 {panels.map((panel, pIdx) => (
                     <div
+                        className='md:pt-5'
                         key={pIdx}
                         style={{
                             minHeight: '70vh',
