@@ -9,6 +9,9 @@ import AuthComponent from './components/AuthComponent.jsx';
 import Index from "./Index.jsx";
 import Login from "./components/Auth/Login.jsx";
 import Register from "./components/Auth/Register.jsx";
+import ForgotPassword from "./components/Auth/ForgotPassword.jsx";
+import ResetPassword from "./components/Auth/ResetPassword.jsx";
+import GoogleCallback from "./components/Auth/GoogleCallback.jsx";
 import ScrollToTop from './util/ScrollToTop.jsx';
 
 // Chargement paresseux (Lazy Loading) pour le reste des pages
@@ -33,6 +36,9 @@ function App() {
                         <Route path='/' element={<Index />} />
                         <Route path='/login' element={<Login />} />
                         <Route path='/register' element={<Register />} />
+                        <Route path='/forgot-password' element={<ForgotPassword />} />
+                        <Route path='/reset-password' element={<ResetPassword />} />
+                        <Route path='/oauth/callback' element={<GoogleCallback />} />
                         <Route path='/fij' element={<Fij />} />
                         <Route path='/dons' element={<Don />} />
                         <Route path='/galerie' element={<Galerie />} />

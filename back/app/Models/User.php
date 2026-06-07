@@ -29,7 +29,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'message',
         'password',
         'image_path',
-        'prayed_salvation_prayer'
+        'prayed_salvation_prayer',
+        'google_id'
     ];
 
     /**
@@ -73,5 +74,15 @@ class User extends Authenticatable implements MustVerifyEmail
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function ministryRequests()
+    {
+        return $this->hasMany(MinistryRequest::class);
+    }
+
+    public function refreshedTokens()
+    {
+        return $this->hasMany(RefreshedToken::class);
     }
 }

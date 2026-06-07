@@ -15,7 +15,7 @@ class UserController extends Controller
     public function update(Request $request)
     {
         // Récupérer l'utilisateur authentifié
-        $user = auth('api')->user();
+        $user = $request->user();
 
         if (!$user) {
             return response()->json(['error' => 'Non autorisé'], 401);
@@ -50,7 +50,7 @@ class UserController extends Controller
             'lastName' => ['required', 'max:50'],
             'firstName' => ['required', 'max:50'],
             'email' => ['required', 'email', 'unique:users', 'max:50'],
-            'password' => ['required', ''],
+            'password' => ['required', 'string', 'min:8'],
             'telephone' => ['nullable', 'max:20'],
             'message' => ['nullable', 'string', 'max:50'],    
         ]);
@@ -65,9 +65,9 @@ class UserController extends Controller
     /**
      * Récupérer le profil utilisateur
      */
-    public function show()
+    public function show(Request $request)
     {
-        $user = auth('api')->user();
+        $user = $request->user();
 
         if (!$user) {
             return response()->json(['error' => 'Non autorisé'], 401);
@@ -81,9 +81,9 @@ class UserController extends Controller
     /**
      * Supprimer le compte utilisateur
      */
-    public function destroy()
+    public function destroy(Request $request)
     {
-        $user = auth('api')->user();
+        $user = $request->user();
 
         if (!$user) {
             return response()->json(['error' => 'Non autorisé'], 401);
