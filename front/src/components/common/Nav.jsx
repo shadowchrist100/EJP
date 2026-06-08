@@ -281,7 +281,7 @@ const Nav = () => {
 
                         <div style={{ margin: '16px 0', borderTop: '1px solid rgba(255,255,255,0.06)' }} />
 
-                        {!is_loading && user ? (
+                        {!is_loading && user (
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                                 <div className="t-meta" style={{ padding: '8px 16px', color: 'var(--color-stone)' }}>
                                     {user.name} · {user.email}
@@ -302,16 +302,7 @@ const Nav = () => {
                                     <LogOut size={16} /> Déconnexion
                                 </button>
                             </div>
-                        ) : (
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                                <Link to="/login" onClick={closeMenu} className="btn-ghost" style={{ justifyContent: 'center', width: '100%', marginBottom: '4px' }}>
-                                    Connexion
-                                </Link>
-                                <Link to="/register" onClick={closeMenu} className="btn-primary" style={{ justifyContent: 'center', width: '100%' }}>
-                                    S'inscrire
-                                </Link>
-                            </div>
-                        )}
+                        ) }
                     </div>
                 </div>
             )}

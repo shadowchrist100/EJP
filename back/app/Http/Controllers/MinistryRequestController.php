@@ -28,16 +28,8 @@ class MinistryRequestController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $user = auth('api')->user();
+        $user = $request->user();
 
-        if ($user) {
-            if ($user->email !== $request->email ) {
-                return response()->json(['error' => 'Non authroisé'], 401);
-            }
-        }
-        
-        //
         $validated = $request->validate([
             'nom' =>['required', 'string', 'max:50'] ,
             'email' => ['required', 'email', 'max:50']   ,
@@ -47,7 +39,8 @@ class MinistryRequestController extends Controller
 
         $validated['user_id'] = $user->id;
 
-        MinistryRequest::create(array_intersect_key($validated,array_flip(['ministry_name', 'message', 'user_id'])));
+        MinistryRequest::create(array_intersect_key($validated, array_flip(['ministry_name', 'message', 'user_id'])));
+        
         return response()->json(['success' => 'Demande enregistrée'], 200);
     }
 

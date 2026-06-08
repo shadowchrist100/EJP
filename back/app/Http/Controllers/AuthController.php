@@ -3,12 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Mail\VerificationMail;
+use App\Mail\PasswordResetMail;
 use App\Models\RefreshedToken;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
@@ -48,9 +53,10 @@ class AuthController extends Controller
         ]);
 
         $user  = User::create($validated);
-        $token = $user->createToken('auth_token')->plainTextToken;
+        
+        $this->sendVerificationEmail($user);
 
-        // Mail::to($validated['email'])->send(new VerificationMail());
+        $token = $user->createToken('auth_token')->plainTextToken;
 
         return $this->respond_with_token($token, $user, 201);
     }
@@ -123,5 +129,159 @@ class AuthController extends Controller
         $newAccessToken = $user->createToken('auth_token')->plainTextToken;
 
         return $this->respond_with_token($newAccessToken, $user);
+    }
+
+    // --- Google OAuth ---
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')->stateless()->redirect();
+    }
+
+    public function handleGoogleCallback()
+    {
+        try {
+            $googleUser = Socialite::driver('google')->stateless()->user();
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Erreur d\'authentification avec Google.'], 401);
+        }
+
+        $user = User::where('email', $googleUser->getEmail())->first();
+
+        if ($user) {
+            if (!$user->google_id) {
+                $user->update(['google_id' => $googleUser->getId()]);
+            }
+        } else {
+            $fullName = $googleUser->getName();
+            $parts = explode(' ', $fullName, 2);
+            $firstName = $parts[0] ?? '';
+            $lastName = $parts[1] ?? '';
+
+            $user = User::create([
+                'firstName' => $firstName,
+                'lastName' => $lastName,
+                'email' => $googleUser->getEmail(),
+                'google_id' => $googleUser->getId(),
+                'password' => null,
+                'email_verified_at' => now(), // Google valide déjà l'adresse email
+            ]);
+        }
+
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        return redirect()->away(env('FRONTEND_URL', 'http://localhost:5173') . '/oauth/callback?token=' . $token);
+    }
+
+    // --- Email Verification ---
+    protected function sendVerificationEmail($user)
+    {
+        $verificationLink = URL::temporarySignedRoute(
+            'verification.verify',
+            now()->addMinutes(60),
+            ['id' => $user->id, 'hash' => sha1($user->email)]
+        );
+
+        $data = [
+            'lastName' => $user->lastName,
+            'firstName' => $user->firstName,
+            'verificationLink' => $verificationLink
+        ];
+
+        Mail::to($user->email)->send(new VerificationMail($data));
+    }
+
+    public function verify(Request $request, $id, $hash)
+    {
+        $user = User::findOrFail($id);
+
+        if (!hash_equals((string) $hash, sha1($user->email))) {
+            return response()->json(['error' => 'Lien de vérification invalide.'], 403);
+        }
+
+        if ($user->hasVerifiedEmail()) {
+            return redirect()->away(env('FRONTEND_URL', 'http://localhost:5173') . '/login?verified=already');
+        }
+
+        if ($user->markEmailAsVerified()) {
+            event(new \Illuminate\Auth\Events\Verified($user));
+        }
+
+        return redirect()->away(env('FRONTEND_URL', 'http://localhost:5173') . '/login?verified=true');
+    }
+
+    public function resend(Request $request)
+    {
+        $user = $request->user();
+
+        if ($user->hasVerifiedEmail()) {
+            return response()->json(['message' => 'Email déjà vérifié.'], 400);
+        }
+
+        $this->sendVerificationEmail($user);
+
+        return response()->json(['message' => 'Lien de vérification envoyé.']);
+    }
+
+    // --- Password Reset ---
+    public function sendResetLink(Request $request)
+    {
+        $request->validate(['email' => 'required|email']);
+
+        $user = User::where('email', $request->email)->first();
+
+        if (!$user) {
+            return response()->json(['message' => 'Si cet email existe, un lien de réinitialisation a été envoyé.'], 200);
+        }
+
+        $token = Str::random(60);
+
+        DB::table('password_reset_tokens')->updateOrInsert(
+            ['email' => $user->email],
+            [
+                'token' => hash('sha256', $token),
+                'created_at' => now()
+            ]
+        );
+
+        $resetLink = env('FRONTEND_URL', 'http://localhost:5173') . '/reset-password?token=' . $token . '&email=' . urlencode($user->email);
+
+        Mail::to($user->email)->send(new PasswordResetMail($resetLink));
+
+        return response()->json(['message' => 'Lien de réinitialisation envoyé avec succès.'], 200);
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|confirmed|min:8',
+        ]);
+
+        $record = DB::table('password_reset_tokens')
+            ->where('email', $request->email)
+            ->first();
+
+        if (!$record || !hash_equals($record->token, hash('sha256', $request->token))) {
+            return response()->json(['error' => 'Token invalide ou expiré.'], 400);
+        }
+
+        if (now()->subMinutes(60)->gt($record->created_at)) {
+            DB::table('password_reset_tokens')->where('email', $request->email)->delete();
+            return response()->json(['error' => 'Token expiré.'], 400);
+        }
+
+        $user = User::where('email', $request->email)->first();
+        if (!$user) {
+            return response()->json(['error' => 'Utilisateur introuvable.'], 404);
+        }
+
+        $user->update([
+            'password' => $request->password
+        ]);
+
+        DB::table('password_reset_tokens')->where('email', $request->email)->delete();
+
+        return response()->json(['message' => 'Mot de passe réinitialisé avec succès.'], 200);
     }
 }

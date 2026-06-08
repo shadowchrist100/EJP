@@ -12,4 +12,9 @@ class MinistryRequest extends Model
         'ministry_name',
         'message',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
