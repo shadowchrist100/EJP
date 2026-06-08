@@ -68,19 +68,21 @@ const Login = () => {
         }
     };
 
-    // Modification ici : Gestion du loading pour Google Connexion
+    // Pour Google OAuth, on doit rediriger DIRECTEMENT vers le back-end (pas via le proxy Vercel)
+    // car Vercel ne peut pas transmettre les redirections 302 générées par Laravel/Socialite.
     const handleGoogleLogin = () => {
         setLoading(true);
         setError('');
 
-        // Utilisation de import.meta.env (standard de Vite) au lieu de loadEnv
+        // En production (VITE_API_URL défini dans les variables d'environnement Vercel)
+        // On utilise l'URL directe du back-end pour contourner le proxy Vercel.
+        // En développement, on utilise le proxy Vite via /api.
         const apiUrl = import.meta.env.VITE_API_URL;
+        const googleRedirectUrl = apiUrl
+            ? `${apiUrl}/api/google/redirect`
+            : `/api/google/redirect`;
 
-        if (apiUrl) {
-            window.location.href = `${apiUrl}/google/redirect`;
-        } else {
-            window.location.href = `/api/google/redirect`;
-        }
+        window.location.href = googleRedirectUrl;
     };
 
     if (success) {
