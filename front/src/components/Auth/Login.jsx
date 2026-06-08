@@ -77,7 +77,7 @@ const Login = () => {
         const apiUrl = import.meta.env.VITE_API_URL;
 
         if (apiUrl) {
-            window.location.href = `${apiUrl}/api/google/redirect`;
+            window.location.href = `${apiUrl}/google/redirect`;
         } else {
             window.location.href = `/api/google/redirect`;
         }

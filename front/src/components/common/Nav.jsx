@@ -117,7 +117,7 @@ const Nav = () => {
 
                         {/* Auth */}
                         <div className="relative">
-                            {!is_loading && user (
+                            {!is_loading && user && (
                                 <button
                                     onClick={() => setIsAuthOpen(!isAuthOpen)}
                                     className="flex items-center gap-2 px-3 py-2 rounded-full hover:bg-white/10 transition-all"
