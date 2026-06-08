@@ -250,7 +250,7 @@ const Nav = () => {
 
                         <div style={{ margin: '16px 0', borderTop: '1px solid rgba(255,255,255,0.06)' }} />
 
-                        {!is_loading && user (
+                        {!is_loading && user && (
                             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                                 <div className="t-meta" style={{ padding: '8px 16px', color: 'var(--color-stone)' }}>
                                     {user.name} · {user.email}
