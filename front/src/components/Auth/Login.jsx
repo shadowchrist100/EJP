@@ -1,5 +1,5 @@
-import { useState,useContext } from "react";
-import { Eye, EyeOff, Mail, Lock, User, ArrowRight, CheckCircle, AlertCircle } from 'lucide-react';
+import { useState, useContext } from "react";
+import { Eye, EyeOff, Mail, Lock, ArrowRight, CheckCircle, AlertCircle } from 'lucide-react';
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { apiFetch } from "../../util/api";
 import { AuthContext } from "../AuthContext";
@@ -9,26 +9,22 @@ const Login = () => {
     const navigate = useNavigate();
     const [searchParams] = useSearchParams();
     const verified = searchParams.get('verified');
+
     const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
         email: '',
         password: '',
-        confirmPassword: '',
-        acceptTerms: false
     });
 
     const [showPassword, setShowPassword] = useState(false);
-
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState(false);
 
     const handleChange = (e) => {
-        const { name, value, type, checked } = e.target;
+        const { name, value } = e.target;
         setFormData(prev => ({
             ...prev,
-            [name]: type === 'checkbox' ? checked : value
+            [name]: value
         }));
         setError('');
     };
@@ -47,38 +43,24 @@ const Login = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         if (!validateForm()) return;
 
         setLoading(true);
-
         try {
-            setLoading(true);
             setError('');
-
-            // On appelle apiFetch. Pas besoin de réécrire headers/credentials, 
-            // ils sont déjà dans defaultOptions de ta fonction !
             const data = await apiFetch("/login", {
                 method: "POST",
                 body: JSON.stringify(formData)
             });
-
-            // Si on arrive ici, c'est que la réponse était "ok" (200-299)
-            // car apiFetch a déjà géré le reste.
 
             if (!data.user_data || !data.access_token) {
                 throw new Error("Données utilisateur ou token manquants.");
             }
 
             setSuccess(true);
-
-            login(data.access_token,data.user_data)
-
+            login(data.access_token, data.user_data);
             navigate("/");
-
         } catch (err) {
-            // Ici, "err.message" contiendra soit le message d'erreur de Laravel 
-            // (grâce au throw dans apiFetch), soit ton message par défaut.
             setError(err.message || 'Une erreur est survenue.');
             console.error("Erreur lors de la connexion:", err);
         } finally {
@@ -86,8 +68,19 @@ const Login = () => {
         }
     };
 
+    // Modification ici : Gestion du loading pour Google Connexion
     const handleGoogleLogin = () => {
-        window.location.href = '/api/google/redirect';
+        setLoading(true);
+        setError('');
+
+        // Utilisation de import.meta.env (standard de Vite) au lieu de loadEnv
+        const apiUrl = import.meta.env.VITE_API_URL;
+
+        if (apiUrl) {
+            window.location.href = `${apiUrl}/api/google/redirect`;
+        } else {
+            window.location.href = `/api/google/redirect`;
+        }
     };
 
     if (success) {
@@ -104,7 +97,7 @@ const Login = () => {
                             Connexion réussie!
                         </h2>
                         <p className="text-gray-400 text-sm">
-                            Bienvenue! Vous allez être redirigé vers la page d'acceil
+                            Bienvenue! Vous allez être redirigé vers la page d'accueil
                         </p>
                     </div>
                 </div>
@@ -162,7 +155,8 @@ const Login = () => {
                                     name="email"
                                     value={formData.email}
                                     onChange={handleChange}
-                                    className="w-full bg-white/5 border border-white/10 group-focus-within:border-amber-500/50 rounded-lg pl-10 pr-4 py-3 text-white text-sm placeholder-gray-600 focus:outline-none transition-all"
+                                    disabled={loading}
+                                    className="w-full bg-white/5 border border-white/10 group-focus-within:border-amber-500/50 rounded-lg pl-10 pr-4 py-3 text-white text-sm placeholder-gray-600 focus:outline-none transition-all disabled:opacity-50"
                                     placeholder="votre@email.com"
                                 />
                             </div>
@@ -180,13 +174,15 @@ const Login = () => {
                                     name="password"
                                     value={formData.password}
                                     onChange={handleChange}
-                                    className="w-full bg-white/5 border border-white/10 group-focus-within:border-amber-500/50 rounded-lg pl-10 pr-12 py-3 text-white text-sm placeholder-gray-600 focus:outline-none transition-all"
+                                    disabled={loading}
+                                    className="w-full bg-white/5 border border-white/10 group-focus-within:border-amber-500/50 rounded-lg pl-10 pr-12 py-3 text-white text-sm placeholder-gray-600 focus:outline-none transition-all disabled:opacity-50"
                                     placeholder="Min. 8 caractères"
                                 />
                                 <button
                                     type="button"
+                                    disabled={loading}
                                     onClick={() => setShowPassword(!showPassword)}
-                                    className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-amber-500 transition-colors"
+                                    className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-amber-500 transition-colors disabled:cursor-not-allowed"
                                 >
                                     {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                                 </button>
@@ -228,34 +224,44 @@ const Login = () => {
                         </div>
                     </div>
 
-                    {/* Google Login Button */}
+                    {/* Google Login Button - Updated with loading state */}
                     <button
                         type="button"
                         onClick={handleGoogleLogin}
-                        className="w-full bg-white hover:bg-zinc-200 text-black font-black uppercase tracking-widest py-3 rounded-lg flex items-center justify-center gap-3 transition-all duration-300"
+                        disabled={loading}
+                        className="w-full bg-white hover:bg-zinc-200 disabled:bg-zinc-700 disabled:text-zinc-400 text-black font-black uppercase tracking-widest py-3 rounded-lg flex items-center justify-center gap-3 transition-all duration-300 disabled:cursor-not-allowed"
                     >
-                        <svg className="w-5 h-5" viewBox="0 0 24 24">
-                            <path
-                                fill="currentColor"
-                                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-                            />
-                            <path
-                                fill="currentColor"
-                                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-                            />
-                            <path
-                                fill="currentColor"
-                                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
-                            />
-                            <path
-                                fill="currentColor"
-                                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
-                            />
-                        </svg>
-                        Google
+                        {loading ? (
+                            <>
+                                <div className="w-5 h-5 border-2 border-zinc-500/30 border-t-zinc-500 rounded-full animate-spin" />
+                                Redirection...
+                            </>
+                        ) : (
+                            <>
+                                <svg className="w-5 h-5" viewBox="0 0 24 24">
+                                    <path
+                                        fill="currentColor"
+                                        d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                                    />
+                                    <path
+                                        fill="currentColor"
+                                        d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                                    />
+                                    <path
+                                        fill="currentColor"
+                                        d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
+                                    />
+                                    <path
+                                        fill="currentColor"
+                                        d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                                    />
+                                </svg>
+                                Google
+                            </>
+                        )}
                     </button>
 
-                    {/* Login Link */}
+                    {/* Register Link */}
                     <div className="mt-6 text-center border-t border-white/10 pt-6">
                         <p className="text-sm text-gray-400">
                             Vous n'avez pas de compte?{' '}

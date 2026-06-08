@@ -117,7 +117,7 @@ const Nav = () => {
 
                         {/* Auth */}
                         <div className="relative">
-                            {!is_loading && user ? (
+                            {!is_loading && user (
                                 <button
                                     onClick={() => setIsAuthOpen(!isAuthOpen)}
                                     className="flex items-center gap-2 px-3 py-2 rounded-full hover:bg-white/10 transition-all"
@@ -131,14 +131,6 @@ const Nav = () => {
                                     </div>
                                     <ChevronDown size={14} style={{ color: 'rgba(255,255,255,0.5)', transition: 'transform 0.2s', transform: isAuthOpen ? 'rotate(180deg)' : 'rotate(0)' }} />
                                 </button>
-                            ) : (
-                                <button
-                                    onClick={() => setIsAuthOpen(!isAuthOpen)}
-                                    className="btn-ghost"
-                                    style={{ fontSize: '13px', height: '36px', padding: '0 16px', gap: '6px' }}
-                                >
-                                    <User size={15} /> Compte
-                                </button>
                             )}
 
                             {isAuthOpen && (
@@ -151,7 +143,7 @@ const Nav = () => {
                                         boxShadow: '0 16px 48px rgba(0,0,0,0.5)',
                                     }}
                                 >
-                                    {user ? (
+                                    {user (
                                         <>
                                             <div className="px-4 py-3" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
                                                 <p className="t-link-sm" style={{ color: 'var(--color-on-primary)', marginBottom: '2px' }}>{user.name}</p>
@@ -178,30 +170,7 @@ const Nav = () => {
                                                 <LogOut size={16} /> Déconnexion
                                             </button>
                                         </>
-                                    ) : (
-                                        <>
-                                            <Link
-                                                to="/login"
-                                                onClick={() => setIsAuthOpen(false)}
-                                                className="block px-4 py-3 t-body transition-colors"
-                                                style={{ color: 'var(--color-on-primary)', textDecoration: 'none' }}
-                                                onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(217,119,6,0.15)'}
-                                                onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
-                                            >
-                                                Connexion
-                                            </Link>
-                                            <Link
-                                                to="/register"
-                                                onClick={() => setIsAuthOpen(false)}
-                                                className="block px-4 py-3 t-body transition-colors"
-                                                style={{ color: 'var(--color-on-primary)', textDecoration: 'none' }}
-                                                onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(217,119,6,0.15)'}
-                                                onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
-                                            >
-                                                S'inscrire
-                                            </Link>
-                                        </>
-                                    )}
+                                    ) }
                                 </div>
                             )}
                         </div>
