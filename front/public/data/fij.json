@@ -1,30 +1,190 @@
 [
     {
         "nom": "FIJ Les Intimes",
-        "image" : "../images/fij6.jpeg",
+        "image": "../images/fij6.jpeg",
         "description": "Une famille débordante de joie, de rire et de profondeur. Notre passion pour Dieu, notre désir de le connaître toujours davantage et de refléter Son image nous définit. Les moments que nous passons ensemble nous conduisent à la restauration, à la dépendance renouvelée envers Christ et, par conséquent, à une relation solide avec Lui. Notre plus grand désir est de nous encourager mutuellement, surtout dans notre jeunesse, à demeurer dans Son Intimité.",
         "mapURL": "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3964.270717654616!2d2.638652074992638!3d6.487362393504639!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwMjknMTQuNSJOIDLCsDM4JzI4LjQiRQ!5e0!3m2!1sen!2sbj!4v1773592446014!5m2!1sen!2sbj",
-        "phone": "22912345678"
+        "phone": "01 96 53 36 61 / 01 56 35 06 91 / 01 57 00 08 45",
+        "lieu": "Tchinvié, Cours primaire Oloyé",
+        "quartier_proches": [
+            "St Pierre Paul",
+            "Adjarra",
+            "Agbokou",
+            "Adjradicodji",
+            "Malanwi"
+        ],
+        "Bergers": [
+            "Gaël",
+            "Amirath"
+        ],
+        "lat": 6.487362393504639,
+        "lng": 2.638652074992638
     },
     {
         "nom": "FIJ Maison D'Amour",
-        "image" : "../images/fij4.jpeg",
+        "image": "../images/fij4.jpeg",
         "description": "La Maison d’Amour est plus qu’un simple groupe FIJ : c’est un foyer, un lieu où l’on grandit, où l’on guérit et où l’on s’épanouit ensemble. Ici, l’amour n’est pas une idée mais une véritable expérience : un langage, une atmosphère, un style de vie. Nous apprenons à aimer comme Christ aime, à devenir des jeunes stables, doux, profonds, responsables émotionnellement et joyeux.À la Maison d’Amour, tu ne viens pas juste assister : tu prends ta place, tu découvres ta valeur et tu actives ton potentiel. Nous t’aidons à grandir spirituellement, restaurer ton cœur, développer ta confiance, trouver ta passion et créer des amitiés vraies dans une ambiance chaleureuse, respectueuse et pleine de joie.Si tu cherches une famille où tu es écouté, considéré, entouré et accompagné, ta place t’y attend déjà et ici Dieu ecrit ta plus belle histoire☺️.Bienvenue à la Maison d'Amour.Ta Famille, Ton Refuge, Ton espace pour grandir. ✨",
         "mapURL": "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3964.2497719258376!2d2.598617574992611!3d6.490024093502017!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwMjknMjQuMSJOIDLCsDM2JzA0LjMiRQ!5e0!3m2!1sen!2sbj!4v1773592592065!5m2!1sen!2sbj",
-        "phone": "22912345678"
+        "phone": "01 66 31 49 66 / 01 67 97 82 88",
+        "lieu": "Tokpota, les Cocotiers. 1ère von laissant la von en face du CEG en quittant le terrain",
+        "quartier_proches": [
+            "Tokpota Les Cocotiers",
+            "tokpota maison blanche",
+            "pont métallique",
+            "Songhai",
+            "Don Bosco"
+        ],
+        "Bergers": [
+            "Bérénice",
+            "Joël"
+        ],
+        "lat": 6.490024093502017,
+        "lng": 2.598617574992611
     },
     {
         "nom": "FIJ Maison Flamme de Feu",
-        "image" : "../images/fij1.jpeg",
+        "image": "../images/fij1.jpeg",
         "description": "C’est bien plus qu’un lieu : c’est une atmosphère où la présence de Dieu brûle, transforme et réveille les destinées. Ici, Son feu purifie les cœurs, restaure les vies et rallume ce qui semblait éteint.C’est une maison où l’amour de Dieu guérit, où la joie de l’Esprit remplit, où les âmes fatiguées retrouvent force et espérance. Dans cette demeure, Dieu façonne des hommes et des femmes comme de véritables flammes de feu — porteurs de Sa lumière, ambassadeurs de Sa puissance, instruments de transformation pour leur génération.",
         "mapURL": "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3964.3299405425964!2d2.6100797749925957!3d6.479830693512067!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwMjgnNDcuNCJOIDLCsDM2JzQ1LjYiRQ!5e0!3m2!1sen!2sbj!4v1773592535902!5m2!1sen!2sbj",
-        "phone": "22912345678"
+        "phone": "01 67 72 78 33 / 01 66 92 52 03",
+        "lieu": "AVAKPA, en quittant l'ENS la rue à droite avant la résidence du Lycée béhanzin, puis à gauche deuxième maison portail vert",
+        "quartier_proches": [
+            "Djassin",
+            "catchi",
+            "oganla",
+            "djrègbé",
+            "houinta",
+            "sèmè"
+        ],
+        "Bergers": [
+            "Fifamè",
+            "Emmanuel"
+        ],
+        "lat": 6.479830693512067,
+        "lng": 2.6100797749925957
     },
     {
         "nom": "FIJ Nouveau Souffle",
-        "image" : "../images/fij5.jpeg",
+        "image": "../images/fij5.jpeg",
         "description": "Il existe des familles… et puis il existe cette famille-là.  Celle où tu franchis la porte et tu sens la différence : chaleur, rires sincères, regards qui rassurent.  🙏 Ici, on ne fait pas que vivre ensemble :  on grandit, on se relève, on cherche Dieu avec un cœur brûlant.  🌿 Chaque rencontre est une bouffée d’air frais,  un souffle nouveau où Christ devient réel et proche.  C’est une famille qui t’accueille sans masque, (sauf pour te faire un masque de beauté🥱🫠), qui t’écoute sans juger, qui croit en toi même quand tu doutes.Si tu cherches un lieu pour être toi-même, guérir, rire, grandir et t'épanouir…  Bienvenue dans la Famille d’Impact Jeunes “Nouveau Souffle” 🏠✨",
         "mapURL": "https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3964.192159168673!2d2.5916337749927454!3d6.497339693494847!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zNsKwMjknNTAuNCJOIDLCsDM1JzM5LjIiRQ!5e0!3m2!1sen!2sbj!4v1773592651012!5m2!1sen!2sbj",
-        "phone": "22912345678"
+        "phone": "01 61 76 80 50 / 01 54 57 28 62 / 01 51 24 70 91",
+        "lieu": "Quartier Dowa, non loin du CEG Dowa ",
+        "quartier_proches": [
+            "Louho",
+            "Ouando (3 quartiers)",
+            "Dowa (3 quartiers) ",
+            "Djlado",
+            "Akonaboè",
+            "Tokpota (5 quartiers) ",
+            "Houinvié"
+        ],
+        "Bergers": [
+            "Christesbon",
+            "Isaac",
+            "Elvire"
+        ],
+        "lat": 6.497339693494847,
+        "lng": 2.5916337749927454
+    },
+    {
+        "nom": "FIJ Oasis de paix",
+        "image": "../images/fij2.jpeg",
+        "description": "",
+        "mapURL": "",
+        "phone": "01 66 68 15 57 / 01 62 41 22 94 / 01 66 12 09 68",
+        "lieu": "Djègan Kpèvi, adjakahoué ",
+        "quartier_proches": [
+            "Gbodjè",
+            "Dodji",
+            "Ouando",
+            "Malé",
+            "Djrado",
+            "Hounsa",
+            "Godossou",
+            "Houinmè"
+        ],
+        "Bergers": [
+            "Serge",
+            "Merveille",
+            "Axel"
+        ],
+        "lat": 0,
+        "lng": 0
+    },
+    {
+        "nom": "FIJ Vase Consacré",
+        "image": "../images/fij3.jpeg",
+        "description": "",
+        "mapURL": "",
+        "phone": "01 66 41 99 80 / ",
+        "lieu": "Missérété Derrière la station se trouvant au carrefour dèvali",
+        "quartier_proches": [
+            "vakon, katagon, Gomé Sota "
+        ],
+        "Bergers": [
+            "Gilles-Christel"
+        ],
+        "lat": 0,
+        "lng": 0
+    },
+    {
+        "nom": "FIJ Bouillon de grâce",
+        "image": "../images/fij7.jpeg",
+        "description": "",
+        "mapURL": "",
+        "phone": "01 97 05 80 33 / 01 97 52 02 52",
+        "lieu": "Tokpota Vèdo, Von du carrefour nouveau programme",
+        "quartier_proches": [
+            "Dowa",
+            "Tokpota",
+            "Songhai",
+            "Tokpota davo"
+        ],
+        "Bergers": [
+            "Emmanuella",
+            "Fred"
+        ],
+        "lat": 0,
+        "lng": 0
+    },
+    {
+        "nom": "FIJ Cercle de Vie",
+        "image": "../images/fij8.jpeg",
+        "description": "",
+        "mapURL": "",
+        "phone": "01 67 82 07 04 / 01 41 63 01 57",
+        "lieu": "Tanzoun, von juste à côté de l’église catholique qui fait face a un terrain",
+        "quartier_proches": [
+            "danto guako"
+        ],
+        "Bergers": [
+            "Alvaro",
+            "Isidora"
+        ],
+        "lat": 0,
+        "lng": 0
+    },
+    {
+        "nom": "FIJ - Akonaboè",
+        "image": "../images/fij9.jpeg",
+        "description": "",
+        "mapURL": "",
+        "phone": "0162747066 / 0196733241 / 0154262006",
+        "lieu": "hotel La capital ",
+        "quartier_proches": [
+            "Akonaboè",
+            "Dowa Alihogbogo",
+            "dowa gbago",
+            "Danton",
+            "~Vakon"
+        ],
+        "Bergers": [
+            "Mireille",
+            "Régina",
+            "Clara"
+        ],
+        "lat": 0,
+        "lng": 0
     }
 ]

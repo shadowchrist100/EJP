@@ -72,21 +72,30 @@ const Banner = () => {
 
                 {/* Display headline */}
                 <FadeIn stagger={2} direction="up" >
-                    <h1 style={{ margin: 0 }}>
-                        <span className="t-display" style={{ display: 'block', color: 'var(--color-on-primary)', fontSize: 'clamp(40px, 8vw, 80px)', marginBottom: 'var(--space-xs)' }}>
+                    <h1 style={{ margin: 0, fontFamily: 'var(--font-family-banner)', fontWeight: 900, lineHeight: 1, letterSpacing: '0.02em', textTransform: 'uppercase' }}>
+                        {/* Ligne 1 */}
+                        <span style={{ display: 'block', color: 'var(--color-on-primary)', fontSize: 'clamp(2.8rem, 9vw, 7rem)', fontWeight: 900 }}>
                             Église Jeunes
                         </span>
 
-                        {/* Tagline divider */}
-                        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', margin: 'var(--space-md) 0' }}>
-                            <div className="hairline-amber" style={{ width: '120px', marginBottom: 'var(--space-xs)' }} />
-                            <p className="t-eyebrow" style={{ color: 'var(--color-amber)', letterSpacing: '2.5px', fontSize: '11px', margin: '8px 0' }}>
-                                Par les jeunes <span style={{ color: 'rgba(255,255,255,0.15)', margin: '0 8px' }}>|</span> Pour les jeunes
+                        {/* Tagline */}
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '16px 0 20px', gap: '12px' }}>
+                            <p style={{
+                                color: 'var(--color-amber)',
+                                fontFamily: 'var(--font-family)',
+                                fontWeight: 700,
+                                letterSpacing: '0.35em',
+                                fontSize: 'clamp(8px, 1.1vw, 10px)',
+                                textTransform: 'uppercase',
+                                margin: '0',
+                                whiteSpace: 'nowrap',
+                            }}>
+                                Par les jeunes <span style={{ color: 'rgba(255,255,255,0.2)', margin: '0 6px' }}>|</span> Pour les jeunes
                             </p>
-                            <div className="hairline-amber" style={{ width: '120px', marginTop: 'var(--space-xs)' }} />
                         </div>
 
-                        <span className="shimmer-gold" style={{ display: 'block', fontSize: 'clamp(40px, 8vw, 80px)', fontWeight: 400, lineHeight: 1.2, letterSpacing: '-1.4px', fontStyle: 'italic' }}>
+                        {/* Ligne 3 — Prodiges */}
+                        <span className="shimmer-gold" style={{ display: 'block', fontSize: 'clamp(2.8rem, 9vw, 7rem)', fontStyle: 'italic', fontWeight: 900, letterSpacing: '0.02em' }}>
                             Prodiges
                         </span>
                     </h1>

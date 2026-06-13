@@ -655,8 +655,8 @@ const ArtProdige = () => {
     const works = [
         {
             id: 1, category: 'book', title: 'Sentinelles', author: 'Charles SANDAH',
-            image: '/sentinelles.png', description: '', year: 2025, type: 'image',
-            downloadUrl: 'https://example.com/sentinelles.pdf',
+            image: '/sentinelles.png', description: 'Angela, 19 ans sombre dans la dépression après le décès de sa mère.Elle perd goût à la vie et passe la majeur partie de son temps dans sa chambre. Les choses changent après une discussion avec son frère ainé, qui vient de rentrer des Etats-Unis.Il lui montre un chemin pour reprendre le cours de sa vie.', year: 2025, type: 'image',
+            downloadUrl: '#',
         },
         {
             id: 2, category: 'art', title: '', author: '',
@@ -989,8 +989,8 @@ const ArtProdige = () => {
                                                     whileTap="tap"
                                                     onClick={() => setSelectedCategory(cat.id)}
                                                     className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 text-left group relative overflow-hidden ${isSelected
-                                                            ? 'bg-gradient-to-r from-amber-500 to-yellow-500 text-black font-bold shadow-lg shadow-amber-500/25'
-                                                            : 'text-gray-300 hover:bg-white/5 hover:text-amber-400 border border-transparent hover:border-amber-500/25'
+                                                        ? 'bg-gradient-to-r from-amber-500 to-yellow-500 text-black font-bold shadow-lg shadow-amber-500/25'
+                                                        : 'text-gray-300 hover:bg-white/5 hover:text-amber-400 border border-transparent hover:border-amber-500/25'
                                                         }`}
                                                 >
                                                     {isSelected && (
