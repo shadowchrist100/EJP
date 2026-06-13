@@ -11,6 +11,7 @@ import {
     useSpring,
     useMotionValue,
 } from 'framer-motion';
+import { useNearestFij } from '../../hooks/useNearestFij';
 
 /* ─── Styles globaux ────────────────────────────────────────────────── */
 
@@ -736,6 +737,14 @@ const FijCard = ({ fij, index, onMapClick }) => {
                                 <span className="text-gray-500 text-xs">{fij.berger}</span>
                             </div>
                         )}
+                        {fij.distance !== undefined && fij.distance !== Infinity && (
+                            <div className="flex items-center gap-2">
+                                <svg className="w-3.5 h-3.5 text-amber-500/70 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+                                </svg>
+                                <span className="text-amber-400 font-bold text-xs">À {fij.distance.toFixed(1)} km</span>
+                            </div>
+                        )}
                     </div>
                 )}
 
@@ -792,8 +801,33 @@ const FijGrid = () => {
             .catch(e => console.error('Erreur chargement FIJ:', e));
     }, []);
 
+    const { sortedFijs, isLocating, locationError, findNearest } = useNearestFij(fijData);
+
     return (
         <>
+            <div className="flex flex-col items-center justify-center mb-12 font-body">
+                <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    onClick={findNearest}
+                    disabled={isLocating}
+                    className={`flex items-center gap-2 px-6 py-3 font-bold tracking-widest text-xs uppercase border transition-colors ${
+                        isLocating 
+                            ? 'bg-zinc-800 text-gray-400 border-zinc-700 cursor-wait' 
+                            : 'bg-amber-500/10 text-amber-500 border-amber-500/30 hover:bg-amber-500 hover:text-black'
+                    }`}
+                >
+                    <svg className={`w-4 h-4 ${isLocating ? 'animate-spin' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    {isLocating ? 'Recherche en cours...' : 'Trouver la FIJ la plus proche'}
+                </motion.button>
+                {locationError && (
+                    <p className="mt-4 text-red-400 text-xs tracking-wide uppercase">{locationError}</p>
+                )}
+            </div>
+
             <motion.div
                 initial="hidden"
                 whileInView="visible"
@@ -804,7 +838,7 @@ const FijGrid = () => {
                 }}
                 className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 p-4 max-w-7xl mx-auto font-body"
             >
-                {fijData.map((fij, index) => (
+                {sortedFijs.map((fij, index) => (
                     <FijCard
                         key={index}
                         fij={fij}
