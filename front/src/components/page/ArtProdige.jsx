@@ -655,7 +655,7 @@ const ArtProdige = () => {
     const works = [
         {
             id: 1, category: 'book', title: 'Sentinelles', author: 'Charles SANDAH',
-            image: '/sentinelles.png', description: 'Angela, 19 ans sombre dans la dépression après le décès de sa mère.Elle perd goût à la vie et passe la majeur partie de son temps dans sa chambre. Les choses changent après une discussion avec son frère ainé, qui vient de rentrer des Etats-Unis.Il lui montre un chemin pour reprendre le cours de sa vie.', year: 2025, type: 'image',
+            image: '/sentinelles.jpeg', description: 'Angela, 19 ans sombre dans la dépression après le décès de sa mère.Elle perd goût à la vie et passe la majeur partie de son temps dans sa chambre. Les choses changent après une discussion avec son frère ainé, qui vient de rentrer des Etats-Unis.Il lui montre un chemin pour reprendre le cours de sa vie.', year: 2025, type: 'image',
             downloadUrl: '#',
         },
         {
