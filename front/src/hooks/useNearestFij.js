@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 // Formule de Haversine pour calculer la distance entre deux coordonnées GPS en km
 const calculateDistance = (lat1, lon1, lat2, lon2) => {
@@ -24,6 +24,11 @@ export const useNearestFij = (fijList) => {
             return;
         }
 
+        if (fijList.length === 0) {
+            setLocationError("Les données FIJ ne sont pas encore chargées.");
+            return;
+        }
+
         setIsLocating(true);
         setLocationError(null);
 
@@ -37,7 +42,7 @@ export const useNearestFij = (fijList) => {
                         const distance = calculateDistance(userLat, userLng, fij.lat, fij.lng);
                         return { ...fij, distance };
                     }
-                    return { ...fij, distance: Infinity }; // Fallback si pas de coordonnées
+                    return { ...fij, distance: Infinity };
                 });
 
                 withDistances.sort((a, b) => a.distance - b.distance);
@@ -58,15 +63,22 @@ export const useNearestFij = (fijList) => {
         );
     }, [fijList]);
 
-    // Update sorted list if initial list changes
-    useCallback(() => {
+    useEffect(() => {
+        if (fijList.length > 0) {
+            setSortedFijs(fijList);
+        }
+    }, [fijList]);
+
+    const resetFijs = useCallback(() => {
         setSortedFijs(fijList);
+        setLocationError(null);
     }, [fijList]);
 
     return {
-        sortedFijs: sortedFijs.length > 0 ? sortedFijs : fijList,
+        sortedFijs,
         isLocating,
         locationError,
-        findNearest
+        findNearest,
+        resetFijs
     };
 };

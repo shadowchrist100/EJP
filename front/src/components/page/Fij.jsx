@@ -684,17 +684,14 @@ const FijCard = ({ fij, index, onMapClick }) => {
 
                 {/* Description avec expand/collapse animé */}
                 <div className="relative mb-1">
-                    <motion.div
-                        animate={{ height: expanded ? 'auto' : undefined }}
-                        className="overflow-hidden"
-                    >
+                    <div className="overflow-hidden">
                         <p
                             ref={descRef}
-                            className={`text-gray-400 text-sm leading-relaxed font-light transition-all duration-300 ${expanded ? '' : 'line-clamp-3'}`}
+                            className={`text-gray-400 text-sm leading-relaxed font-light ${expanded ? '' : 'line-clamp-3'}`}
                         >
                             {fij.description}
                         </p>
-                    </motion.div>
+                    </div>
 
                     {/* Bouton lire plus / moins — visible seulement si texte tronqué */}
                     {(isTruncated || expanded) && (
@@ -717,24 +714,24 @@ const FijCard = ({ fij, index, onMapClick }) => {
                     )}
                 </div>
 
-                {/* Infos rapides — quartier / berger */}
-                {(fij.quartier || fij.berger) && (
+                {/* Infos rapides — lieu / berger */}
+                {(fij.lieu || fij.Bergers) && (
                     <div className="mt-4 pt-4 border-t border-zinc-800/60 space-y-2">
-                        {fij.quartier && (
+                        {fij.lieu && (
                             <div className="flex items-center gap-2">
                                 <svg className="w-3.5 h-3.5 text-amber-500/70 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                                 </svg>
-                                <span className="text-gray-500 text-xs">{fij.quartier}</span>
+                                <span className="text-gray-500 text-xs">{fij.lieu}</span>
                             </div>
                         )}
-                        {fij.berger && (
+                        {fij.Bergers && fij.Bergers.length > 0 && (
                             <div className="flex items-center gap-2">
                                 <svg className="w-3.5 h-3.5 text-amber-500/70 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                                 </svg>
-                                <span className="text-gray-500 text-xs">{fij.berger}</span>
+                                <span className="text-gray-500 text-xs">{fij.Bergers.join(', ')}</span>
                             </div>
                         )}
                         {fij.distance !== undefined && fij.distance !== Infinity && (
@@ -770,7 +767,7 @@ const FijCard = ({ fij, index, onMapClick }) => {
                         <motion.a
                             whileHover={{ scale: 1.05, backgroundColor: '#16a34a', borderColor: '#16a34a' }}
                             whileTap={{ scale: 0.95 }}
-                            href={`https://wa.me/${fij.phone}`}
+                            href={`https://wa.me/229${fij.phone.split('/')[0].replace(/\s/g, '')}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             title="Contacter le Berger"
@@ -793,6 +790,7 @@ const FijCard = ({ fij, index, onMapClick }) => {
 const FijGrid = () => {
     const [fijData, setFijData] = useState([]);
     const [activeMap, setActiveMap] = useState(null);
+    const [searchQuery, setSearchQuery] = useState('');
 
     useEffect(() => {
         fetch('/data/fij.json')
@@ -801,32 +799,103 @@ const FijGrid = () => {
             .catch(e => console.error('Erreur chargement FIJ:', e));
     }, []);
 
-    const { sortedFijs, isLocating, locationError, findNearest } = useNearestFij(fijData);
+    const { sortedFijs, isLocating, locationError, findNearest, resetFijs } = useNearestFij(fijData);
+
+    const normalize = (str) => {
+        if (!str) return '';
+        return String(str).normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+    };
+
+    const filteredFijs = sortedFijs.filter(fij => {
+        const trimmed = searchQuery.trim();
+        if (!trimmed) return true;
+        const queryTokens = normalize(trimmed).split(' ').filter(Boolean);
+        
+        return queryTokens.every(query => {
+            const nomMatch = fij.nom && normalize(fij.nom).includes(query);
+            const lieuMatch = fij.lieu && normalize(fij.lieu).includes(query);
+            const quartierMatch = fij.quartier_proches && fij.quartier_proches.some(q => normalize(q).includes(query));
+            return nomMatch || lieuMatch || quartierMatch;
+        });
+    });
+
+    const dataLoaded = fijData.length > 0;
+    const hasDistances = sortedFijs.length > 0 && sortedFijs[0].distance !== undefined;
+    const isFiltered = searchQuery.trim() !== '' || hasDistances;
+
+    const handleReset = () => {
+        setSearchQuery('');
+        resetFijs();
+    };
 
     return (
         <>
-            <div className="flex flex-col items-center justify-center mb-12 font-body">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-4 mb-8 font-body max-w-4xl mx-auto">
+                <div className="relative w-full md:w-1/2">
+                    <input 
+                        type="text" 
+                        placeholder="Rechercher par quartier proche (ex: Tokpota, Ouando...)" 
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="w-full bg-zinc-900 border border-zinc-700 text-white px-4 py-3 rounded-none focus:outline-none focus:border-amber-500 transition-colors text-sm"
+                    />
+                    {searchQuery && (
+                        <button 
+                            onClick={() => setSearchQuery('')}
+                            className="absolute right-3 top-3 text-gray-500 hover:text-white transition-colors"
+                        >
+                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    )}
+                    {!searchQuery && (
+                        <svg className="w-5 h-5 absolute right-3 top-3 text-gray-500 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    )}
+                </div>
+                
+                <span className="text-gray-500 uppercase text-xs font-bold tracking-widest hidden md:inline">OU</span>
+
                 <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                    whileHover={!dataLoaded ? {} : { scale: 1.02 }}
+                    whileTap={!dataLoaded ? {} : { scale: 0.98 }}
                     onClick={findNearest}
-                    disabled={isLocating}
-                    className={`flex items-center gap-2 px-6 py-3 font-bold tracking-widest text-xs uppercase border transition-colors ${
-                        isLocating 
-                            ? 'bg-zinc-800 text-gray-400 border-zinc-700 cursor-wait' 
+                    disabled={isLocating || !dataLoaded}
+                    className={`flex items-center justify-center gap-2 px-6 py-3 font-bold tracking-widest text-xs uppercase border transition-colors w-full md:w-auto ${
+                        isLocating || !dataLoaded
+                            ? 'bg-zinc-800 text-gray-400 border-zinc-700 cursor-not-allowed' 
                             : 'bg-amber-500/10 text-amber-500 border-amber-500/30 hover:bg-amber-500 hover:text-black'
                     }`}
                 >
-                    <svg className={`w-4 h-4 ${isLocating ? 'animate-spin' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg className={`w-4 h-4 shrink-0 ${isLocating ? 'animate-spin' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
-                    {isLocating ? 'Recherche en cours...' : 'Trouver la FIJ la plus proche'}
+                    {isLocating ? 'Recherche en cours...' : 'Ma position'}
                 </motion.button>
-                {locationError && (
-                    <p className="mt-4 text-red-400 text-xs tracking-wide uppercase">{locationError}</p>
-                )}
             </div>
+            
+            {isFiltered && (
+                <div className="flex justify-center mb-12">
+                    <button 
+                        onClick={handleReset}
+                        className="text-amber-500 hover:text-white text-xs tracking-widest uppercase font-bold transition-colors flex items-center gap-2"
+                    >
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                        </svg>
+                        Réinitialiser les filtres
+                    </button>
+                </div>
+            )}
+            
+            {locationError && (
+                <div className="flex justify-center mb-8">
+                    <p className="text-red-400 text-xs tracking-wide uppercase font-body">{locationError}</p>
+                </div>
+            )}
 
             <motion.div
                 initial="hidden"
@@ -838,14 +907,20 @@ const FijGrid = () => {
                 }}
                 className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 p-4 max-w-7xl mx-auto font-body"
             >
-                {sortedFijs.map((fij, index) => (
-                    <FijCard
-                        key={index}
-                        fij={fij}
-                        index={index}
-                        onMapClick={setActiveMap}
-                    />
-                ))}
+                {filteredFijs.length > 0 ? (
+                    filteredFijs.map((fij, index) => (
+                        <FijCard
+                            key={index}
+                            fij={fij}
+                            index={index}
+                            onMapClick={setActiveMap}
+                        />
+                    ))
+                ) : (
+                    <div className="col-span-1 sm:col-span-2 xl:col-span-3 text-center py-12">
+                        <p className="text-gray-400 text-sm font-light">Aucune FIJ ne correspond à votre recherche.</p>
+                    </div>
+                )}
             </motion.div>
 
             <AnimatePresence mode="wait">
