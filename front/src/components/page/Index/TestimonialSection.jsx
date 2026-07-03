@@ -9,9 +9,9 @@ import FadeIn from '../../common/FadeIn';
  */
 const TestimonialSection = () => {
     const testimonials = [
-        { name: "Audrey", title: "L'Église de mes rêves", text: "Je n'aurais pas pu rêver d'une meilleure église. Moi qui me sentais seule, je me sens tellement mieux maintenant à l'EJP !" },
-        { name: "Owen", title: "J'aime mon église !", text: "Depuis que je suis à l'EJP, j'attends dimanche après dimanche avec impatience. Merci Seigneur pour Ta grâce." },
-        { name: "Grace", title: "Transformée", text: "L'EJP a changé ma façon de voir la vie. Une communauté qui aime, qui prie, qui avance ensemble. Je ne l'échangerais contre rien." },
+        { name: "Lauriano E", title: "L'Église de mes rêves", text: "EJP est une véritable famille, j'ai été toucher par l'amour des frères et sœurs ." },
+        { name: "Orné ❤️🥰", title: "Une église qui a transformé mon mindset.", text: " À l'EJP, j'ai appris à sortir de ma zone de confort. J'ai été délivrée de la religiosité et, aujourd'hui, je vis la véritable vie avec Christ, entourée d'une merveilleuse famille." },
+        { name: "Zawéliatou OROU YONI", title: "Transformée", text: "J'étais une fille remplie de peur mais par la dynamique ANAKAZŌ initiée par l'EJP , j'ai pu surpasser cette peur par le Saint-Esprit. Et celà a véritablement amélioré mes relations humaines et surtout le regard que j'avais de moi-même." },
     ];
 
     const [idx, setIdx] = useState(0);

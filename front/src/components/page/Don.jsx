@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Nav, Footer, Contact } from "../"
-import { Heart, Check, ArrowRight, Zap, Users, Globe } from 'lucide-react';
+import { Heart, Check, ArrowRight, Zap, Users, Globe, AlertCircle } from 'lucide-react';
+import { apiFetch } from '../../util/api';
 
 // Hero Section Component
 const DonationHero = () => {
@@ -89,15 +90,28 @@ const DonationHero = () => {
 const DonationOptions = () => {
     const [customAmount, setCustomAmount] = useState('');
     const [isSubmitted, setIsSubmitted] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
 
-    const handleDonate = () => {
-        if (customAmount && parseFloat(customAmount) > 0) {
+    const handleDonate = async () => {
+        if (!customAmount || parseFloat(customAmount) <= 0) return;
+        setLoading(true);
+        setError('');
+        try {
+            await apiFetch('/dons', {
+                method: 'POST',
+                body: JSON.stringify({ amount: parseFloat(customAmount) }),
+            });
             setIsSubmitted(true);
-            // Ici vous pouvez ajouter la logique de paiement
             setTimeout(() => {
                 setIsSubmitted(false);
                 setCustomAmount('');
             }, 3000);
+        } catch (err) {
+            setError(err.message || 'Une erreur est survenue.');
+            setTimeout(() => setError(''), 5000);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -166,18 +180,28 @@ const DonationOptions = () => {
                                 </div>
                                 <button
                                     onClick={handleDonate}
-                                    disabled={!customAmount || parseFloat(customAmount) <= 0}
+                                    disabled={!customAmount || parseFloat(customAmount) <= 0 || loading}
                                     className="w-full sm:w-auto bg-linear-to-r from-amber-500 to-yellow-500 text-black px-10 py-4 rounded-xl font-black uppercase text-[10px] tracking-widest hover:shadow-2xl hover:shadow-amber-500/50 transition-all duration-300 flex items-center justify-center gap-2 group/btn disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none"
                                 >
-                                    <span>Donner</span>
-                                    <ArrowRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
+                                    <span>{loading ? 'Envoi en cours...' : 'Donner'}</span>
+                                    {loading ? (
+                                        <div className="w-4 h-4 border-2 border-black/30 border-t-black rounded-full animate-spin" />
+                                    ) : (
+                                        <ArrowRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
+                                    )}
                                 </button>
                             </div>
 
                             {/* Feedback Message */}
                             {isSubmitted && (
-                                <div className="animate-in fade-in slide-in-from-bottom-4 text-amber-500 font-bold text-lg">
+                                <div className="animate-in fade-in slide-in-from-bottom-4 text-amber-500 font-bold text-lg text-center">
                                     ✓ Merci pour ta générosité!
+                                </div>
+                            )}
+                            {error && (
+                                <div className="animate-in fade-in slide-in-from-bottom-4 text-red-400 font-bold text-sm text-center flex items-center justify-center gap-2">
+                                    <AlertCircle size={16} />
+                                    {error}
                                 </div>
                             )}
 
@@ -191,7 +215,7 @@ const DonationOptions = () => {
                     </div>
                 </motion.div>
 
-                {/* Trust Badges */}
+                {/* Trust Badges
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -214,7 +238,7 @@ const DonationOptions = () => {
                         <p className="text-white font-black text-sm mb-1">Flexible</p>
                         <p className="text-gray-500 text-xs font-light">Montant libre</p>
                     </div>
-                </motion.div>
+                </motion.div> */}
             </div>
         </section>
     );
@@ -449,7 +473,7 @@ const ImpactSection = () => {
                 </div>
 
                 {/* Budget Breakdown */}
-                <motion.div
+                {/* <motion.div
                     initial={{ opacity: 0, y: 40 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-100px" }}
@@ -478,7 +502,7 @@ const ImpactSection = () => {
                             </div>
                         ))}
                     </div>
-                </motion.div>
+                </motion.div> */}
             </div>
         </section>
     );

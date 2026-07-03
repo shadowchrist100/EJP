@@ -3,6 +3,18 @@ import { motion } from 'framer-motion';
 import FadeIn from '../../common/FadeIn';
 
 const CountdownSection = () => {
+    // Détection du mode mobile pour adapter les styles inline
+    const [isMobile, setIsMobile] = useState(false);
+
+    useEffect(() => {
+        const media = window.matchMedia("(max-width: 768px)");
+        setIsMobile(media.matches);
+
+        const listener = (e) => setIsMobile(e.matches);
+        media.addEventListener("change", listener);
+        return () => media.removeEventListener("change", listener);
+    }, []);
+
     const getTarget = () => {
         const now = new Date();
         const next = new Date();
@@ -64,47 +76,113 @@ const CountdownSection = () => {
                     </p>
                 </FadeIn>
 
-                {/* Timer grid — flat, hairline dividers, no shadow */}
+                {/* Timer grid — Gère le mode horizontal strict (4 colonnes fixes) partout */}
                 <FadeIn stagger={3} direction="up">
-                    <div style={{
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(4, 1fr)',
-                        maxWidth: '700px',
-                        margin: '0 auto',
-                        border: '1px solid rgba(255,255,255,0.06)',
-                    }}>
-                        {units.map(({ label, value }, i) => (
-                            <div
+                    <div
+                        style={{
+                            display: "grid",
+                            gridTemplateColumns: "repeat(4, 1fr)", // Force l'alignement horizontal
+                            gap: isMobile ? "0.5rem" : "1.5rem", // Plus serré sur mobile pour que ça rentre
+                            maxWidth: "900px",
+                            margin: "0 auto",
+                            padding: isMobile ? "0 0.5rem" : "0 1rem",
+                        }}
+                    >
+                        {units.map(({ label, value }) => (
+                            <motion.div
                                 key={label}
+                                whileHover={{
+                                    y: -8,
+                                    scale: 1.02,
+                                    borderColor: "#F59E0B",
+                                    boxShadow: "0 20px 40px -15px rgba(0,0,0,0.5)",
+                                }}
+                                transition={{
+                                    type: "spring",
+                                    stiffness: 400,
+                                    damping: 25,
+                                }}
                                 style={{
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    alignItems: 'center',
-                                    padding: 'var(--space-xl) var(--space-md)',
-                                    borderLeft: i > 0 ? '1px solid rgba(255,255,255,0.06)' : 'none',
+                                    position: "relative",
+                                    padding: isMobile ? "1.2rem 0.2rem 0.8rem 0.2rem" : "2.5rem 1rem 2rem 1rem", // Moins de padding sur mobile
+                                    borderRadius: isMobile ? "8px" : "12px",
+                                    background: "#0d0d0d",
+                                    border: "1px solid rgba(255,255,255,.15)",
+                                    overflow: "hidden",
+                                    transition: "border-color 0.2s ease, box-shadow 0.2s ease",
                                 }}
                             >
-                                <div style={{ height: 'clamp(40px, 6vw, 72px)', display: 'flex', alignItems: 'center', overflow: 'hidden' }}>
+                                {/* Ligne d'accent supérieure */}
+                                <div
+                                    style={{
+                                        position: "absolute",
+                                        top: 0,
+                                        left: 0,
+                                        right: 0,
+                                        height: isMobile ? "3px" : "4px",
+                                        background: "#F59E0B",
+                                    }}
+                                />
+
+                                <div
+                                    style={{
+                                        display: "flex",
+                                        justifyContent: "center",
+                                        alignItems: "center",
+                                        minHeight: isMobile ? "45px" : "90px", // Hauteur réduite sur mobile
+                                        position: "relative",
+                                    }}
+                                >
                                     <motion.span
                                         key={value}
-                                        initial={{ y: 12, opacity: 0 }}
-                                        animate={{ y: 0, opacity: 1 }}
-                                        transition={{ duration: 0.25, ease: [0.34, 1.56, 0.64, 1] }}
-                                        className="t-display"
+                                        initial={{
+                                            scale: 0.4,
+                                            opacity: 0,
+                                            y: 35,
+                                        }}
+                                        animate={{
+                                            scale: 1,
+                                            opacity: 1,
+                                            y: 0,
+                                        }}
+                                        transition={{
+                                            type: "spring",
+                                            stiffness: 200,
+                                            damping: 15,
+                                        }}
                                         style={{
-                                            color: 'var(--color-on-primary)',
-                                            fontSize: 'clamp(32px, 6vw, 56px)',
-                                            fontWeight: 300,
-                                            fontVariantNumeric: 'tabular-nums',
+                                            fontFamily: '"Arial Narrow", "Bebas Neue", sans-serif',
+                                            fontSize: isMobile ? "clamp(32px, 8vw, 48px)" : "clamp(75px, 10vw, 110px)", // Taille drastiquement réduite sur mobile
+                                            color: "#fff",
+                                            letterSpacing: "1px",
+                                            lineHeight: 0.9,
+                                            fontVariantNumeric: "tabular-nums",
                                         }}
                                     >
                                         {fmt(value)}
                                     </motion.span>
                                 </div>
-                                <span className="t-micro-caps" style={{ color: 'var(--color-amber)', opacity: 0.6, marginTop: 'var(--space-sm)' }}>
-                                    {label}
-                                </span>
-                            </div>
+
+                                <div
+                                    style={{
+                                        textAlign: "center",
+                                        marginTop: isMobile ? "0.4rem" : "1rem",
+                                    }}
+                                >
+                                    <span
+                                        style={{
+                                            color: "#a3a3a3",
+                                            textTransform: "uppercase",
+                                            letterSpacing: isMobile ? "1px" : "4px", // Moins d'espacement des lettres sur mobile
+                                            fontWeight: 800,
+                                            fontSize: isMobile ? "0.55rem" : "0.75rem", // Plus petit sur mobile
+                                            display: "block",
+                                        }}
+                                    >
+                                        {label}
+                                    </span>
+                                </div>
+                            </motion.div>
                         ))}
                     </div>
                 </FadeIn>

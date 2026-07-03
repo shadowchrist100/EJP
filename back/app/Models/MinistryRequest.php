@@ -9,6 +9,8 @@ class MinistryRequest extends Model
     //
     protected $fillable = [
         'user_id',
+        'nom',
+        'email',
         'ministry_name',
         'message',
     ];

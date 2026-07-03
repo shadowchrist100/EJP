@@ -63,10 +63,9 @@ const Register = () => {
         if (!validateForm()) return;
 
         setLoading(true);
+        setError('');
 
         try {
-            setLoading(true);
-            setError('');
             const data = await apiFetch("/register", {
                 method: "POST",
                 body: JSON.stringify(formData),

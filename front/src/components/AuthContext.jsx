@@ -51,6 +51,7 @@ export const AuthProvider = (props) => {
                 console.warn("Impossible de renouveler le token : utilisateur non connecté", error);
                 set_user(null);
                 set_access_token(null);
+                set_error(null);
             } finally {
                 set_is_loading(false);
                 isRefreshing.current = false;

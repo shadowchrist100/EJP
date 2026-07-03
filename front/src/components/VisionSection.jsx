@@ -106,7 +106,7 @@ const VisionSection = ({ audioPath }) => {
             role: 'Berger Principal de EJP MONDE / Berger EJP CROISSY',
         },
         {
-            eyebrow: 'Notre Vision',
+            eyebrow: '',
             headline: (
                 <>
                     "Nous sommes des{' '}

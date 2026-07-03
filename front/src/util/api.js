@@ -19,7 +19,13 @@ export const apiFetch = async (endpoint, options = {}) => {
         if (!response.ok) {
             const errorData = await response.json().catch(() => ({}));
 
-            throw new Error(errorData.message || `Error survenue : ${response.statusText} ` );
+            const message =
+                errorData.error ||
+                errorData.message ||
+                (errorData.errors && Object.values(errorData.errors).flat().join(', ')) ||
+                `Erreur : ${response.statusText}`;
+
+            throw new Error(message);
         }
         if (response.status !== 204) {
             return await response.json();

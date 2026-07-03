@@ -18,6 +18,7 @@ const Nav = () => {
         { name: 'Salut', href: '/salvation' },
         { name: 'Galerie', href: '/galerie' },
         { name: 'Contact', href: '#contact' },
+        ...(user?.is_admin ? [{ name: 'Admin', href: '/admin' }] : []),
     ];
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
@@ -143,10 +144,10 @@ const Nav = () => {
                                         boxShadow: '0 16px 48px rgba(0,0,0,0.5)',
                                     }}
                                 >
-                                    {user (
+                                    {user &&  (
                                         <>
                                             <div className="px-4 py-3" style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-                                                <p className="t-link-sm" style={{ color: 'var(--color-on-primary)', marginBottom: '2px' }}>{user.name}</p>
+                                                <p className="t-link-sm" style={{ color: 'var(--color-on-primary)', marginBottom: '2px' }}>{user.firstName} {user.lastName}</p>
                                                 <p className="t-meta" style={{ color: 'var(--color-stone)' }}>{user.email}</p>
                                             </div>
                                             <Link
@@ -159,6 +160,19 @@ const Nav = () => {
                                             >
                                                 <User size={16} /> Mon Profil
                                             </Link>
+                                            {user.is_admin && (
+                                                <Link
+                                                    to="/admin"
+                                                    onClick={() => setIsAuthOpen(false)}
+                                                    className="flex items-center gap-3 px-4 py-3 t-body transition-colors"
+                                                    style={{ color: 'var(--color-amber)', textDecoration: 'none' }}
+                                                    onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(217,119,6,0.15)'}
+                                                    onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+                                                >
+                                                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                                                    Administration
+                                                </Link>
+                                            )}
                                             <div style={{ margin: '4px 0', borderTop: '1px solid rgba(255,255,255,0.08)' }} />
                                             <button
                                                 onClick={handleLogout}

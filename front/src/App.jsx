@@ -4,6 +4,7 @@ import "./App.css";
 
 import { AuthProvider } from './components/AuthContext.jsx';
 import AuthComponent from './components/AuthComponent.jsx';
+import AdminRoute from './components/AdminRoute.jsx';
 
 // Composants vitaux / à chargement immédiat
 import Index from "./Index.jsx";
@@ -24,6 +25,7 @@ const EventsPage = React.lazy(() => import('./components/page/Evenements.jsx'));
 const ArtProdige = React.lazy(() => import('./components/page/ArtProdige.jsx'));
 const SalvationPrayer = React.lazy(() => import('./components/page/Salvation.jsx'));
 const ProfilePage = React.lazy(() => import('./components/page/ProfilePage.jsx'));
+const AdminPage = React.lazy(() => import('./components/page/AdminPage.jsx'));
 
 function App() {
     return (
@@ -56,6 +58,13 @@ function App() {
                             <AuthComponent>
                                 <ProfilePage />
                             </AuthComponent>
+                        } />
+
+                        {/* Admin routes */}
+                        <Route path='/admin' element={
+                            <AdminRoute>
+                                <AdminPage />
+                            </AdminRoute>
                         } />
                     </Routes>
                 </Suspense>

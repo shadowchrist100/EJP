@@ -23,6 +23,7 @@ class User extends Authenticatable implements MustVerifyEmail
         'firstName',
         'lastName',
         'email',
+        'is_admin',
         'bio',
         'localisation',
         'telephone',
@@ -53,6 +54,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_admin' => 'boolean',
         ];
     }
 
