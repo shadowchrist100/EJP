@@ -281,6 +281,20 @@ const StepForm = ({ onBack, onSuccess }) => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!formData.lastName.trim() || !formData.firstName.trim() || !formData.email.trim() || !formData.password.trim()) {
+            setError('Veuillez remplir tous les champs obligatoires.');
+            return;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+            setError('Adresse email invalide.');
+            return;
+        }
+        if (formData.password.length < 8) {
+            setError('Le mot de passe doit contenir au moins 8 caractères.');
+            return;
+        }
+
         setIsSubmitting(true);
         setError('');
         try {

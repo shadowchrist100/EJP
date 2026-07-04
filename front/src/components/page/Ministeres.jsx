@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { Contact, Nav, Footer } from '../';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import { AuthContext } from '../AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { apiFetch } from '../../util/api';
@@ -392,7 +392,7 @@ const ContactForm = () => {
             setErrors(errs)
             return;
         }
-        setStatus('Chargement')
+        setStatus('loading')
 
         try {
             const data = await apiFetch('/ministry_request', {
@@ -405,7 +405,8 @@ const ContactForm = () => {
 
             setForm(initialForm);
             setTouched({});
-            setErrors({})
+            setErrors({});
+            setStatus('success');
             setTimeout(() => setStatus('idle'), 5000);
 
         } catch (error) {
@@ -485,29 +486,36 @@ const ContactForm = () => {
                         viewport={{ once: true }}
                         onSubmit={handleSubmit} id="rejoindre" className="w-full lg:w-[65%] space-y-8" noValidate
                     >
-                        <AnimatePresence mode='wait'>
-                            {/* ✅ Bandeau succès */}
-                            {status === 'success' && (
-                                <motion.div
-                                    initial={{ opacity: 0, scale: 0.9 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    className="border border-amber-500/30 bg-amber-500/10 px-6 py-4 text-amber-300 text-sm font-bold p-8 text-center flex flex-col items-center gap-4">
-                                    <CheckCircle2 className="text-amber-500" size={40} />
-                                    <p className="text-white font-display text-2xl uppercase">Demande Envoyée !</p>
-                                    <p className="text-gray-400 text-sm">L'équipe S.T.A.R. reviendra vers toi très vite.</p>
-                                    <button onClick={() => setStatus('idle')} className="text-amber-500 text-[10px] uppercase underline mt-4">Nouvel envoi</button>
-                                    <div className="w-1.5 h-1.5 bg-amber-500 rotate-45 shrink-0" />
-                                    Merci ! Nous avons reçu ta demande. À très bientôt.
-                                </motion.div>
-                            )}
+                        {/* Bandeaux succès/erreur */}
+                    <AnimatePresence mode='wait'>
+                        {status === 'success' && (
+                            <motion.div
+                                key="success"
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.9 }}
+                                className="border border-amber-500/30 bg-amber-500/10 px-6 py-4 text-amber-300 text-sm font-bold p-8 text-center flex flex-col items-center gap-4">
+                                <CheckCircle2 className="text-amber-500" size={40} />
+                                <p className="text-white font-display text-2xl uppercase">Demande Envoyée !</p>
+                                <p className="text-gray-400 text-sm">L'équipe S.T.A.R. reviendra vers toi très vite.</p>
+                                <button onClick={() => setStatus('idle')} className="text-amber-500 text-[10px] uppercase underline mt-4">Nouvel envoi</button>
+                                <div className="w-1.5 h-1.5 bg-amber-500 rotate-45 shrink-0" />
+                                Merci ! Nous avons reçu ta demande. À très bientôt.
+                            </motion.div>
+                        )}
 
-                            {/* ✅ Bandeau erreur serveur */}
-                            {status === 'error' && (
-                                <div className="border border-red-500/30 bg-red-500/10 px-6 py-4 text-red-300 text-sm font-bold flex items-center gap-3">
-                                    <div className="w-1.5 h-1.5 bg-red-500 rotate-45 shrink-0" />
-                                    Une erreur est survenue. Veuillez réessayer.
-                                </div>
-                            )}
+                        {status === 'error' && (
+                            <motion.div
+                                key="error"
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: -20 }}
+                                className="border border-red-500/30 bg-red-500/10 px-6 py-4 text-red-300 text-sm font-bold flex items-center gap-3">
+                                <div className="w-1.5 h-1.5 bg-red-500 rotate-45 shrink-0" />
+                                Une erreur est survenue. Veuillez réessayer.
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                 <Field label="Nom complet" name="nom" touched={touched} errors={errors} >
@@ -574,7 +582,6 @@ const ContactForm = () => {
                                 )}
                                 <div className="absolute inset-0 bg-white/15 -translate-x-full group-hover:translate-x-full transition-transform duration-500 skew-x-12" />
                             </button>
-                        </AnimatePresence>
                     </motion.form>
                 </div>
             </div>

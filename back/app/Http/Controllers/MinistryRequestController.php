@@ -39,7 +39,7 @@ class MinistryRequestController extends Controller
 
         $validated['user_id'] = $user->id;
 
-        MinistryRequest::create(array_intersect_key($validated, array_flip(['ministry_name', 'message', 'user_id'])));
+        MinistryRequest::create($validated);
         
         return response()->json(['success' => 'Demande enregistrée'], 200);
     }

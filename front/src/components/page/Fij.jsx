@@ -72,6 +72,15 @@ const GlobalStyles = () => (
         .btn-arrow-icon { transition: transform 0.3s cubic-bezier(0.34,1.56,0.64,1); }
         .group:hover .btn-arrow-icon { transform: translateX(6px); }
 
+        /* Blink animation for "Ma position" button */
+        @keyframes blink-pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.5); }
+            50% { box-shadow: 0 0 0 8px rgba(245, 158, 11, 0); }
+        }
+        .btn-blink {
+            animation: blink-pulse 1.5s ease-in-out infinite;
+        }
+
         /* Slide-in underline on secondary link */
         .link-underline {
             position: relative;
@@ -562,22 +571,32 @@ const MapModal = ({ fij, onClose }) => {
 
                 {/* Map */}
                 <div className="grow relative bg-zinc-950 min-h-0">
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.3, duration: 0.5 }}
-                        className="absolute inset-0"
-                    >
-                        <iframe
-                            src={fij.mapURL}
-                            width="100%"
-                            height="100%"
-                            style={{ border: 0, position: 'absolute', inset: 0, width: '100%', height: '100%' }}
-                            allowFullScreen=""
-                            loading="lazy"
-                            title={`Carte ${fij.nom}`}
-                        />
-                    </motion.div>
+                    {fij.mapURL ? (
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.3, duration: 0.5 }}
+                            className="absolute inset-0"
+                        >
+                            <iframe
+                                src={fij.mapURL}
+                                width="100%"
+                                height="100%"
+                                style={{ border: 0, position: 'absolute', inset: 0, width: '100%', height: '100%' }}
+                                allowFullScreen=""
+                                loading="lazy"
+                                title={`Carte ${fij.nom}`}
+                            />
+                        </motion.div>
+                    ) : (
+                        <div className="absolute inset-0 flex flex-col items-center justify-center text-gray-500 gap-4">
+                            <svg className="w-12 h-12 text-zinc-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                            </svg>
+                            <p className="text-sm text-zinc-600">Carte non disponible pour cette FIJ</p>
+                            <p className="text-xs text-zinc-700">Contacte le berger pour plus d'informations</p>
+                        </div>
+                    )}
                 </div>
 
                 {/* Footer */}
@@ -589,7 +608,7 @@ const MapModal = ({ fij, onClose }) => {
                         <motion.a
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
-                            href={`https://wa.me/${fij.phone}`}
+                            href={`https://wa.me/229${fij.phone.split('/')[0].replace(/\s+/g, '').replace(/^0+/, '')}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="flex items-center gap-2 text-[10px] font-black tracking-widest uppercase text-green-500 hover:text-green-400 transition-colors"
@@ -751,23 +770,28 @@ const FijCard = ({ fij, index, onMapClick }) => {
                 {/* ── Boutons d'action — toujours visibles et cliquables ── */}
                 <div className="flex gap-3 mt-6 pt-4 border-t border-zinc-800">
                     <motion.button
-                        whileHover={{ scale: 1.02, backgroundColor: '#fbbf24' }}
-                        whileTap={{ scale: 0.95 }}
-                        onClick={() => onMapClick(fij)}
-                        className="flex-1 bg-amber-500 text-black text-xs font-black py-3 tracking-[0.15em] uppercase transition-colors flex items-center justify-center gap-2"
+                        whileHover={fij.mapURL ? { scale: 1.02, backgroundColor: '#fbbf24' } : {}}
+                        whileTap={fij.mapURL ? { scale: 0.95 } : {}}
+                        onClick={() => fij.mapURL && onMapClick(fij)}
+                        disabled={!fij.mapURL}
+                        className={`flex-1 text-xs font-black py-3 tracking-[0.15em] uppercase transition-colors flex items-center justify-center gap-2 ${
+                            fij.mapURL
+                                ? 'bg-amber-500 text-black hover:bg-amber-400 cursor-pointer'
+                                : 'bg-zinc-800 text-zinc-600 cursor-not-allowed'
+                        }`}
                     >
                         <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                         </svg>
-                        Voir la carte
+                        {fij.mapURL ? 'Voir la carte' : 'Non disponible'}
                     </motion.button>
 
                     {fij.phone && (
                         <motion.a
                             whileHover={{ scale: 1.05, backgroundColor: '#16a34a', borderColor: '#16a34a' }}
                             whileTap={{ scale: 0.95 }}
-                            href={`https://wa.me/229${fij.phone.split('/')[0].replace(/\s/g, '')}`}
+                            href={`https://wa.me/229${fij.phone.split('/')[0].replace(/\s+/g, '').replace(/^0+/, '')}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             title="Contacter le Berger"
@@ -866,7 +890,7 @@ const FijGrid = () => {
                     className={`flex items-center justify-center gap-2 px-6 py-3 font-bold tracking-widest text-xs uppercase border transition-colors w-full md:w-auto ${
                         isLocating || !dataLoaded
                             ? 'bg-zinc-800 text-gray-400 border-zinc-700 cursor-not-allowed' 
-                            : 'bg-amber-500/10 text-amber-500 border-amber-500/30 hover:bg-amber-500 hover:text-black'
+                            : 'bg-amber-500/10 text-amber-500 border-amber-500/30 hover:bg-amber-500 hover:text-black btn-blink'
                     }`}
                 >
                     <svg className={`w-4 h-4 shrink-0 ${isLocating ? 'animate-spin' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
