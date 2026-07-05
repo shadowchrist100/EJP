@@ -186,5 +186,21 @@
         ],
         "lat": 0,
         "lng": 0
+    },
+    {
+        "nom": "FIJ Porte des Cieux",
+        "image": "../images/fij9.jpeg",
+        "description": "",
+        "mapURL": "https://www.google.com/maps/search/GH4Q%2BW5C%2C%20Porto-Novo%2C%20Bénin/@6.507947914707821,2.586894705891609,17z",
+        "phone": "01 62 63 87 37",
+        "lieu": "Dôwa gbago derrière l'église Catholique Marie Rosaire qui au bord du goudron. Maison à étage en face à droite situé sur le premier carrefour qui est dans la von faisant corps à l'église.",
+        "quartier_proches": [
+            "Akonaboè"
+        ],
+        "Bergers": [
+            "Godwin"
+        ],
+        "lat": 6.507564165333668, 
+        "lng": 2.5878281146164146
     }
 ]

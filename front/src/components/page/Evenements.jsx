@@ -70,7 +70,7 @@ const EventsPage = () => {
                 title: 'Embrasé.e.s',
                 description:
                     'Une soirée de prière et d\'adoration où tu es ambrasés par le Saint Esprit. Un moment spirituel intense pour recharger ton âme.',
-                image: '/images/embrases4.jpeg',
+                image: '/images/embrasees.jpeg',
             },
             {
                 id: 2,
