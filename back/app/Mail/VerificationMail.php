@@ -12,7 +12,7 @@ use Illuminate\Queue\SerializesModels;
 class VerificationMail extends Mailable
 {
     use Queueable, SerializesModels;
-    protected $data;
+    public $data;
 
     /**
      * Create a new message instance.
@@ -29,7 +29,7 @@ class VerificationMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Verification Mail',
+            subject: 'Confirmation de votre adresse email - EJP',
         );
     }
 

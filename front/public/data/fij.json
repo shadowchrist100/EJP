@@ -116,7 +116,7 @@
         "nom": "FIJ Vase Consacré",
         "image": "../images/fij3.jpeg",
         "description": "",
-        "mapURL": "",
+        "mapURL": "https://www.google.com/maps/place/6%C2%B032'27.1%22N+2%C2%B036'18.3%22E/@6.5408673,2.6025145,17z/data=!3m1!4b1!4m4!3m3!8m2!3d6.5408673!4d2.6050894?hl=en&entry=ttu&g_ep=EgoyMDI2MDYyOS4wIKXMDSoASAFQAw%3D%3D",
         "phone": "01 66 41 99 80 / ",
         "lieu": "Missérété Derrière la station se trouvant au carrefour dèvali",
         "quartier_proches": [
@@ -125,8 +125,8 @@
         "Bergers": [
             "Gilles-Christel"
         ],
-        "lat": 0,
-        "lng": 0
+        "lat": 6.541128438892114, 
+        "lng": 2.605105488742972
     },
     {
         "nom": "FIJ Bouillon de grâce",
@@ -169,7 +169,7 @@
         "nom": "FIJ - Akonaboè",
         "image": "../images/fij9.jpeg",
         "description": "",
-        "mapURL": "",
+        "mapURL": "https://www.google.com/maps/place/6%C2%B031'17.1%22N+2%C2%B036'08.2%22E/@6.521417,2.5996962,17z/data=!3m1!4b1!4m4!3m3!8m2!3d6.521417!4d2.6022711?hl=en&entry=ttu&g_ep=EgoyMDI2MDYyOS4wIKXMDSoASAFQAw%3D%3D",
         "phone": "0162747066 / 0196733241 / 0154262006",
         "lieu": "hotel La capital ",
         "quartier_proches": [
@@ -184,8 +184,8 @@
             "Régina",
             "Clara"
         ],
-        "lat": 0,
-        "lng": 0
+        "lat": 6.521688808469975, 
+        "lng": 2.6022550022366278
     },
     {
         "nom": "FIJ Porte des Cieux",
