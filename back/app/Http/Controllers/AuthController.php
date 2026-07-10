@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
 use Laravel\Socialite\Facades\Socialite;
+use Symfony\Component\HttpFoundation\Cookie;
 
 class AuthController extends Controller
 {
@@ -63,10 +64,24 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
-        // Révoque uniquement le token courant
-        $request->user()->currentAccessToken()->delete();
+        $rawToken = $request->cookie('refresh_token');
 
-        return response()->json(['message' => 'Déconnecté avec succès'], 200);
+        if ($rawToken) {
+            $hash = hash('sha256', $rawToken);
+            $storedToken = RefreshedToken::where('refresh_token_hash', $hash)->first();
+
+            if ($storedToken) {
+                $user = User::find($storedToken->user_id);
+                if ($user) {
+                    $user->tokens()->delete();
+                }
+                $storedToken->delete();
+            }
+        }
+
+        $cookie = new Cookie('refresh_token', '', now()->subYear(), '/', null, false, true);
+
+        return response()->json(['message' => 'Déconnecté avec succès'], 200)->withCookie($cookie);
     }
 
     public function respond_with_token($token, $user, $status = 200)
@@ -82,10 +97,10 @@ class AuthController extends Controller
 
         $isProduction = config('app.env') === 'production';
 
-        $cookie = cookie(
+        $cookie = new Cookie(
             'refresh_token',
             $refresh_token,
-            43200,
+            now()->addDays(30),
             '/',
             null,
             $isProduction,
@@ -131,6 +146,39 @@ class AuthController extends Controller
         return $this->respond_with_token($newAccessToken, $user);
     }
 
+    public function initRefreshToken(Request $request)
+    {
+        $user = $request->user();
+
+        if (!$user) {
+            return response()->json(['error' => 'Non authentifié'], 401);
+        }
+
+        RefreshedToken::where('user_id', $user->id)->delete();
+
+        $refreshToken = bin2hex(random_bytes(64));
+        RefreshedToken::create([
+            'user_id' => $user->id,
+            'refresh_token_hash' => hash('sha256', $refreshToken),
+            'expire_at' => now()->addDays(30),
+        ]);
+
+        $isProduction = config('app.env') === 'production';
+        $cookie = new Cookie(
+            'refresh_token',
+            $refreshToken,
+            now()->addDays(30),
+            '/',
+            null,
+            $isProduction,
+            true,
+            false,
+            $isProduction ? 'none' : 'lax'
+        );
+
+        return response()->json(['message' => 'Refresh token créé'])->withCookie($cookie);
+    }
+
     // --- Google OAuth ---
     public function redirectToGoogle()
     {
@@ -167,9 +215,9 @@ class AuthController extends Controller
             ]);
         }
 
-        $token = $user->createToken('auth_token')->plainTextToken;
+        $accessToken = $user->createToken('auth_token')->plainTextToken;
 
-        return redirect()->away(env('FRONTEND_URL', 'http://localhost:5173') . '/oauth/callback?token=' . $token);
+        return redirect()->away(env('FRONTEND_URL', 'http://localhost:5173') . '/oauth/callback?token=' . $accessToken);
     }
 
     // --- Email Verification ---

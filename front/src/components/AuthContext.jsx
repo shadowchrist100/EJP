@@ -1,5 +1,5 @@
 import { createContext, useEffect, useState, useRef } from "react";
-import { apiFetch } from "../util/api";
+import { apiFetch, setAccessToken } from "../util/api";
 import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
@@ -27,6 +27,7 @@ export const AuthProvider = (props) => {
 
             set_user(data.user_data);
             set_access_token(data.access_token);
+            setAccessToken(data.access_token);
 
             set_error(null);
             return data.access_token;
@@ -35,6 +36,7 @@ export const AuthProvider = (props) => {
             set_error(err.message);
             set_user(null);
             set_access_token(null);
+            setAccessToken(null);
             throw err;
         }
     };
@@ -51,6 +53,7 @@ export const AuthProvider = (props) => {
                 console.warn("Impossible de renouveler le token : utilisateur non connecté", error);
                 set_user(null);
                 set_access_token(null);
+                setAccessToken(null);
                 set_error(null);
             } finally {
                 set_is_loading(false);
@@ -60,17 +63,14 @@ export const AuthProvider = (props) => {
         checkSession();
     }, []);
 
-    const login = (access_token, user_data) => {
-        try {
-            set_access_token(access_token);
-            set_user(user_data);
-            set_error(null);
-        } catch (err) {
-            set_error(err.message);
-        }
+    const login = (token, user_data) => {
+        set_access_token(token);
+        setAccessToken(token);
+        set_user(user_data);
+        set_error(null);
     }
 
-    const updateUser = (user)=>{
+    const updateUser = (user) => {
         set_user(user)
     }
 
@@ -83,8 +83,9 @@ export const AuthProvider = (props) => {
         } catch (err) {
             console.error("Erreur serveur lors de la déconnexion:", err.message);
         } finally {
-            set_user(null);
             set_access_token(null);
+            setAccessToken(null);
+            set_user(null);
             set_error(null);
             navigate('/login');
         }

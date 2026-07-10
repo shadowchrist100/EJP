@@ -26,8 +26,10 @@ Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 // Email Verification (public link)
 Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verify'])->name('verification.verify');
 
+Route::post('/logout', [AuthController::class, 'logout']);
+
 Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/init-refresh-token', [AuthController::class, 'initRefreshToken']);
     Route::post('/ministry_request', [MinistryRequestController::class, 'store']);
     Route::get('/profile', [UserController::class, 'show']);
     Route::put('/profile', [UserController::class, 'update']);

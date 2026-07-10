@@ -69,7 +69,7 @@ const EventsPage = () => {
                 location: 'EJP Porto',
                 title: 'Embrasé.e.s',
                 description:
-                    'Une soirée de prière et d\'adoration où tu es ambrasés par le Saint Esprit. Un moment spirituel intense pour recharger ton âme.',
+                    'Un moment spirituelle intense pour recharger ton homme intérieur',
                 image: '/images/embrasees.jpeg',
             },
             {
@@ -80,9 +80,9 @@ const EventsPage = () => {
                 date: culteDate,
                 time: '15:30',
                 location: 'EJP Porto',
-                title: 'CULTE EJP',
+                title: 'Prodige Expérience',
                 description:
-                    'Un culte, une expérience! Rejoins-nous pour un moment de communion fraternelle et de louange ensemble.',
+                    'Un culte, une expérience! Rejoins-nous pour vivre un culte une expérience.',
                 image: '/images/culte2.jpeg',
             },
             {

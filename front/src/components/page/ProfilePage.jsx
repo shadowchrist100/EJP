@@ -98,7 +98,6 @@ const ProfilePage = () => {
         try {
             const data = await apiFetch('/profile', {
                 method: 'PUT',
-                headers: { 'Authorization': `Bearer ${access_token}` },
                 body: JSON.stringify(formData)
             });
             if (!data.user) throw new Error('Données utilisateur manquantes dans la réponse');

@@ -15,9 +15,17 @@ class Cors
      */
     public function handle(Request $request, Closure $next): Response
     {
+        $allowedOrigins = array_filter([
+            'http://localhost:5173',
+            env('FRONTEND_URL'),
+        ]);
+
+        $origin = $request->header('Origin');
+        $allowedOrigin = in_array($origin, $allowedOrigins) ? $origin : ($allowedOrigins[0] ?? '*');
+
         if ($request->isMethod('OPTIONS')) {
             return response()->json('OK', 200, [
-                'Access-Control-Allow-Origin' => 'https://ejp-three.vercel.app',
+                'Access-Control-Allow-Origin' => $allowedOrigin,
                 'Access-Control-Allow-Methods' => 'GET, POST, PUT, DELETE, OPTIONS',
                 'Access-Control-Allow-Headers' => 'Content-Type, Authorization, X-Requested-With',
                 'Access-Control-Allow-Credentials' => 'true',
@@ -25,7 +33,7 @@ class Cors
         }
 
         $response = $next($request);
-        $response->headers->set('Access-Control-Allow-Origin', 'https://ejp-three.vercel.app');
+        $response->headers->set('Access-Control-Allow-Origin', $allowedOrigin);
         $response->headers->set('Access-Control-Allow-Credentials', 'true');
 
         return $response;

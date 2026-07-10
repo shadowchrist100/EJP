@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import { Eye, EyeOff, Mail, Lock, ArrowRight, CheckCircle, AlertCircle } from 'lucide-react';
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { apiFetch } from "../../util/api";
+import { apiFetch, getBackendUrl } from "../../util/api";
 import { AuthContext } from "../AuthContext";
 
 const Login = () => {
@@ -68,20 +68,13 @@ const Login = () => {
         }
     };
 
-    // Pour Google OAuth, on doit rediriger DIRECTEMENT vers le back-end (pas via le proxy Vercel)
-    // car Vercel ne peut pas transmettre les redirections 302 générées par Laravel/Socialite.
     const handleGoogleLogin = () => {
         setLoading(true);
         setError('');
-
-        // En production (VITE_API_URL défini dans les variables d'environnement Vercel)
-        // On utilise l'URL directe du back-end pour contourner le proxy Vercel.
-        // En développement, on utilise le proxy Vite via /api.
-        const apiUrl = import.meta.env.VITE_API_URL;
-        const googleRedirectUrl = apiUrl
-            ? `${apiUrl}/api/google/redirect`
+        const backendUrl = getBackendUrl();
+        const googleRedirectUrl = backendUrl
+            ? `${backendUrl}/api/google/redirect`
             : `/api/google/redirect`;
-
         window.location.href = googleRedirectUrl;
     };
 

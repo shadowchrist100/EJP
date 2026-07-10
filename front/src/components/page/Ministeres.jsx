@@ -327,7 +327,7 @@ const Field = ({ label, name, touched, errors, children }) => (
     </div>
 );
 const ContactForm = () => {
-    const { user, access_token, is_loading } = useContext(AuthContext)
+    const { user, is_loading } = useContext(AuthContext)
 
     const initialForm = { nom: '', email: '', ministry_name: '', message: '' };
 
@@ -390,9 +390,6 @@ const ContactForm = () => {
             const data = await apiFetch('/ministry_request', {
                 method: 'POST',
                 body: JSON.stringify(form),
-                headers: {
-                    'Authorization': `Bearer ${access_token}`
-                }
             });
 
             setForm(initialForm);
