@@ -136,6 +136,50 @@ const DonationOptions = () => {
                     </p>
                 </motion.div>
 
+                {/* Mobile Transfer Card */}
+                <motion.div
+                    initial={{ opacity: 0, y: 40 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.8, delay: 0.1 }}
+                    className="relative group mb-8"
+                >
+                    <div className="absolute inset-0 bg-linear-to-br from-green-500/20 to-emerald-500/10 border-2 border-green-500/50 rounded-3xl group-hover:border-green-400 transition-all duration-300" />
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity rounded-3xl blur-2xl bg-green-500/20" />
+
+                    <div className="relative p-6 sm:p-12 md:p-16">
+                        <div className="text-center">
+                            <div className="text-7xl mb-8">📱</div>
+
+                            <h3 className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tighter">
+                                Transfert Mobile
+                            </h3>
+
+                            <p className="text-gray-400 text-lg font-light mb-6 max-w-2xl mx-auto leading-relaxed">
+                                Envoie ton don directement par transfert mobile sur le numéro ci-dessous :
+                            </p>
+
+                            <div className="inline-block bg-black/50 border-2 border-green-500/30 rounded-2xl p-6 sm:p-8 mb-6">
+                                <p className="text-gray-500 text-xs uppercase tracking-widest font-black mb-2">
+                                    Numéro à utiliser
+                                </p>
+                                <p className="text-3xl sm:text-4xl font-black text-green-400 tracking-wider">
+                                    +229 XX XX XX XX
+                                </p>
+                                <div className="mt-4 pt-4 border-t border-white/10">
+                                    <p className="text-gray-500 text-sm font-light">
+                                        Nom du compte : <span className="text-white font-bold">EJP PORTO</span>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <p className="text-gray-500 text-sm font-light">
+                                Disponible sur toutes les plateformes de transfert mobile (MTN, Moov, etc.)
+                            </p>
+                        </div>
+                    </div>
+                </motion.div>
+
                 {/* Custom Donation Card */}
                 <motion.div
                     initial={{ opacity: 0, y: 40 }}

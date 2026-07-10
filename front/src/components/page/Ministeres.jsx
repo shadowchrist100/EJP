@@ -2,7 +2,6 @@ import React, { useState, useEffect, useContext } from 'react';
 import { Contact, Nav, Footer } from '../';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import { AuthContext } from '../AuthContext';
-import { useNavigate } from 'react-router-dom';
 import { apiFetch } from '../../util/api';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -328,14 +327,7 @@ const Field = ({ label, name, touched, errors, children }) => (
     </div>
 );
 const ContactForm = () => {
-    const navigate = useNavigate();
-    const { user, access_token, is_loading } = useContext(AuthContext)
-
-    useEffect(() => {
-        if (!is_loading && !user) {
-            navigate('/login');
-        }
-    }, [user, is_loading, navigate]);
+    const { user, is_loading } = useContext(AuthContext)
 
     const initialForm = { nom: '', email: '', ministry_name: '', message: '' };
 
@@ -398,9 +390,6 @@ const ContactForm = () => {
             const data = await apiFetch('/ministry_request', {
                 method: 'POST',
                 body: JSON.stringify(form),
-                headers: {
-                    'Authorization': `Bearer ${access_token}`
-                }
             });
 
             setForm(initialForm);
@@ -425,17 +414,29 @@ const ContactForm = () => {
     const isFormDirty = Object.values(touched).some(Boolean);
     const hasErrors = Object.keys(validate(form)).length > 0;
 
-    if (is_loading) {
+    if (!is_loading && !user) {
         return (
-            <div className="flex flex-col items-center justify-center h-screen bg-black">
-                <div className="relative">
-                    <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-amber-500" />
-                    <div className="absolute inset-0 rounded-full border-2 border-amber-500/20 animate-pulse" />
+            <section className="relative py-28 px-4 bg-zinc-950 border-t border-white/4 overflow-hidden" id="rejoindre">
+                <div className="absolute top-0 right-0 w-96 h-96 bg-amber-600/5 rounded-full blur-[100px] pointer-events-none" />
+                <div className="absolute bottom-0 left-0 w-72 h-72 bg-amber-600/3 rounded-full blur-[80px] pointer-events-none" />
+                <div className="max-w-5xl mx-auto relative z-10 text-center">
+                    <div className="flex items-center justify-center gap-4 mb-6">
+                        <div className="w-8 h-px bg-amber-600/50" />
+                        <span className="text-amber-500/70 text-[9px] font-black uppercase tracking-[0.5em]">Rejoins-nous</span>
+                        <div className="w-8 h-px bg-amber-600/50" />
+                    </div>
+                    <h2 className="font-display text-[clamp(3rem,6vw,5rem)] text-white leading-none tracking-wide uppercase mb-8">
+                        Prêt à <span className="shimmer-gold">Servir ?</span>
+                    </h2>
+                    <p className="text-gray-400 text-lg mb-8">
+                        Connecte-toi pour postuler à un ministère et rejoindre l'équipe S.T.A.R.
+                    </p>
+                    <a href="/login" className="group relative inline-flex items-center gap-4 bg-amber-600 hover:bg-amber-500 text-black px-12 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all duration-300 overflow-hidden">
+                        <span className="relative z-10">Se connecter</span>
+                        <ArrowRight size={14} className="relative z-10 group-hover:translate-x-1 transition-transform" />
+                    </a>
                 </div>
-                <span className="text-amber-500 font-bold text-lg mt-6">
-                    Vérification de la session...
-                </span>
-            </div>
+            </section>
         );
     }
 

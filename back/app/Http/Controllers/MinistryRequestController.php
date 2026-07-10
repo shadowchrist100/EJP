@@ -2,30 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\MinistryRequestMail;
 use App\Models\MinistryRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class MinistryRequestController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $user = $request->user();
@@ -40,7 +23,14 @@ class MinistryRequestController extends Controller
         $validated['user_id'] = $user->id;
 
         MinistryRequest::create($validated);
-        
+
+        Mail::to(config('mail.from.address'))->send(new MinistryRequestMail(
+            $validated['nom'],
+            $validated['email'],
+            $validated['ministry_name'],
+            $validated['message'] ?? ''
+        ));
+
         return response()->json(['success' => 'Demande enregistrée'], 200);
     }
 

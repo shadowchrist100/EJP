@@ -29,7 +29,7 @@ class PasswordResetMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Password Reset Mail',
+            subject: 'Réinitialisation de votre mot de passe - EJP',
         );
     }
 

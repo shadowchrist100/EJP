@@ -1,7 +1,7 @@
 import { useEffect, useContext, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { AuthContext } from "../AuthContext";
-import { apiFetch } from "../../util/api";
+import { apiFetch, setAccessToken } from "../../util/api";
 import { AlertCircle } from 'lucide-react';
 
 const GoogleCallback = () => {
@@ -20,12 +20,9 @@ const GoogleCallback = () => {
 
         const fetchUserProfile = async () => {
             try {
-                // Récupérer les données utilisateur en utilisant le token Google reçu
+                setAccessToken(token);
                 const data = await apiFetch("/profile", {
                     method: "GET",
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
                 });
 
                 if (!data.user) {
@@ -34,6 +31,10 @@ const GoogleCallback = () => {
 
                 // Connecter l'utilisateur dans l'application
                 login(token, data.user);
+
+                // Initialiser le refresh token cookie depuis le frontend
+                // (nécessaire car la redirection Google définit le cookie sur le domaine du backend)
+                await apiFetch("/init-refresh-token", { method: "POST" });
 
                 // Rediriger vers l'accueil
                 navigate("/");
