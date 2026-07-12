@@ -91,7 +91,7 @@
         "nom": "FIJ Oasis de paix",
         "image": "../images/fij2.jpeg",
         "description": "Nous sommes une famille pleine de couleurs, d'unicité,  d'authenticité.  Chacun s'y retrouve et s'y sent bien.  Et comme notre nom le dis : venez vous reposer dans la famille de paix",
-        "mapURL": "",
+        "mapURL": "https://www.google.com/maps/place/6%C2%B030'20.6%22N+2%C2%B037'30.3%22E/@6.5057097,2.622511,17z/data=!3m1!4b1!4m4!3m3!8m2!3d6.5057097!4d2.6250859?hl=en&entry=ttu&g_ep=EgoyMDI2MDcwOC4wIKXMDSoASAFQAw%3D%3D",
         "phone": "01 66 68 15 57 / 01 62 41 22 94 / 01 66 12 09 68",
         "lieu": "Djègan Kpèvi, adjakahoué ",
         "quartier_proches": [
@@ -109,8 +109,8 @@
             "Merveille",
             "Axel"
         ],
-        "lat": 0,
-        "lng": 0
+        "lat": 6.505938878021899, 
+        "lng": 2.6250912599072644
     },
     {
         "nom": "FIJ Vase Consacré",
@@ -145,14 +145,20 @@
             "Emmanuella QUIST",
             "Fred MENEY"
         ],
-        "lat": 0,
-        "lng": 0
+        "lat": 6.4954497596530025, 
+        "lng": 2.6000176925698786
     },
     {
         "nom": "FIJ Cercle de Vie",
-        "image": "../images/fij8.jpeg",
-        "description": "",
-        "mapURL": "",
+<<<<<<< HEAD
+        "image": "../images/fij8.png",
+        "description": "Chaque mardi soir, une famille se retrouve. Pas de masque, pas de jugement juste des cœurs vrais.\nOn rit ensemble, on débat, on apprend les uns des autres, on prie les uns pour les autres, on s’aime pour de vrai.\n\nIci, tu n’es pas juste un visage de plus. Tu es accueilli, porté, aimé. Et quand tu traverses quelque chose, tu n’es jamais seul : la famille se lève pour toi, même sans que tu aies besoin de le demander.\n\nSi tu cherches une communauté qui te ressemble, où grandir dans la foi et dans la vie, viens nous rejoindre. Ta place t’attend.",
+        "mapURL": "https://www.google.com/maps/place/6%C2%B031'29.9%22N+2%C2%B037'15.7%22E/@6.5249667,2.618464,17z/data=!3m1!4b1!4m4!3m3!8m2!3d6.5249667!4d2.6210389?hl=en&entry=ttu&g_ep=EgoyMDI2MDcwOC4wIKXMDSoASAFQAw%3D%3D",
+=======
+        "image": "../images/fij8.png",
+        "description": "Chaque mardi soir, une famille se retrouve. Pas de masque, pas de jugement juste des cœurs vrais.\nOn rit ensemble, on débat, on apprend les uns des autres, on prie les uns pour les autres, on s’aime pour de vrai.\n\nIci, tu n’es pas juste un visage de plus. Tu es accueilli, porté, aimé. Et quand tu traverses quelque chose, tu n’es jamais seul : la famille se lève pour toi, même sans que tu aies besoin de le demander.\n\nSi tu cherches une communauté qui te ressemble, où grandir dans la foi et dans la vie, viens nous rejoindre. Ta place t’attend.",
+        "mapURL": "https://www.google.com/maps/place/6%C2%B031'29.9%22N+2%C2%B037'15.7%22E/@6.5249667,2.618464,17z/data=!3m1!4b1!4m4!3m3!8m2!3d6.5249667!4d2.6210389?hl=en&entry=ttu&g_ep=EgoyMDI2MDcwOC4wIKXMDSoASAFQAw%3D%3D",
+>>>>>>> 22accbc (fij lumière et sel , corrections)
         "phone": "01 67 82 07 04 / 01 62 69 24 08",
         "lieu": "Tanzoun, von juste à côté de l’église catholique qui fait face a un terrain",
         "quartier_proches": [
@@ -162,13 +168,19 @@
             "Alvaro",
             "Isidora"
         ],
-        "lat": 0,
-        "lng": 0
+        "lat": 6.525185209871465,
+        "lng": 2.62099061573045
     },
     {
+<<<<<<< HEAD
         "nom": "FIJ - Akonaboè",
-        "image": "../images/fij9.jpeg",
-        "description": "",
+        "image": "../images/fij10.png",
+        "description": "La FIJ Lumière & Sel est bien plus qu'un groupe de jeunes. C'est une famille spirituelle où chacun est accueilli avec amour, accepté tel qu'il est et accompagné pour devenir la personne que Dieu a prévue. Ici, les cœurs sont restaurés, les vies sont façonnées par la main de Dieu et chacun grandit à l'image de Christ. Depuis notre création, nous croyons que Dieu nous a fait grâce. Nous avançons avec la conviction que sa main repose sur notre famille. Tout ce qu'il accomplit au milieu de nous est pour sa gloire. À Lumière & Sel, l'amour fraternel est notre culture. Nous vivons des moments de communion, de prière, de joie, de témoignages et d'encouragement. Dans cette atmosphère, les fardeaux s'allègent, les blessures guérissent et personne ne marche seul. Notre désir est de connaître Dieu et de le faire connaître. Nous sommes des jeunes imparfaits, mais passionnés, prêts à payer le prix pour ressembler à Christ et impacter notre génération par le Saint-Esprit. Notre fardeau est que chaque jeune devienne véritablement le sel de la terre et la lumière du monde (Matthieu 5:13-16). C'est pourquoi, nous sommes des pionniers. Dieu nous appelle à apporter le changement. Notre lumière ne peut être cachée. Que tu découvres la foi ou que tu cherches une famille spirituelle, tu as une place parmi nous. Les portes de la Fij Lumière & Sel d'Akonaboè te sont grandes ouvertes. Bienvenue à toi dans une famille où l'amour d'Agapé est vécu, où la fraternité est authentique, où Dieu transforme les vies et où chacun est appelé à briller pour sa gloire.",
+=======
+        "nom": "FIJ Lumière et sel",
+        "image": "../images/fij10.png",
+        "description": "La FIJ Lumière & Sel est bien plus qu'un groupe de jeunes. C'est une famille spirituelle où chacun est accueilli avec amour, accepté tel qu'il est et accompagné pour devenir la personne que Dieu a prévue. Ici, les cœurs sont restaurés, les vies sont façonnées par la main de Dieu et chacun grandit à l'image de Christ. Depuis notre création, nous croyons que Dieu nous a fait grâce. Nous avançons avec la conviction que sa main repose sur notre famille. Tout ce qu'il accomplit au milieu de nous est pour sa gloire. À Lumière & Sel, l'amour fraternel est notre culture. Nous vivons des moments de communion, de prière, de joie, de témoignages et d'encouragement. Dans cette atmosphère, les fardeaux s'allègent, les blessures guérissent et personne ne marche seul. Notre désir est de connaître Dieu et de le faire connaître. Nous sommes des jeunes imparfaits, mais passionnés, prêts à payer le prix pour ressembler à Christ et impacter notre génération par le Saint-Esprit. Notre fardeau est que chaque jeune devienne véritablement le sel de la terre et la lumière du monde (Matthieu 5:13-16). C'est pourquoi, nous sommes des pionniers. Dieu nous appelle à apporter le changement. Notre lumière ne peut être cachée. Que tu découvres la foi ou que tu cherches une famille spirituelle, tu as une place parmi nous. Les portes de la Fij Lumière & Sel d'Akonaboè te sont grandes ouvertes. Bienvenue à toi dans une famille où l'amour d'Agapé est vécu, où la fraternité est authentique, où Dieu transforme les vies et où chacun est appelé à briller pour sa gloire.",
+>>>>>>> 22accbc (fij lumière et sel , corrections)
         "mapURL": "https://www.google.com/maps/place/6%C2%B031'17.1%22N+2%C2%B036'08.2%22E/@6.521417,2.5996962,17z/data=!3m1!4b1!4m4!3m3!8m2!3d6.521417!4d2.6022711?hl=en&entry=ttu&g_ep=EgoyMDI2MDYyOS4wIKXMDSoASAFQAw%3D%3D",
         "phone": "0162747066 / 0196733241 / 0154262006",
         "lieu": "hotel La capital ",

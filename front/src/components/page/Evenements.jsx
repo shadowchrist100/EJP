@@ -80,7 +80,7 @@ const EventsPage = () => {
                 date: culteDate,
                 time: '15:30',
                 location: 'EJP Porto',
-                title: 'Prodige Expérience',
+                title: 'Prodiges Expérience',
                 description:
                     'Un culte, une expérience! Rejoins-nous pour vivre un culte une expérience.',
                 image: '/images/culte2.jpeg',
