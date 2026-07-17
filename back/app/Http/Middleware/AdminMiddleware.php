@@ -12,7 +12,7 @@ class AdminMiddleware
     {
         $user = $request->user();
 
-        if (!$user || !$user->is_admin) {
+        if (!$user || (!$user->is_admin && !$user->is_superadmin)) {
             return response()->json(['error' => 'Accès non autorisé. Admin seulement.'], 403);
         }
 

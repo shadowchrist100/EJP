@@ -6,8 +6,16 @@
     <link rel="apple-touch-icon" href="/ejp_logo.jpg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#000000" />
-    <meta name="description" content="Église des Jeunes Prodiges - Porto Novo, Bénin" />
-    <title>EJP Porto</title>
+    <meta name="description" content="Église des Jeunes Prodiges Porto-Novo — Un mouvement de jeunesse pour impacter le Bénin et le monde pour la gloire de Dieu." />
+    <title>EJP Porto-Novo · Église des Jeunes Prodiges</title>
+
+    <!-- I2: Preload the first banner image to improve LCP -->
+    <!-- The browser will start fetching it before React even mounts -->
+    <link rel="preload" as="image" href="/src/assets/images/image.jpg" fetchpriority="high" />
+
+    <!-- Preconnect to Google Fonts to reduce font latency -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   </head>
   <body>
     <div id="root"></div>

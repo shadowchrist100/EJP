@@ -4,6 +4,13 @@ import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import { AuthContext } from '../AuthContext';
 import { apiFetch } from '../../util/api';
 import { motion, AnimatePresence } from 'framer-motion';
+import imgCommunication from '../../assets/ministries/communication.jpg';
+import imgMusic from '../../assets/ministries/music.jpg';
+import imgAudiovisuel from '../../assets/ministries/audiovisuel.jpg';
+import imgSecretariat from '../../assets/ministries/secretariat.jpg';
+import imgEntretiens from '../../assets/ministries/entretiens.jpg';
+import imgProtocole from '../../assets/ministries/protocole.jpg';
+import imgArt from '../../assets/ministries/art.jpg';
 
 /* ─── Global styles ─────────────────────────────────────────────────── */
 const GlobalStyles = () => (
@@ -252,13 +259,13 @@ const MinistriesSection = () => {
     const [visibleCount, setVisibleCount] = useState(3);
 
     const ministries = [
-        { category: 'Communication', title: 'Communication', description: "Partage la vision S.T.A.R. à travers les mots et les images. Manage les réseaux sociaux et crée du contenu impactant pour inspirer notre communauté.", image: 'https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&h=600&fit=crop' },
-        { category: 'Musique', title: 'Prodiges Music', description: "Lève-toi et chante ! Exprime ton amour à travers la musique et conduis les autres à la louange sincère. Aucune expérience requise, juste une passion.", image: 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=800&h=600&fit=crop' },
-        { category: 'Tech', title: 'Audio Visuel', description: "Maîtrise la technologie pour créer une expérience spirituelle immersive. Son, lumière, vidéo — tous les éléments au service de la vision S.T.A.R.", image: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&h=600&fit=crop' },
-        { category: 'Logistique', title: 'Secrétariat', description: "Sois l'organisateur invisible qui fait fonctionner la machine. Gère les documents, archives et coordonne les événements avec précision.", image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=800&h=600&fit=crop' },
-        { category: 'Maintenance', title: 'Entretiens', description: "Maintiens nos espaces en excellence et propreté. Un environnement bien organisé et accueillant reflète l'ordre et la grâce de Dieu.", image: 'https://images.unsplash.com/photo-1503387762519-52582dea4e4e?w=800&h=600&fit=crop' },
-        { category: 'Leadership', title: 'Protocole', description: "Accueille avec excellence nos visiteurs et membres. Sois la représentation du service raffiné et de l'amour du Christ dans chaque interaction.", image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=600&fit=crop' },
-        { category: 'Créativité', title: 'Art et Expression', description: "Exprime ta créativité pour glorifier l'Éternel. Danse, théâtre, peinture, design — tous les arts sont bienvenus pour une expression complète.", image: 'https://images.unsplash.com/photo-1533900298318-6b8da08a523e?w=800&h=600&fit=crop' },
+        { category: 'Communication', title: 'Communication', description: "Partage la vision S.T.A.R. à travers les mots et les images. Manage les réseaux sociaux et crée du contenu impactant pour inspirer notre communauté.", image: imgCommunication },
+        { category: 'Musique', title: 'Prodiges Music', description: "Lève-toi et chante ! Exprime ton amour à travers la musique et conduis les autres à la louange sincère. Aucune expérience requise, juste une passion.", image: imgMusic },
+        { category: 'Tech', title: 'Audio Visuel', description: "Maîtrise la technologie pour créer une expérience spirituelle immersive. Son, lumière, vidéo — tous les éléments au service de la vision S.T.A.R.", image: imgAudiovisuel },
+        { category: 'Logistique', title: 'Secrétariat', description: "Sois l'organisateur invisible qui fait fonctionner la machine. Gère les documents, archives et coordonne les événements avec précision.", image: imgSecretariat },
+        { category: 'Maintenance', title: 'Entretiens', description: "Maintiens nos espaces en excellence et propreté. Un environnement bien organisé et accueillant reflète l'ordre et la grâce de Dieu.", image: imgEntretiens },
+        { category: 'Leadership', title: 'Protocole', description: "Accueille avec excellence nos visiteurs et membres. Sois la représentation du service raffiné et de l'amour du Christ dans chaque interaction.", image: imgProtocole },
+        { category: 'Créativité', title: 'Art et Expression', description: "Exprime ta créativité pour glorifier l'Éternel. Danse, théâtre, peinture, design — tous les arts sont bienvenus pour une expression complète.", image: imgArt },
     ];
 
     return (
