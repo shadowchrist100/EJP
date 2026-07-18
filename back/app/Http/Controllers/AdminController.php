@@ -63,4 +63,17 @@ class AdminController extends Controller
         $user->update(['is_admin' => false]);
         return response()->json(['success' => "{$user->firstName} {$user->lastName} n'est plus admin."], 200);
     }
+
+    public function makeSuperAdmin($id)
+    {
+        $user = User::findOrFail($id);
+        if ($user->is_superadmin) {
+            return response()->json(['error' => 'Cet utilisateur est déjà super admin.'], 403);
+        }
+        if (!$user->is_admin) {
+            return response()->json(['error' => 'Cet utilisateur doit d\'abord être nommé admin.'], 400);
+        }
+        $user->update(['is_superadmin' => true]);
+        return response()->json(['success' => "{$user->firstName} {$user->lastName} est maintenant super admin."], 200);
+    }
 }

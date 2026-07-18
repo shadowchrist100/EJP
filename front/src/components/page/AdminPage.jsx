@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { AuthContext } from "../AuthContext";
 import { apiFetch } from "../../util/api";
 import { Nav, Footer } from "../";
-import { Users, Heart, BookOpen, LogOut, AlertCircle, Eye, X, Shield, ShieldOff } from 'lucide-react';
+import { Users, Heart, BookOpen, LogOut, AlertCircle, Eye, X, Shield, ShieldOff, Crown } from 'lucide-react';
 
 const TABS = [
     { key: 'users', label: 'Utilisateurs', icon: Users },
@@ -58,6 +58,27 @@ const AdminPage = () => {
             }));
             if (selectedUser?.id === targetUser.id) {
                 setSelectedUser(prev => prev ? { ...prev, is_admin: makeAdmin } : null);
+            }
+        } catch (err) {
+            setError(err.message || 'Erreur lors de la mise à jour.');
+        } finally {
+            setUpdating(null);
+        }
+    };
+
+    const handleToggleSuperAdmin = async (targetUser) => {
+        setUpdating(targetUser.id);
+        setError('');
+        try {
+            await apiFetch(`/admin/user/${targetUser.id}/make-superadmin`, { method: 'POST' });
+            setData(prev => ({
+                ...prev,
+                users: prev.users.map(u =>
+                    u.id === targetUser.id ? { ...u, is_superadmin: true } : u
+                ),
+            }));
+            if (selectedUser?.id === targetUser.id) {
+                setSelectedUser(prev => prev ? { ...prev, is_superadmin: true } : null);
             }
         } catch (err) {
             setError(err.message || 'Erreur lors de la mise à jour.');
@@ -165,6 +186,7 @@ const AdminPage = () => {
                                         isSuperAdmin={isSuperAdmin}
                                         onView={handleViewUser}
                                         onToggleAdmin={handleToggleAdmin}
+                                        onToggleSuperAdmin={handleToggleSuperAdmin}
                                         updating={updating}
                                     />
                                 )}
@@ -230,16 +252,26 @@ const AdminPage = () => {
                                             </div>
 
                                             {isSuperAdmin && selectedUser.id !== user?.id && !selectedUser.is_superadmin && (
-                                                <div className="pt-4 border-t border-zinc-800">
+                                                <div className="pt-4 border-t border-zinc-800 space-y-2">
                                                     {selectedUser.is_admin ? (
-                                                        <button
-                                                            onClick={() => handleToggleAdmin(selectedUser, false)}
-                                                            disabled={updating === selectedUser.id}
-                                                            className="w-full flex items-center justify-center gap-2 px-4 py-2 text-xs uppercase tracking-widest font-bold bg-red-500/10 border border-red-500/30 text-red-400 rounded-lg hover:bg-red-500/20 transition-colors disabled:opacity-50"
-                                                        >
-                                                            <ShieldOff size={14} />
-                                                            {updating === selectedUser.id ? '...' : 'Retirer admin'}
-                                                        </button>
+                                                        <>
+                                                            <button
+                                                                onClick={() => handleToggleAdmin(selectedUser, false)}
+                                                                disabled={updating === selectedUser.id}
+                                                                className="w-full flex items-center justify-center gap-2 px-4 py-2 text-xs uppercase tracking-widest font-bold bg-red-500/10 border border-red-500/30 text-red-400 rounded-lg hover:bg-red-500/20 transition-colors disabled:opacity-50"
+                                                            >
+                                                                <ShieldOff size={14} />
+                                                                {updating === selectedUser.id ? '...' : 'Retirer admin'}
+                                                            </button>
+                                                            <button
+                                                                onClick={() => handleToggleSuperAdmin(selectedUser)}
+                                                                disabled={updating === selectedUser.id}
+                                                                className="w-full flex items-center justify-center gap-2 px-4 py-2 text-xs uppercase tracking-widest font-bold bg-amber-500/10 border border-amber-500/30 text-amber-400 rounded-lg hover:bg-amber-500/20 transition-colors disabled:opacity-50"
+                                                            >
+                                                                <Crown size={14} />
+                                                                {updating === selectedUser.id ? '...' : 'Nommer super admin'}
+                                                            </button>
+                                                        </>
                                                     ) : (
                                                         <button
                                                             onClick={() => handleToggleAdmin(selectedUser, true)}
@@ -282,7 +314,7 @@ const Td = ({ children }) => (
     <td className="px-4 py-3 text-sm text-zinc-300 border-t border-zinc-800/50">{children}</td>
 );
 
-const UsersTable = ({ users, currentUserId, isSuperAdmin, onView, onToggleAdmin, updating }) => (
+const UsersTable = ({ users, currentUserId, isSuperAdmin, onView, onToggleAdmin, onToggleSuperAdmin, updating }) => (
     <div className="overflow-x-auto">
         {users.length === 0 ? (
             <p className="text-zinc-500 text-center py-12">Aucun utilisateur inscrit.</p>
@@ -330,14 +362,24 @@ const UsersTable = ({ users, currentUserId, isSuperAdmin, onView, onToggleAdmin,
                                     </button>
                                     {isSuperAdmin && u.id !== currentUserId && !u.is_superadmin && (
                                         u.is_admin ? (
-                                            <button
-                                                onClick={() => onToggleAdmin(u, false)}
-                                                disabled={updating === u.id}
-                                                className="p-1.5 text-zinc-500 hover:text-red-400 transition-colors disabled:opacity-50"
-                                                title="Retirer admin"
-                                            >
-                                                <ShieldOff size={14} />
-                                            </button>
+                                            <>
+                                                <button
+                                                    onClick={() => onToggleAdmin(u, false)}
+                                                    disabled={updating === u.id}
+                                                    className="p-1.5 text-zinc-500 hover:text-red-400 transition-colors disabled:opacity-50"
+                                                    title="Retirer admin"
+                                                >
+                                                    <ShieldOff size={14} />
+                                                </button>
+                                                <button
+                                                    onClick={() => onToggleSuperAdmin(u)}
+                                                    disabled={updating === u.id}
+                                                    className="p-1.5 text-zinc-500 hover:text-amber-400 transition-colors disabled:opacity-50"
+                                                    title="Nommer super admin"
+                                                >
+                                                    <Crown size={14} />
+                                                </button>
+                                            </>
                                         ) : (
                                             <button
                                                 onClick={() => onToggleAdmin(u, true)}

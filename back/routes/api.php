@@ -49,5 +49,6 @@ Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function ()
 Route::middleware(['auth:sanctum', 'superadmin'])->prefix('admin')->group(function () {
     Route::post('/user/{id}/make-admin', [AdminController::class, 'makeAdmin']);
     Route::post('/user/{id}/remove-admin', [AdminController::class, 'removeAdmin']);
+    Route::post('/user/{id}/make-superadmin', [AdminController::class, 'makeSuperAdmin']);
 });
 
