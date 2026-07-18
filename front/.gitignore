@@ -29,3 +29,5 @@ dist.zip
 .env.local
 .env.production
 .env.developement
+dist.*
+dist
