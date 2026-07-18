@@ -37,10 +37,18 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/email/resend', [AuthController::class, 'resend']);
 });
 
-// Admin routes
+// Admin routes (admin + superadmin)
 Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function () {
     Route::get('/users', [AdminController::class, 'users']);
     Route::get('/users/salvation', [AdminController::class, 'salvation']);
     Route::get('/ministry-requests', [AdminController::class, 'ministryRequests']);
+    Route::get('/user/{id}', [AdminController::class, 'userDetail']);
+});
+
+// Super admin only routes
+Route::middleware(['auth:sanctum', 'superadmin'])->prefix('admin')->group(function () {
+    Route::post('/user/{id}/make-admin', [AdminController::class, 'makeAdmin']);
+    Route::post('/user/{id}/remove-admin', [AdminController::class, 'removeAdmin']);
+    Route::post('/user/{id}/make-superadmin', [AdminController::class, 'makeSuperAdmin']);
 });
 

@@ -32,7 +32,7 @@ const AdminRoute = (props) => {
         return <Navigate to="/login" replace />;
     }
 
-    if (!user.is_admin) {
+    if (!user.is_admin && !user.is_superadmin) {
         return <Navigate to="/" replace />;
     }
 

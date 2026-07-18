@@ -68,6 +68,13 @@
     box-sizing: border-box;
 }
 
+/* A4: Keyboard navigation focus indicator */
+:focus-visible {
+    outline: 2px solid var(--color-amber);
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+
 html {
     scroll-behavior: smooth;
     -webkit-font-smoothing: antialiased;
@@ -323,6 +330,40 @@ body {
     border: none;
 }
 
+/* A3/M1: Nav link hover — CSS class replaces inline onMouseEnter/Leave */
+.nav-link:hover {
+    background: var(--color-amber) !important;
+    color: #ffffff !important;
+    transform: translateY(-2px);
+    border-radius: 8px;
+}
+
+.nav-menu-item:hover {
+    background: rgba(217, 119, 6, 0.15);
+}
+
+.nav-menu-item-danger:hover {
+    background: rgba(248, 113, 113, 0.1);
+}
+
+/* A3: ApostleSection photo hover — replaces inline onMouseEnter/Leave */
+.apostle-photo-wrapper:hover .apostle-photo {
+    transform: scale(1.03);
+}
+
+.apostle-cta:hover {
+    color: var(--color-on-primary) !important;
+}
+
+/* A3: VisionSection avatar hover — replaces inline onMouseEnter/Leave */
+.vision-avatar-wrapper:hover .vision-avatar {
+    filter: grayscale(0%) !important;
+}
+
+.vision-avatar-wrapper:hover {
+    border-color: rgba(217, 119, 6, 0.6) !important;
+}
+
 /* ═══════════════════════════════════════════════════════
    INPUT FIELDS (DESIGN.md form-field style)
    ═══════════════════════════════════════════════════════ */
@@ -419,6 +460,12 @@ body {
     50% { opacity: 0.8; }
 }
 
+/* U1: Skeleton loading pulse */
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
 @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(30px); }
     to { opacity: 1; transform: translateY(0); }
@@ -461,33 +508,12 @@ body {
 .d-700 { animation-delay: 700ms; }
 
 /* ═══════════════════════════════════════════════════════
-   BANNER SLIDESHOW (preserved from original)
+   LEGACY UTILITIES
    ═══════════════════════════════════════════════════════ */
-
-.banner {
-    background: url(./assets/images/worship.jpg) center/cover no-repeat;
-    animation: slideShow 20s infinite;
-}
-
-@keyframes slideShow {
-    0% { background: url(./assets/images/worship.jpg) center/cover; }
-    25% { background: url(./assets/images/image.jpg) center/cover; }
-    50% { background: url(./assets/images/image1.jpg) center/cover; }
-    75% { background: url(./assets/images/image2.jpg) center/cover; }
-    100% { background: url(./assets/images/picture.jpeg) center/cover; }
-}
+/* I6: .banner and .banner-fij keyframe slideshows removed — replaced by
+   JS-driven <img> slideshow in Banner.jsx which is LCP-optimizable. */
 
 .background-dark { background-color: #101922; }
-
-.banner-fij { animation: slideShowFij 20s infinite; }
-
-@keyframes slideShowFij {
-    0% { background: url(/src/assets/images/fij1.jpeg) center/cover; }
-    25% { background: url(/src/assets/images/fij2.jpeg) center/cover; }
-    50% { background: url(/src/assets/images/fij3.jpeg) center/cover; }
-    75% { background: url(/src/assets/images/fij4.jpeg) center/cover; }
-    100% { background: url(/src/assets/images/fij5.jpeg) center/cover; }
-}
 
 /* ═══════════════════════════════════════════════════════
    3D CARD UTILITIES (preserved)
@@ -497,3 +523,15 @@ body {
 .thecard { transform-style: preserve-3d; }
 .backface-hidden { backface-visibility: hidden; }
 .rotate-y-180 { transform: rotateY(180deg); }
+
+/* ═══════════════════════════════════════════════════════
+   ACCESSIBILITY — Reduced Motion
+   ═══════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}

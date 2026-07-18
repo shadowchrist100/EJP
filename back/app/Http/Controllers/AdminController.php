@@ -10,11 +10,19 @@ class AdminController extends Controller
 {
     public function users()
     {
-        $users = User::select('id', 'firstName', 'lastName', 'email', 'is_admin', 'prayed_salvation_prayer', 'telephone', 'localisation', 'created_at')
+        $users = User::select('id', 'firstName', 'lastName', 'email', 'is_admin', 'is_superadmin', 'prayed_salvation_prayer', 'telephone', 'localisation', 'created_at')
             ->orderBy('created_at', 'desc')
             ->get();
 
         return response()->json(['users' => $users], 200);
+    }
+
+    public function userDetail($id)
+    {
+        $user = User::select('id', 'firstName', 'lastName', 'email', 'is_admin', 'is_superadmin', 'prayed_salvation_prayer', 'telephone', 'localisation', 'bio', 'created_at', 'updated_at')
+            ->findOrFail($id);
+
+        return response()->json(['user' => $user], 200);
     }
 
     public function salvation()
@@ -34,5 +42,38 @@ class AdminController extends Controller
             ->get();
 
         return response()->json(['requests' => $requests], 200);
+    }
+
+    public function makeAdmin($id)
+    {
+        $user = User::findOrFail($id);
+        if ($user->is_superadmin) {
+            return response()->json(['error' => 'Impossible de modifier un super admin.'], 403);
+        }
+        $user->update(['is_admin' => true]);
+        return response()->json(['success' => "{$user->firstName} {$user->lastName} est maintenant admin."], 200);
+    }
+
+    public function removeAdmin($id)
+    {
+        $user = User::findOrFail($id);
+        if ($user->is_superadmin) {
+            return response()->json(['error' => 'Impossible de modifier un super admin.'], 403);
+        }
+        $user->update(['is_admin' => false]);
+        return response()->json(['success' => "{$user->firstName} {$user->lastName} n'est plus admin."], 200);
+    }
+
+    public function makeSuperAdmin($id)
+    {
+        $user = User::findOrFail($id);
+        if ($user->is_superadmin) {
+            return response()->json(['error' => 'Cet utilisateur est déjà super admin.'], 403);
+        }
+        if (!$user->is_admin) {
+            return response()->json(['error' => 'Cet utilisateur doit d\'abord être nommé admin.'], 400);
+        }
+        $user->update(['is_superadmin' => true]);
+        return response()->json(['success' => "{$user->firstName} {$user->lastName} est maintenant super admin."], 200);
     }
 }

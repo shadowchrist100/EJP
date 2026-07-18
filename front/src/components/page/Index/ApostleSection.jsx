@@ -12,7 +12,10 @@ import { PP } from '../../../assets';
 const ApostleSection = () => (
     <section className="section-spacing-lg" style={{ background: 'var(--color-primary)', overflow: 'hidden', position: 'relative' }}>
         {/* Subtle ambient glow */}
-        <div style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50)', width: '600px', height: '300px', background: 'rgba(217,119,6,0.03)', borderRadius: '50%', filter: 'blur(100px)', pointerEvents: 'none' }} />
+        <div
+            style={{ position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)', width: '600px', height: '300px', background: 'rgba(217,119,6,0.03)', borderRadius: '50%', filter: 'blur(100px)', pointerEvents: 'none' }}
+            aria-hidden="true"
+        />
 
         <div className="section-container" style={{ position: 'relative', zIndex: 10 }}>
             <div style={{ gap: 'var(--space-section)', alignItems: 'center' }} className="grid grid-cols-1 md:grid-cols-2">
@@ -21,7 +24,7 @@ const ApostleSection = () => (
                     {/* Eyebrow */}
                     <FadeIn stagger={0} direction="left">
                         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-md)', marginBottom: 'var(--space-lg)' }}>
-                            <div className="hairline-amber" style={{ width: '32px' }} />
+                            <div className="hairline-amber" style={{ width: '32px' }} aria-hidden="true" />
                             <span className="t-eyebrow" style={{ color: 'var(--color-amber)', opacity: 0.7 }}>
                                 Notre Papa
                             </span>
@@ -42,10 +45,10 @@ const ApostleSection = () => (
 
                     {/* Hairline */}
                     <FadeIn stagger={2} direction="left">
-                        <div style={{ width: '32px', height: '1px', background: 'var(--color-amber)', margin: '0 0 var(--space-xl)' }} />
+                        <div style={{ width: '32px', height: '1px', background: 'var(--color-amber)', margin: '0 0 var(--space-xl)' }} aria-hidden="true" />
                     </FadeIn>
 
-                    {/* Quote — border-left accent */}
+                    {/* Quote */}
                     <FadeIn stagger={3} direction="left">
                         <blockquote style={{
                             borderLeft: '2px solid rgba(217,119,6,0.3)',
@@ -59,7 +62,7 @@ const ApostleSection = () => (
                         </blockquote>
                     </FadeIn>
 
-                    {/* Body copy — graphite color */}
+                    {/* Body copy */}
                     <FadeIn stagger={4} direction="left">
                         <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)', marginBottom: 'var(--space-xl)' }}>
                             <p className="t-body" style={{ color: 'var(--color-stone)', lineHeight: 1.7 }}>
@@ -80,26 +83,30 @@ const ApostleSection = () => (
                         </div>
                     </FadeIn>
 
-                    {/* CTA — text link style */}
+                    {/* CTA */}
                     <FadeIn stagger={5} direction="left">
                         <Link
                             to="/apropos"
-                            className="t-link-sm"
+                            className="t-link-sm apostle-cta"
                             style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', color: 'rgba(255,255,255,0.7)', textDecoration: 'none', transition: 'color 0.2s' }}
-                            onMouseEnter={(e) => e.currentTarget.style.color = 'var(--color-on-primary)'}
-                            onMouseLeave={(e) => e.currentTarget.style.color = 'rgba(255,255,255,0.7)'}
                         >
-                            En savoir plus <ArrowRight size={14} />
+                            En savoir plus <ArrowRight size={14} aria-hidden="true" />
                         </Link>
                     </FadeIn>
                 </div>
 
                 {/* Right — photo (desktop only) */}
+                {/* A3: Hover effect moved to CSS class .apostle-photo — no inline onMouseEnter/Leave */}
                 <FadeIn stagger={2} direction="right" className="hidden md:block">
-                    <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 'var(--rounded-lg)' }}>
+                    <div style={{ position: 'relative', overflow: 'hidden', borderRadius: 'var(--rounded-lg)' }} className="apostle-photo-wrapper">
                         <img
                             src={PP}
-                            alt="Apôtre Yvan Castanou"
+                            alt="Portrait de l'Apôtre Yvan Castanou"
+                            width={600}
+                            height={600}
+                            loading="lazy"
+                            decoding="async"
+                            className="apostle-photo"
                             style={{
                                 width: '100%',
                                 height: '600px',
@@ -108,16 +115,14 @@ const ApostleSection = () => (
                                 filter: 'grayscale(15%) brightness(0.85) contrast(1.1)',
                                 transition: 'transform 1.2s cubic-bezier(0.16,1,0.3,1)',
                             }}
-                            onMouseEnter={(e) => e.target.style.transform = 'scale(1.03)'}
-                            onMouseLeave={(e) => e.target.style.transform = 'scale(1)'}
                         />
                         {/* Gradient fades */}
-                        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(0,0,0,0.6), transparent 30%)' }} />
-                        <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: '120px', background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }} />
+                        <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, rgba(0,0,0,0.6), transparent 30%)' }} aria-hidden="true" />
+                        <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: '120px', background: 'linear-gradient(to top, rgba(0,0,0,0.8), transparent)' }} aria-hidden="true" />
 
-                        {/* Badge — micro-caps */}
+                        {/* Badge */}
                         <div style={{ position: 'absolute', bottom: 'var(--space-lg)', left: 'var(--space-lg)', zIndex: 20, display: 'flex', alignItems: 'center', gap: '8px' }}>
-                            <div style={{ width: '6px', height: '6px', background: 'var(--color-amber)', transform: 'rotate(45deg)' }} />
+                            <div style={{ width: '6px', height: '6px', background: 'var(--color-amber)', transform: 'rotate(45deg)' }} aria-hidden="true" />
                             <span className="t-micro-caps" style={{ color: 'rgba(255,255,255,0.5)' }}>
                                 EJP Porto-Novo · Bénin
                             </span>
@@ -127,10 +132,14 @@ const ApostleSection = () => (
             </div>
 
             {/* Mobile photo (background, low opacity) */}
-            <div className="md:hidden" style={{ position: 'absolute', inset: 0, opacity: 0.15, zIndex: 0, overflow: 'hidden' }}>
+            <div className="md:hidden" style={{ position: 'absolute', inset: 0, opacity: 0.15, zIndex: 0, overflow: 'hidden' }} aria-hidden="true">
                 <img
                     src={PP}
-                    alt="Apôtre Yvan Castanou"
+                    alt=""
+                    width={600}
+                    height={600}
+                    loading="lazy"
+                    decoding="async"
                     style={{
                         width: '100%',
                         height: '100%',

@@ -173,7 +173,7 @@ const ProfilePage = () => {
 
     const quickLinks = [
         { href: '/settings', icon: '⚙️', label: 'Paramètres' },
-        { href: '/artprodige', icon: '🎨', label: 'ArtProdige' },
+        { href: '/artprodige', icon: '🎨', label: 'ArtProdiges' },
         { href: '/dons', icon: '❤️', label: 'Faire un Don' },
     ];
 
