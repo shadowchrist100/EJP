@@ -130,7 +130,7 @@
     },
     {
         "nom": "FIJ Bouillon de grâce",
-        "image": "../images/fij7.jpeg",
+        "image": "../images/fij7.png",
         "description": "",
         "mapURL": "https://www.google.com/maps/search/Maison%20Quist/@6.49533783,2.60008743,17z",
         "phone": "01 97 05 80 33 / 01 97 52 02 52",
@@ -189,7 +189,7 @@
     },
     {
         "nom": "FIJ Porte des Cieux",
-        "image": "../images/fij9.jpeg",
+        "image": "../images/fij9.png",
         "description": "",
         "mapURL": "https://www.google.com/maps/search/GH4Q%2BW5C%2C%20Porto-Novo%2C%20Bénin/@6.507947914707821,2.586894705891609,17z",
         "phone": "01 62 63 87 37",
