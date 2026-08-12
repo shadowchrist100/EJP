@@ -12,6 +12,9 @@ import {
     useMotionValue,
 } from 'framer-motion';
 import { useNearestFij } from '../../hooks/useNearestFij';
+import { useContentApi } from '../../hooks/useContentApi';
+import ContentManager from '../admin/ContentManager';
+import { fijFields, fijColumns } from '../../util/contentConfigs';
 
 /* ─── Styles globaux ────────────────────────────────────────────────── */
 
@@ -816,12 +819,29 @@ const FijGrid = () => {
     const [activeMap, setActiveMap] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
 
+    // Repli : données statiques locales
+    const [staticFij, setStaticFij] = useState([]);
     useEffect(() => {
         fetch('/data/fij.json')
             .then(r => r.json())
-            .then(d => setFijData(d))
+            .then(d => setStaticFij(d))
             .catch(e => console.error('Erreur chargement FIJ:', e));
     }, []);
+
+    // Source principale : API (si elle contient des données)
+    const {
+        data: apiFij,
+        raw: rawFij,
+        refresh: refreshFij,
+    } = useContentApi('/fijs', [], (items) => items);
+
+    useEffect(() => {
+        if (apiFij.length > 0) {
+            setFijData(apiFij);
+        } else if (staticFij.length > 0) {
+            setFijData(staticFij);
+        }
+    }, [apiFij, staticFij]);
 
     const { sortedFijs, isLocating, locationError, findNearest, resetFijs } = useNearestFij(fijData);
 
@@ -952,6 +972,18 @@ const FijGrid = () => {
                     <MapModal fij={activeMap} onClose={() => setActiveMap(null)} />
                 )}
             </AnimatePresence>
+
+            {/* Panneau d'administration des FIJ */}
+            <ContentManager
+                title="FIJ"
+                singular="une FIJ"
+                subtitle="Modifiez les informations d'une FIJ ou ajoutez-en une nouvelle."
+                items={rawFij}
+                onRefresh={refreshFij}
+                apiPath="/admin/fijs"
+                fields={fijFields}
+                columns={fijColumns}
+            />
         </>
     );
 };

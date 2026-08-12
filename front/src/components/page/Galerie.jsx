@@ -3,6 +3,9 @@ import { createPortal } from 'react-dom';
 import { motion, AnimatePresence, LayoutGroup, useScroll, useSpring, useTransform } from 'framer-motion';
 import { ChevronLeft, ChevronRight, X, Grid3X3, LayoutList } from 'lucide-react';
 import { Nav, Footer, Contact } from '../';
+import ContentManager from '../admin/ContentManager';
+import { useContentApi } from '../../hooks/useContentApi';
+import { galleryFields, galleryColumns, galleryMapper } from '../../util/contentConfigs';
 
 /* ─── VARIANTS ─────────────────────────────────────────────────────────────── */
 
@@ -116,6 +119,12 @@ const Lightbox = ({ image, images, onClose, onPrev, onNext }) => {
                     className="mt-12 text-center"
                 >
                     <h2 className="text-3xl font-black text-white uppercase tracking-tighter">{image.title}</h2>
+
+                    {image.description && (
+                        <p className="text-gray-400 text-sm font-light leading-relaxed max-w-xl mx-auto mt-3">
+                            {image.description}
+                        </p>
+                    )}
 
                     {/* Dots de progression */}
                     <div className="flex items-center justify-center gap-2 mt-4">
@@ -387,16 +396,33 @@ const Galerie = () => {
     const [viewMode, setViewMode] = useState('grid');
     const [loading, setLoading] = useState(true);
 
-    /* Barre de progression scroll */
-    const { scrollYProgress } = useScroll();
-    const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
-
+    // Repli : données statiques locales
+    const [staticImages, setStaticImages] = useState([]);
     useEffect(() => {
         fetch('/data/image.json')
             .then(r => r.json())
-            .then(data => { setImages(data); setLoading(false); })
+            .then(data => { setStaticImages(data); setLoading(false); })
             .catch(() => setLoading(false));
     }, []);
+
+    // Source principale : API
+    const {
+        data: apiImages,
+        raw: rawImages,
+        refresh: refreshImages,
+    } = useContentApi('/gallery', [], galleryMapper);
+
+    useEffect(() => {
+        if (apiImages.length > 0) {
+            setImages(apiImages);
+        } else if (staticImages.length > 0) {
+            setImages(staticImages);
+        }
+    }, [apiImages, staticImages]);
+
+    /* Barre de progression scroll */
+    const { scrollYProgress } = useScroll();
+    const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
 
     const filteredImages = filter === 'all' ? images : images.filter(img => img.category === filter);
 
@@ -491,6 +517,18 @@ const Galerie = () => {
             </AnimatePresence>
 
             <Footer />
+
+            {/* Panneau d'administration de la galerie */}
+            <ContentManager
+                title="Galerie"
+                singular="une image"
+                subtitle="Ajoutez ou retirez des images avec leur titre, description et catégorie."
+                items={rawImages}
+                onRefresh={refreshImages}
+                apiPath="/admin/gallery"
+                fields={galleryFields}
+                columns={galleryColumns}
+            />
         </section>
     );
 };
