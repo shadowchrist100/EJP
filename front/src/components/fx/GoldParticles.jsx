@@ -11,9 +11,10 @@ import { useEffect, useRef } from 'react';
  * Props:
  *  - count    number of particles
  *  - variant  'float' (drifting dust) | 'rise' (light rising upward)
+ *  - speed    time multiplier (2-3 = energetic, accelerated dust)
  */
 
-const GoldParticles = ({ count = 900, variant = 'float', className = '', style }) => {
+const GoldParticles = ({ count = 900, variant = 'float', speed = 1, className = '', style }) => {
     const hostRef = useRef(null);
 
     useEffect(() => {
@@ -24,7 +25,7 @@ const GoldParticles = ({ count = 900, variant = 'float', className = '', style }
 
         import('./goldScene')
             .then(({ mountScene }) => {
-                if (!cancelled) cleanup = mountScene(host, { count, variant });
+                if (!cancelled) cleanup = mountScene(host, { count, variant, speed });
             })
             .catch(() => { /* decorative layer — fail silently */ });
 
@@ -33,7 +34,7 @@ const GoldParticles = ({ count = 900, variant = 'float', className = '', style }
             cleanup();
             host.classList.remove('is-ready');
         };
-    }, [count, variant]);
+    }, [count, variant, speed]);
 
     return <div ref={hostRef} className={`gold-particles ${className}`} style={style} aria-hidden="true" />;
 };

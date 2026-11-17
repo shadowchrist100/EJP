@@ -25,6 +25,9 @@ const TiltCard = ({ children, max = 8, glare = true, className = '', style, ...r
         rotateX.set(-(py - 0.5) * max * 2);
         gx.set(px * 100);
         gy.set(py * 100);
+        // Exposed to CSS so cards can draw their own cursor-following halo / lit rim.
+        ref.current.style.setProperty('--mx', `${(px * 100).toFixed(1)}%`);
+        ref.current.style.setProperty('--my', `${(py * 100).toFixed(1)}%`);
     };
 
     const onPointerLeave = () => {

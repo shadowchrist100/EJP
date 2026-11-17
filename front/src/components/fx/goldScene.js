@@ -52,7 +52,7 @@ void main() {
 }
 `;
 
-export function mountScene(host, { count, variant }) {
+export function mountScene(host, { count, variant, speed = 1 }) {
     let renderer;
     try {
         renderer = new WebGLRenderer({ antialias: false, alpha: true, powerPreference: 'low-power' });
@@ -126,7 +126,7 @@ export function mountScene(host, { count, variant }) {
     const start = performance.now();
     const render = () => {
         const t = (performance.now() - start) / 1000;
-        uniforms.uTime.value = t;
+        uniforms.uTime.value = t * speed;
         const m = uniforms.uMouse.value;
         m.x += (mouseTarget.x - m.x) * 0.04;
         m.y += (mouseTarget.y - m.y) * 0.04;
