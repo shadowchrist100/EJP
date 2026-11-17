@@ -1,6 +1,7 @@
 import { useState, useContext, useMemo, useCallback } from "react";
 import { User, ChevronDown, X, LogOut } from 'lucide-react';
 import { useLocation, Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import { AuthContext } from "../AuthContext";
 
 // P3: Pure helper moved outside component — no recreation on every render
@@ -12,6 +13,7 @@ const getInitials = (name) => {
 const Nav = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isAuthOpen, setIsAuthOpen] = useState(false);
+    const [hoveredLink, setHoveredLink] = useState(null);
     const { user, logout, is_loading } = useContext(AuthContext);
     const location = useLocation();
 
@@ -50,16 +52,11 @@ const Nav = () => {
         <nav
             className="w-full z-50 transition-all relative"
             aria-label="Navigation principale"
-            style={{
-                background: 'rgba(0,0,0,0.92)',
-                backdropFilter: 'blur(16px)',
-                height: '64px',
-                borderBottom: '1px solid rgba(255,255,255,0.06)',
-            }}
+            style={{ height: '64px', background: 'linear-gradient(to bottom, rgba(0,0,0,0.55), rgba(0,0,0,0))' }}
         >
             <div className="section-container h-full">
                 {/* ═══ DESKTOP ═══ */}
-                <div className="hidden lg:flex items-center justify-between h-full gap-6">
+                <div className="hidden lg:flex items-center justify-between gap-6 nav-glass">
                     {/* Wordmark */}
                     <Link
                         to="/"
@@ -83,23 +80,26 @@ const Nav = () => {
 
                     {/* Nav links */}
                     <div className="flex-1 flex items-center justify-center">
-                        <ul className="flex items-center gap-1 list-none m-0 p-0" role="list">
+                        <ul className="flex items-center gap-1 list-none m-0 p-0" role="list" onMouseLeave={() => setHoveredLink(null)}>
                             {displayNavLinks.map((link) => {
                                 const active = isActive(link.href);
+                                const highlighted = hoveredLink ? hoveredLink === link.name : active;
                                 return (
-                                    <li key={link.name}>
+                                    <li key={link.name} style={{ position: 'relative' }} onMouseEnter={() => setHoveredLink(link.name)}>
+                                        {highlighted && (
+                                            <motion.span
+                                                layoutId="nav-highlight"
+                                                className="nav-highlight"
+                                                transition={{ type: 'spring', stiffness: 420, damping: 34 }}
+                                                aria-hidden="true"
+                                            />
+                                        )}
                                         <Link
                                             to={link.href}
-                                            className="nav-link t-link-sm"
+                                            className="nav-link-glass t-link-sm"
                                             aria-current={active ? 'page' : undefined}
                                             style={{
-                                                display: 'inline-block',
-                                                padding: '8px 14px',
-                                                color: active ? 'var(--color-amber)' : 'rgba(255,255,255,0.6)',
-                                                borderBottom: active ? '2px solid var(--color-amber)' : '2px solid transparent',
-                                                transition: 'color 0.2s, border-color 0.2s, transform 0.3s, background 0.2s',
-                                                textDecoration: 'none',
-                                                whiteSpace: 'nowrap',
+                                                color: active ? 'var(--color-amber-light)' : highlighted ? '#fff' : 'rgba(255,255,255,0.65)',
                                             }}
                                         >
                                             {link.name}
@@ -209,7 +209,7 @@ const Nav = () => {
                 </div>
 
                 {/* ═══ MOBILE ═══ */}
-                <div className="lg:hidden flex items-center justify-between h-full">
+                <div className="lg:hidden flex items-center justify-between nav-glass">
                     <Link
                         to="/"
                         className="flex items-center gap-1 hover:opacity-80 transition-opacity shrink-0"
