@@ -16,6 +16,14 @@ php artisan view:cache
 echo "Exécution des migrations..."
 php artisan migrate --force
 
+# On importe le contenu initial (FIJ, événements, galerie) s'il est vide
+echo "Import du contenu initial..."
+php artisan db:seed --class=ContentSeeder --force || true
+
+# Lien public pour le stockage des images téléversées
+echo "Création du lien de stockage public..."
+php artisan storage:link --force || true
+
 # 4. Lancement d'Apache
 # 'exec' permet à Apache de devenir le processus principal (PID 1)
 echo "Démarrage d'Apache sur le port ${PORT:-80}..."

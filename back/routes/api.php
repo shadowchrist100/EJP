@@ -6,6 +6,9 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\DonationController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\EventController;
+use App\Http\Controllers\FijController;
+use App\Http\Controllers\GalleryController;
 use Illuminate\Support\Facades\Route;
 
 Route::post('/login', [AuthController::class, 'login']);
@@ -26,6 +29,11 @@ Route::post('/reset-password', [AuthController::class, 'resetPassword']);
 // Email Verification (public link)
 Route::get('/email/verify/{id}/{hash}', [AuthController::class, 'verify'])->name('verification.verify');
 
+// Public content (événements, FIJ, galerie)
+Route::get('/events', [EventController::class, 'index']);
+Route::get('/fijs', [FijController::class, 'index']);
+Route::get('/gallery', [GalleryController::class, 'index']);
+
 Route::post('/logout', [AuthController::class, 'logout']);
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -43,6 +51,19 @@ Route::middleware(['auth:sanctum', 'admin'])->prefix('admin')->group(function ()
     Route::get('/users/salvation', [AdminController::class, 'salvation']);
     Route::get('/ministry-requests', [AdminController::class, 'ministryRequests']);
     Route::get('/user/{id}', [AdminController::class, 'userDetail']);
+
+    // Gestion du contenu (événements, FIJ, galerie)
+    Route::post('/events', [EventController::class, 'store']);
+    Route::put('/events/{id}', [EventController::class, 'update']);
+    Route::delete('/events/{id}', [EventController::class, 'destroy']);
+
+    Route::post('/fijs', [FijController::class, 'store']);
+    Route::put('/fijs/{id}', [FijController::class, 'update']);
+    Route::delete('/fijs/{id}', [FijController::class, 'destroy']);
+
+    Route::post('/gallery', [GalleryController::class, 'store']);
+    Route::put('/gallery/{id}', [GalleryController::class, 'update']);
+    Route::delete('/gallery/{id}', [GalleryController::class, 'destroy']);
 });
 
 // Super admin only routes

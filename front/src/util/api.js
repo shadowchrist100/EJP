@@ -46,17 +46,20 @@ const attemptRefresh = async () => {
     return pendingRefresh
 }
 
-const buildHeaders = (optionsHeaders) => ({
-    'Content-Type': 'application/json',
-    'Accept': 'application/json',
-    ...(currentAccessToken ? { 'Authorization': `Bearer ${currentAccessToken}` } : {}),
-    ...optionsHeaders,
-})
+const buildHeaders = (optionsHeaders, body) => {
+    const isFormData = typeof FormData !== 'undefined' && body instanceof FormData;
+    return {
+        'Accept': 'application/json',
+        ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
+        ...(currentAccessToken ? { 'Authorization': `Bearer ${currentAccessToken}` } : {}),
+        ...optionsHeaders,
+    }
+}
 
 const doFetch = async (endpoint, options) => {
     return fetch(`${BASE_URL}${endpoint}`, {
         ...options,
-        headers: buildHeaders(options.headers),
+        headers: buildHeaders(options.headers, options.body),
         credentials: 'include',
     })
 }

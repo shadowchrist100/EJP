@@ -1,9 +1,12 @@
 import { Calendar, MapPin, Clock, ArrowRight, Share2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Nav, Footer, Contact } from '../.';
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import ComingNext from './Index/ComingNext';
 import EventCard from './Index/EventCard';
+import ContentManager from '../admin/ContentManager';
+import { useContentApi } from '../../hooks/useContentApi';
+import { eventFields, eventColumns, eventMapper } from '../../util/contentConfigs';
 
 const EventsPage = () => {
     const monthNames = ['JAN', 'FÉV', 'MAR', 'AVR', 'MAI', 'JUN', 'JUL', 'AOU', 'SEP', 'OCT', 'NOV', 'DÉC'];
@@ -38,8 +41,8 @@ const EventsPage = () => {
         return date;
     };
 
-    // Initialiser les événements avec logique correcte
-    const [events] = useState(() => {
+    // Initialiser les événements par défaut (repli si l'API est vide / indisponible)
+    const defaultEvents = useMemo(() => {
         const now = new Date();
         const currentYear = now.getFullYear();
         const currentMonth = now.getMonth();
@@ -99,10 +102,18 @@ const EventsPage = () => {
                 image: '/fij/image.jpg',
             },
         ];
-    });
+    }, []);
+
+    // Chargement des événements depuis l'API (avec repli sur les défauts ci-dessus)
+    const {
+        data: events,
+        raw: rawEvents,
+        refresh: refreshEvents,
+    } = useContentApi('/events', defaultEvents, eventMapper);
 
     // Calcul de l'événement à la une (le plus proche)
     const featuredEvent = useMemo(() => {
+        if (events.length === 0) return null;
         const now = new Date();
         const upcomingEvents = events.filter(event => event.date > now);
 
@@ -116,6 +127,7 @@ const EventsPage = () => {
 
     // Événements à afficher dans la grille (sauf celui à la une)
     const otherEvents = useMemo(() => {
+        if (events.length === 0) return [];
         const now = new Date();
         return events
             .filter(event => event.id !== featuredEvent.id && event.date > now)
@@ -251,6 +263,8 @@ const EventsPage = () => {
                 {/* Spacer */}
                 <div className="h-20 lg:h-32" />
 
+                {featuredEvent ? (
+                    <>
                 {/* Hero Section: Featured Event */}
                 <section className="relative min-h-[70vh] md:min-h-[80vh] lg:min-h-[85vh] flex items-center pt-12 md:pt-20 lg:pt-24 overflow-hidden">
                     <div className="absolute inset-0 overflow-hidden">
@@ -408,6 +422,19 @@ const EventsPage = () => {
                         </div>
                     </section>
                 )}
+                    </>
+                ) : (
+                    <div className="min-h-[70vh] flex items-center justify-center px-6">
+                        <div className="text-center">
+                            <h2 className="text-4xl md:text-6xl font-black text-white tracking-tighter mb-4">
+                                AUCUN ÉVÉNEMENT
+                            </h2>
+                            <p className="text-gray-500 font-light">
+                                Aucun événement à venir pour le moment. Reviens bientôt !
+                            </p>
+                        </div>
+                    </div>
+                )}
             </main>
 
             {/* Contact Section */}
@@ -429,6 +456,18 @@ const EventsPage = () => {
             </section>
 
             <Footer />
+
+            {/* Panneau d'administration des événements */}
+            <ContentManager
+                title="Événements"
+                singular="un événement"
+                subtitle="Ajoutez, modifiez ou supprimez les événements du site."
+                items={rawEvents}
+                onRefresh={refreshEvents}
+                apiPath="/admin/events"
+                fields={eventFields}
+                columns={eventColumns}
+            />
         </div>
     );
 };
