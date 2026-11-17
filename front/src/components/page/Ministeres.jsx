@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useContext, useLayoutEffect, useRef } from 'react';
 import { Contact, Nav, Footer } from '../';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import { AuthContext } from '../AuthContext';
@@ -11,6 +11,15 @@ import imgSecretariat from '../../assets/ministries/secretariat.jpg';
 import imgEntretiens from '../../assets/ministries/entretiens.jpg';
 import imgProtocole from '../../assets/ministries/protocole.jpg';
 import imgArt from '../../assets/ministries/art.jpg';
+import heroImg from '../../assets/images/fij3.jpeg';
+import gsap from 'gsap';
+import { SplitText } from 'gsap/SplitText';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import GoldParticles from '../fx/GoldParticles';
+import TiltCard from '../fx/TiltCard';
+import useScrollReveal from '../fx/useScrollReveal';
+
+gsap.registerPlugin(SplitText, ScrollTrigger);
 
 /* ─── Global styles ─────────────────────────────────────────────────── */
 const GlobalStyles = () => (
@@ -90,230 +99,241 @@ const GlobalStyles = () => (
     `}</style>
 );
 
-/* ─── Variants d'Animation ─────────────────────────────────────────── */
+/* ─── Données des ministères (option = valeur du formulaire) ──────────── */
+const MINISTRIES = [
+    { category: 'Communication', title: 'Communication', option: 'Communication', description: "Partage la vision S.T.A.R. à travers les mots et les images. Manage les réseaux sociaux et crée du contenu impactant pour inspirer notre communauté.", image: imgCommunication },
+    { category: 'Musique', title: 'Prodiges Music', option: 'Prodige', description: "Lève-toi et chante ! Exprime ton amour à travers la musique et conduis les autres à la louange sincère. Aucune expérience requise, juste une passion.", image: imgMusic },
+    { category: 'Tech', title: 'Audio Visuel', option: 'Audio Visuel', description: "Maîtrise la technologie pour créer une expérience spirituelle immersive. Son, lumière, vidéo — tous les éléments au service de la vision S.T.A.R.", image: imgAudiovisuel },
+    { category: 'Logistique', title: 'Secrétariat', option: 'Secrétariat', description: "Sois l'organisateur invisible qui fait fonctionner la machine. Gère les documents, archives et coordonne les événements avec précision.", image: imgSecretariat },
+    { category: 'Maintenance', title: 'Entretiens', option: 'Entretiens', description: "Maintiens nos espaces en excellence et propreté. Un environnement bien organisé et accueillant reflète l'ordre et la grâce de Dieu.", image: imgEntretiens },
+    { category: 'Leadership', title: 'Protocole', option: 'Protocole', description: "Accueille avec excellence nos visiteurs et membres. Sois la représentation du service raffiné et de l'amour du Christ dans chaque interaction.", image: imgProtocole },
+    { category: 'Créativité', title: 'Art et Expression', option: 'Art et Expression', description: "Exprime ta créativité pour glorifier l'Éternel. Danse, théâtre, peinture, design — tous les arts sont bienvenus pour une expression complète.", image: imgArt },
+];
 
-const fadeInUp = {
-    hidden: { opacity: 0, y: 40 },
-    visible: (custom) => ({
-        opacity: 1,
-        y: 0,
-        transition: {
-            duration: 0.8,
-            ease: [0.16, 1, 0.3, 1],
-            delay: custom * 0.1
-        }
-    })
-};
+/* ─── Hero ───────────────────────────────────────────────────────────── */
+const Hero = () => {
+    const ref = useRef(null);
+    const compact = typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches;
 
-const staggerContainer = {
-    hidden: { opacity: 0 },
-    visible: {
-        opacity: 1,
-        transition: { staggerChildren: 0.2 }
-    }
-};
+    useLayoutEffect(() => {
+        const root = ref.current;
+        const mm = gsap.matchMedia();
+        const ctx = gsap.context(() => {
+            mm.add('(prefers-reduced-motion: no-preference)', () => {
+                const lead = SplitText.create('.mn-lead', { type: 'chars', mask: 'chars' });
+                gsap.timeline({ delay: 0.2, defaults: { ease: 'expo.out' } })
+                    .fromTo('.mn-hero-img', { scale: 1.4, opacity: 0 }, { scale: 1.05, opacity: 1, duration: 2.6, ease: 'power3.out' }, 0)
+                    .fromTo('.mn-tag', { opacity: 0, letterSpacing: '1.4em' }, { opacity: 1, letterSpacing: '0.5em', duration: 1.6 }, 0.2)
+                    .from(lead.chars, { yPercent: 120, rotate: 10, duration: 1.2, stagger: 0.035 }, 0.35)
+                    .from('.mn-star-in', { yPercent: 140, rotateY: 100, scale: 1.8, opacity: 0, duration: 1.5, stagger: 0.09 }, 0.6)
+                    .fromTo('.mn-def', { clipPath: 'inset(0% 100% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.3, ease: 'expo.inOut', clearProps: 'clipPath' }, 1.2)
+                    .fromTo('.mn-cta', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 1, clearProps: 'transform,opacity' }, 1.45);
 
-/* ─── Hero Banner ────────────────────────────────────────────────────── */
-const Banner = () => {
-    const starLetters = "S.T.A.R.".split('');
+                gsap.timeline({ scrollTrigger: { trigger: root, start: 'top top', end: 'bottom top', scrub: 0.6 } })
+                    .to('.mn-hero-drift', { yPercent: 18, scale: 1.12, ease: 'none' }, 0)
+                    .to('.mn-hero-copy', { y: -120, opacity: 0, ease: 'none' }, 0)
+                    .to('.mn-star', { yPercent: (i) => (i % 2 ? -60 : 60), ease: 'none' }, 0);
+            });
+        }, root);
+        return () => { mm.revert(); ctx.revert(); };
+    }, []);
 
     return (
-        <motion.div
-            initial="hidden"
-            animate="visible"
-            className="relative z-10 text-center px-6 max-w-4xl mx-auto"
-        >
-            {/* Tag */}
-            <motion.div custom={1} variants={fadeInUp} className="mb-8">
-                <span className="inline-flex items-center gap-3 text-amber-400/80 tracking-[0.5em] text-[9px] uppercase font-bold">
-                    <motion.span
-                        initial={{ scaleX: 0 }}
-                        animate={{ scaleX: 1 }}
-                        transition={{ duration: 1, delay: 0.5 }}
-                        className="w-8 h-px bg-amber-500/60 inline-block origin-left"
-                    />
-                    Engagement & Service
-                    <motion.span
-                        initial={{ scaleX: 0 }}
-                        animate={{ scaleX: 1 }}
-                        transition={{ duration: 1, delay: 0.5 }}
-                        className="w-8 h-px bg-amber-500/60 inline-block origin-right"
-                    />
-                </span>
-            </motion.div>
+        <section ref={ref} className="mn-hero grain-overlay">
+            <div className="mn-hero-drift" aria-hidden="true">
+                <img src={heroImg} alt="" className="mn-hero-img" fetchPriority="high" decoding="async" />
+            </div>
+            <div className="absolute inset-0 bg-linear-to-t from-black via-black/20 to-black/60 z-1" />
+            <div className="absolute inset-0 bg-linear-to-r from-black/40 via-transparent to-black/40 z-1" />
+            <GoldParticles count={compact ? 400 : 900} className="z-1" />
 
-            {/* Title */}
-            <motion.div custom={2} variants={fadeInUp} className="mb-6">
-                <h1 className="font-display leading-none tracking-wide uppercase">
-                    <span className="block text-[clamp(1.75rem,9vw,7rem)] text-white">Deviens un(e)</span>
-                    <span className="text-[clamp(2.5rem,12vw,9rem)] shimmer-gold flex justify-center">
-                        {starLetters.map((c, i) => (
-                            <motion.span
-                                key={i}
-                                whileHover={{ y: -10, color: "#fbbf24" }}
-                                className="cursor-default"
-                            >
-                                {c}
-                            </motion.span>
+            <div className="absolute inset-0 z-2 pointer-events-none">
+                <div className="absolute left-12 top-1/3 w-px h-28 bg-linear-to-b from-transparent via-amber-500/30 to-transparent" />
+                <div className="absolute right-12 top-1/3 w-px h-28 bg-linear-to-b from-transparent via-amber-500/30 to-transparent" />
+                <div className="absolute bottom-24 left-1/4 right-1/4 h-px bg-linear-to-r from-transparent via-amber-500/15 to-transparent" />
+            </div>
+
+            <div className="mn-hero-copy relative z-3 text-center px-6 max-w-5xl mx-auto">
+                <div className="mb-8">
+                    <span className="mn-tag inline-flex items-center gap-3 text-amber-400/80 tracking-[0.5em] text-[9px] uppercase font-bold">
+                        <span className="w-8 h-px bg-amber-500/60 inline-block" />
+                        Engagement & Service
+                        <span className="w-8 h-px bg-amber-500/60 inline-block" />
+                    </span>
+                </div>
+
+                <h1 className="font-display leading-none tracking-wide uppercase mb-8" aria-label="Deviens un(e) S.T.A.R.">
+                    <span className="mn-lead block text-[clamp(2rem,9vw,7rem)] text-white" aria-hidden="true">Deviens un(e)</span>
+                    <span className="mn-stars" aria-hidden="true">
+                        {'S.T.A.R.'.split('').map((c, i) => (
+                            <span key={i} className="mn-star"><span className="mn-star-in shimmer-gold">{c}</span></span>
                         ))}
                     </span>
                 </h1>
-            </motion.div>
 
-            {/* Definition */}
-            <motion.div custom={3} variants={fadeInUp} className="mb-12">
-                <div className="inline-block border-l-2 border-amber-500/60 pl-6 text-left">
-                    <p className="text-white/70 text-base md:text-lg font-light italic leading-relaxed">
-                        "<span className="font-black text-amber-400 not-italic">S</span>erviteur
-                        <span className="font-black text-amber-400 not-italic"> T</span>ravaillant
-                        <span className="font-black text-amber-400 not-italic"> A</span>ctivement pour le
-                        <span className="font-black text-amber-400 not-italic"> R</span>oyaume"
-                    </p>
+                <div className="mb-12">
+                    <div className="mn-def inline-block border-l-2 border-amber-500/60 pl-6 text-left">
+                        <p className="text-white/70 text-base md:text-lg font-light italic leading-relaxed">
+                            "<span className="font-black text-amber-400 not-italic">S</span>erviteur
+                            <span className="font-black text-amber-400 not-italic"> T</span>ravaillant
+                            <span className="font-black text-amber-400 not-italic"> A</span>ctivement pour le
+                            <span className="font-black text-amber-400 not-italic"> R</span>oyaume"
+                        </p>
+                    </div>
                 </div>
-            </motion.div>
 
-            {/* CTA */}
-            <motion.div custom={4} variants={fadeInUp} whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                <a href="#ministries-list" className="group inline-flex items-center gap-4 bg-amber-600 text-black px-10 py-4 font-black text-[10px] uppercase tracking-[0.25em] relative overflow-hidden">
-                    <span className="relative z-10">Trouve ton Ministère</span>
-                    <ArrowRight size={16} className="relative z-10 group-hover:translate-x-2 transition-transform" />
-                </a>
-            </motion.div>
-        </motion.div>
+                <div className="mn-cta">
+                    <a href="#ministries-list" className="btn-engage">
+                        <span>Trouve ton Ministère</span>
+                        <ArrowRight size={16} className="btn-engage-arrow" />
+                    </a>
+                </div>
+            </div>
+
+            <div className="mn-scroll absolute bottom-10 left-1/2 -translate-x-1/2 z-3 flex flex-col items-center gap-2 opacity-40">
+                <span className="text-[9px] text-white/60 tracking-[0.3em] uppercase">Scroll</span>
+                <div className="w-px h-10 bg-linear-to-b from-white/60 to-transparent" />
+            </div>
+        </section>
     );
-}
+};
 
-/* ─── Ministry Card ──────────────────────────────────────────────────── */
-const MinistryCard = ({ ministry, reversed, index }) => (
+/* ─── Pôles : navigation spatiale entre ministères ────────────────────── */
+const MinistriesSection = ({ onJoin }) => {
+    const [active, setActive] = useState(0);
+    const [hovered, setHovered] = useState(null);
+    const tabsRef = useRef([]);
+    const m = MINISTRIES[active];
+    const focus = hovered ?? active;
 
-    <motion.div
-        initial={{ opacity: 0, x: reversed ? 50 : -50 }}
-        whileInView={{ opacity: 1, x: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className={`ministry-card group relative bg-zinc-900 border border-white/6 hover:border-amber-500/25 overflow-hidden flex flex-col ${reversed ? 'lg:flex-row-reverse' : 'lg:flex-row'} `}
-    >
-        {/* Image */}
-        <div className="w-full lg:w-[58%] relative overflow-hidden" style={{ minHeight: '320px' }}>
-            {ministry.image ? (
-                <>
-                    <motion.img
-                        whileHover={{ scale: 1.1 }}
-                        transition={{ duration: 1.5 }}
-                        src={ministry.image}
-                        alt={ministry.title}
-                        className="ministry-img absolute inset-0 w-full h-full object-cover grayscale brightness-75 hover:grayscale-0 transition-all duration-700 "
-                    />
-                    <div className={`absolute inset-0 bg-gradient-to-${reversed ? 'l' : 'r'} from-zinc-900 via-zinc-900/30 to-transparent z-10`} />
-                </>
-            ) : (
-                <div className="absolute inset-0 bg-zinc-950 flex items-center justify-center">
-                    <span className="font-display text-8xl text-amber-500/10">{ministry.title[0]}</span>
-                </div>
-            )}
-
-            {/* Category badge */}
-            <div className="absolute top-6 left-6 z-20">
-                <span className="bg-black/60 border border-amber-500/30 text-amber-500 text-[8px] font-black tracking-[0.4em] uppercase px-3 py-1.5 backdrop-blur-sm">
-                    {ministry.category}
-                </span>
-            </div>
-        </div>
-
-        {/* Content */}
-        <div className="w-full lg:w-[42%] p-8 lg:p-12 flex flex-col justify-between relative z-10">
-            {/* Index number */}
-            <motion.span
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 0.05 }}
-                className="font-display text-6xl text-white/4 absolute top-6 right-8 leading-none select-none">
-                {String(index + 1).padStart(2, '0')}
-            </motion.span>
-
-            <div>
-                <div className="w-8 h-px bg-amber-500 mb-6 anim-line" />
-                <h3 className="font-display text-[clamp(2rem,4vw,3.5rem)] text-white leading-none tracking-wide uppercase mb-5 group-hover:text-amber-400 transition-colors duration-500">
-                    {ministry.title}
-                </h3>
-                <p className="text-gray-500 text-sm leading-relaxed font-light">
-                    {ministry.description}
-                </p>
-            </div>
-
-            <div className="mt-8">
-                <motion.button whileHover={{ x: 10 }} className="group/btn relative inline-flex items-center gap-3 border border-amber-500/40 hover:border-amber-500 text-amber-500 hover:text-black text-[9px] font-black uppercase tracking-[0.3em] px-8 py-3 transition-all duration-400 overflow-hidden">
-                    <span className="absolute inset-0 bg-amber-500 scale-x-0 group-hover/btn:scale-x-100 origin-left transition-transform duration-400" />
-                    <span className="relative"><a href="#rejoindre">Rejoindre</a></span>
-                    <ArrowRight size={12} className="relative group-hover/btn:translate-x-1 transition-transform" />
-                </motion.button>
-            </div>
-        </div>
-
-        {/* Hover glow line */}
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-linear-to-r from-transparent via-amber-500/0 to-transparent group-hover:via-amber-500/50 transition-all duration-700" />
-    </motion.div>
-);
-
-/* ─── Ministries Section ─────────────────────────────────────────────── */
-const MinistriesSection = () => {
-    const [visibleCount, setVisibleCount] = useState(3);
-
-    const ministries = [
-        { category: 'Communication', title: 'Communication', description: "Partage la vision S.T.A.R. à travers les mots et les images. Manage les réseaux sociaux et crée du contenu impactant pour inspirer notre communauté.", image: imgCommunication },
-        { category: 'Musique', title: 'Prodiges Music', description: "Lève-toi et chante ! Exprime ton amour à travers la musique et conduis les autres à la louange sincère. Aucune expérience requise, juste une passion.", image: imgMusic },
-        { category: 'Tech', title: 'Audio Visuel', description: "Maîtrise la technologie pour créer une expérience spirituelle immersive. Son, lumière, vidéo — tous les éléments au service de la vision S.T.A.R.", image: imgAudiovisuel },
-        { category: 'Logistique', title: 'Secrétariat', description: "Sois l'organisateur invisible qui fait fonctionner la machine. Gère les documents, archives et coordonne les événements avec précision.", image: imgSecretariat },
-        { category: 'Maintenance', title: 'Entretiens', description: "Maintiens nos espaces en excellence et propreté. Un environnement bien organisé et accueillant reflète l'ordre et la grâce de Dieu.", image: imgEntretiens },
-        { category: 'Leadership', title: 'Protocole', description: "Accueille avec excellence nos visiteurs et membres. Sois la représentation du service raffiné et de l'amour du Christ dans chaque interaction.", image: imgProtocole },
-        { category: 'Créativité', title: 'Art et Expression', description: "Exprime ta créativité pour glorifier l'Éternel. Danse, théâtre, peinture, design — tous les arts sont bienvenus pour une expression complète.", image: imgArt },
-    ];
+    const select = (i) => {
+        setActive(i);
+        tabsRef.current[i]?.focus({ preventScroll: true });
+    };
+    const onKeyDown = (e) => {
+        const n = MINISTRIES.length;
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); select((active + 1) % n); }
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); select((active - 1 + n) % n); }
+        if (e.key === 'Home') { e.preventDefault(); select(0); }
+        if (e.key === 'End') { e.preventDefault(); select(n - 1); }
+    };
 
     return (
-        <section className="py-28 px-4 md:px-8 relative" id="ministries-list">
-            {/* Subtle ambient */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-amber-600/4 rounded-full blur-[120px] pointer-events-none" />
+        <section className="mn-section" id="ministries-list">
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] max-w-full h-[400px] bg-amber-600/10 rounded-full blur-[120px] pointer-events-none" />
 
             <div className="max-w-[1400px] mx-auto relative z-10">
-                {/* Section header */}
-                <div className="mb-20 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
+                <div className="mb-14 md:mb-20 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-6">
                     <div>
-                        <div className="flex items-center gap-4 mb-4">
+                        <div className="flex items-center gap-4 mb-4" data-reveal="up">
                             <div className="w-8 h-px bg-amber-600/50" />
                             <span className="text-amber-500/70 text-[9px] font-black uppercase tracking-[0.5em]">Nos équipes</span>
                         </div>
                         <h2 className="font-display text-[clamp(2.5rem,7vw,5.5rem)] text-white leading-none tracking-wide uppercase">
-                            Explore nos<br />
-                            <span className="shimmer-gold">Ministères</span>
+                            <span className="block" data-reveal="chars">Explore nos</span>
+                            <span className="shimmer-gold" data-reveal="up">Ministères</span>
                         </h2>
                     </div>
-                    <p className="text-gray-600 text-base font-light max-w-xs leading-relaxed lg:text-right italic">
+                    <p className="text-gray-500 text-base font-light max-w-xs leading-relaxed lg:text-right italic" data-reveal="up">
                         Chaque don est unique — trouve ta place dans l'équipe S.T.A.R.
                     </p>
                 </div>
 
-                {/* Cards */}
-                <div className="space-y-1">
-                    {ministries.slice(0, visibleCount).map((ministry, index) => (
-                        <MinistryCard key={index} ministry={ministry} reversed={index % 2 !== 0} index={index} />
-                    ))}
+                {/* Deck : le pôle actif avance, les autres reculent dans la profondeur */}
+                <div className="mn-deck" role="tablist" aria-label="Ministères" onKeyDown={onKeyDown} onMouseLeave={() => setHovered(null)} data-reveal="up">
+                    {MINISTRIES.map((x, i) => {
+                        const isActive = i === active;
+                        const lit = isActive || i === focus;
+                        return (
+                            <motion.button
+                                key={x.title}
+                                ref={(el) => { tabsRef.current[i] = el; }}
+                                type="button"
+                                role="tab"
+                                id={`mn-tab-${i}`}
+                                aria-selected={isActive}
+                                aria-controls="mn-panel"
+                                tabIndex={isActive ? 0 : -1}
+                                onClick={() => setActive(i)}
+                                onMouseEnter={() => setHovered(i)}
+                                className={`mn-tab ${isActive ? 'is-active' : ''}`}
+                                animate={{
+                                    z: isActive ? 40 : lit ? 15 : -90,
+                                    scale: isActive ? 1.06 : lit ? 1 : 0.92,
+                                    opacity: lit ? 1 : 0.5,
+                                    filter: lit ? 'blur(0px) grayscale(0)' : 'blur(2.5px) grayscale(0.75)',
+                                }}
+                                transition={{ type: 'spring', stiffness: 170, damping: 20 }}
+                            >
+                                <img src={x.image} alt="" loading="lazy" decoding="async" />
+                                <span className="mn-tab-shade" aria-hidden="true" />
+                                <span className="mn-tab-idx">{String(i + 1).padStart(2, '0')}</span>
+                                <span className="mn-tab-text">
+                                    <span className="mn-tab-cat">{x.category}</span>
+                                    <span className="mn-tab-title">{x.title}</span>
+                                </span>
+                            </motion.button>
+                        );
+                    })}
                 </div>
 
-                {/* Load more */}
-                {visibleCount < ministries.length && (
-                    <div className="flex justify-center pt-16">
-                        <button
-                            onClick={() => setVisibleCount(p => Math.min(p + 3, ministries.length))}
-                            className="group flex items-center gap-5 text-gray-600 hover:text-amber-400 transition-all duration-300"
-                        >
-                            <span className="w-16 h-px bg-white/10 group-hover:w-24 group-hover:bg-amber-500/50 transition-all duration-500" />
-                            <span className="text-[9px] font-black uppercase tracking-[0.5em] whitespace-nowrap">Découvrir plus</span>
-                            <span className="w-16 h-px bg-white/10 group-hover:w-24 group-hover:bg-amber-500/50 transition-all duration-500" />
-                        </button>
-                    </div>
-                )}
+                {/* Scène du pôle actif */}
+                <div data-reveal="up">
+                    <TiltCard max={3} className="mn-stage glass-gold" id="mn-panel" role="tabpanel" aria-labelledby={`mn-tab-${active}`}>
+                        <span className="mn-rim" aria-hidden="true" />
+                        <div className="mn-stage-media">
+                            <AnimatePresence initial={false}>
+                                <motion.div
+                                    key={active}
+                                    className="mn-stage-frame"
+                                    initial={{ opacity: 0, scale: 1.2, filter: 'blur(14px)' }}
+                                    animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+                                    exit={{ opacity: 0, scale: 0.96, filter: 'blur(8px)' }}
+                                    transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
+                                >
+                                    <img src={m.image} alt={m.title} className="mn-stage-img" decoding="async" />
+                                </motion.div>
+                            </AnimatePresence>
+                            <div className="mn-stage-shade" aria-hidden="true" />
+                            <span className="mn-stage-badge">{m.category}</span>
+                        </div>
+
+                        <div className="mn-stage-body">
+                            <AnimatePresence mode="wait">
+                                <motion.div
+                                    key={active}
+                                    initial="hidden" animate="visible" exit="exit"
+                                    variants={{ visible: { transition: { staggerChildren: 0.08 } }, hidden: {}, exit: { opacity: 0, y: -16, transition: { duration: 0.25 } } }}
+                                >
+                                    <motion.span className="mn-stage-num" variants={riseIn}>{String(active + 1).padStart(2, '0')}</motion.span>
+                                    <div className="w-8 h-px bg-amber-500 mb-6" />
+                                    <div className="overflow-hidden mb-5">
+                                        <motion.h3 variants={riseIn} className="font-display text-[clamp(2.4rem,4.5vw,4rem)] text-white leading-none tracking-wide uppercase">
+                                            {m.title}
+                                        </motion.h3>
+                                    </div>
+                                    <motion.p variants={riseIn} className="text-gray-300 text-base leading-relaxed font-light mb-10">
+                                        {m.description}
+                                    </motion.p>
+                                    <motion.div variants={riseIn}>
+                                        <a href="#rejoindre" onClick={() => onJoin(m.option)} className="btn-engage btn-engage--ghost">
+                                            <span>Rejoindre</span>
+                                            <ArrowRight size={14} className="btn-engage-arrow" />
+                                        </a>
+                                    </motion.div>
+                                </motion.div>
+                            </AnimatePresence>
+                        </div>
+                    </TiltCard>
+                </div>
             </div>
         </section>
     );
+};
+
+const riseIn = {
+    hidden: { opacity: 0, y: 40 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } },
 };
 
 /* ─── Contact Form ───────────────────────────────────────────────────── */
@@ -333,12 +353,19 @@ const Field = ({ label, name, touched, errors, children }) => (
         )}
     </div>
 );
-const ContactForm = () => {
+const ContactForm = ({ preset }) => {
     const { user, is_loading } = useContext(AuthContext)
 
     const initialForm = { nom: '', email: '', ministry_name: '', message: '' };
 
     const [form, setForm] = useState(initialForm);
+
+    // « Rejoindre » sur un pôle pré-remplit le ministère (ajustement pendant le rendu, sans effet)
+    const [seenPreset, setSeenPreset] = useState(preset);
+    if (preset !== seenPreset) {
+        setSeenPreset(preset);
+        if (preset) setForm((f) => ({ ...f, ministry_name: preset.name }));
+    }
     const [errors, setErrors] = useState({});
     const [status, setStatus] = useState('idle'); // 'idle' | 'loading' | 'success' | 'error'
     const [touched, setTouched] = useState({});
@@ -438,9 +465,9 @@ const ContactForm = () => {
                     <p className="text-gray-400 text-lg mb-8">
                         Connecte-toi pour postuler à un ministère et rejoindre l'équipe S.T.A.R.
                     </p>
-                    <a href="/login" className="group relative inline-flex items-center gap-4 bg-amber-600 hover:bg-amber-500 text-black px-12 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all duration-300 overflow-hidden">
-                        <span className="relative z-10">Se connecter</span>
-                        <ArrowRight size={14} className="relative z-10 group-hover:translate-x-1 transition-transform" />
+                    <a href="/login" className="btn-engage">
+                        <span>Se connecter</span>
+                        <ArrowRight size={14} className="btn-engage-arrow" />
                     </a>
                 </div>
             </section>
@@ -556,6 +583,7 @@ const ContactForm = () => {
                                     {ministryOptions.map(m => <option key={m} value={m}>{m}</option>)}
                                 </select>
                                 <ArrowRight size={14} className="absolute right-0 top-1/2 -translate-y-1/2 text-amber-500/50 pointer-events-none rotate-90" />
+                                {preset && <span key={preset.tick} className="mn-flash" aria-hidden="true" />}
                             </Field>
 
                             <Field label="Message" name="message" touched={touched} errors={errors} >
@@ -576,7 +604,7 @@ const ContactForm = () => {
                             <button
                                 type="submit"
                                 disabled={status === 'loading' || (isFormDirty && hasErrors)}
-                                className="group relative inline-flex items-center gap-4 bg-amber-600 hover:bg-amber-500 disabled:bg-zinc-800 disabled:text-zinc-500 disabled:cursor-not-allowed text-black px-12 py-4 font-black text-[10px] uppercase tracking-[0.3em] transition-all duration-300 overflow-hidden"
+                                className="btn-engage disabled:bg-zinc-800 disabled:text-zinc-500 disabled:cursor-not-allowed disabled:shadow-none"
                             >
                                 <span className="relative z-10">
                                     {status === 'loading' ? 'Envoi en cours...' : 'Envoyer ma demande'}
@@ -598,70 +626,42 @@ const ContactForm = () => {
 };
 
 /* ─── Page ───────────────────────────────────────────────────────────── */
-const MinistriesPage = () => (
-    <div className="relative flex min-h-screen flex-col bg-black text-gray-400 overflow-x-hidden font-body">
-        <GlobalStyles />
+const MinistriesPage = () => {
+    const pageRef = useRef(null);
+    useScrollReveal(pageRef);
+    const [preset, setPreset] = useState(null);
+    const onJoin = (name) => setPreset((p) => ({ name, tick: (p?.tick ?? 0) + 1 }));
 
-        <header className="fixed top-0 right-0 left-0 z-50">
-            <Nav />
-        </header>
+    return (
+        <div ref={pageRef} className="mn-page relative flex min-h-screen flex-col text-gray-400 font-body">
+            <GlobalStyles />
 
-        <main className="grow">
-            {/* Hero */}
-            <section className="relative min-h-screen flex items-center justify-center overflow-hidden grain-overlay">
-                <motion.div
-                    initial={{ scale: 1.2, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 0.4 }}
-                    transition={{ duration: 2 }}
-                    className="absolute inset-0 bg-cover bg-center bg-[url('/src/assets/fij3.jpeg')] "
-                    style={{
-                        filter: 'brightness(0.35) contrast(1.1)',
-                    }}
-                />
-                {/* Layered gradients */}
-                <div className="absolute inset-0 bg-linear-to-t from-black via-black/20 to-black/60 z-1" />
-                <div className="absolute inset-0 bg-linear-to-r from-black/40 via-transparent to-black/40 z-1" />
+            <header className="fixed top-0 right-0 left-0 z-50">
+                <Nav />
+            </header>
 
-                {/* Geometric accents */}
-                <div className="absolute inset-0 z-2 pointer-events-none">
-                    <div className="absolute left-12 top-1/3 w-px h-28 bg-linear-to-b from-transparent via-amber-500/30 to-transparent" />
-                    <div className="absolute right-12 top-1/3 w-px h-28 bg-linear-to-b from-transparent via-amber-500/30 to-transparent" />
-                    <div className="absolute bottom-24 left-1/4 right-1/4 h-px bg-linear-to-r from-transparent via-amber-500/15 to-transparent" />
+            <main className="grow">
+                <Hero />
+
+                <div className="relative z-10">
+                    <MinistriesSection onJoin={onJoin} />
+                    <ContactForm preset={preset} />
                 </div>
+            </main>
 
-                <div className="relative z-3 w-full">
-                    <Banner />
-                </div>
-
-                {/* Scroll hint */}
-                <motion.div
-                    animate={{ y: [0, 10, 0] }}
-                    transition={{ repeat: Infinity, duration: 2 }}
-                    className="absolute bottom-10 left-1/2 -translate-x-1/2 z-3 flex flex-col items-center gap-2 opacity-35">
-                    <span className="text-[9px] text-white/60 tracking-[0.3em] uppercase">Scroll</span>
-                    <div className="w-px h-10 bg-linear-to-b from-white/60 to-transparent" />
-                </motion.div>
+            {/* 7. Contact */}
+            <section id="contact" className="py-32 bg-zinc-950">
+                <Contact verset={{
+                    verset: "Comme de bons dispensateurs des diverses grâces de Dieu, que chacun de vous mette au service des autres le don qu'il a reçu",
+                    ref: '1 Pierre 4:10'
+                }} />
             </section>
 
-            {/* Content */}
-            <div className="bg-black relative z-10">
-                <MinistriesSection />
-                <ContactForm />
-            </div>
-        </main>
-
-        {/* 7. Contact */}
-        <section id="contact" className="py-32 bg-zinc-950">
-            <Contact verset={{
-                verset: "Comme de bons dispensateurs des diverses grâces de Dieu, que chacun de vous mette au service des autres le don qu'il a reçu",
-                ref: '1 Pierre 4:10'
-            }} />
-        </section>
-
-        <footer className="bg-black border-t border-white/4">
-            <Footer />
-        </footer>
-    </div>
-);
+            <footer className="bg-black border-t border-white/4">
+                <Footer />
+            </footer>
+        </div>
+    );
+};
 
 export default MinistriesPage;
