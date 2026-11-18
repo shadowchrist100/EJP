@@ -11,6 +11,7 @@ import TestimonialSection from './components/page/Index/TestimonialSection';
 import FirstStepsSection from './components/page/Index/FirstStepsSection';
 import DonationSection from './components/page/Index/DonationSection';
 import Divider from './components/page/Index/Divider';
+import LightStory from './components/page/Index/LightStory';
 import useBackgroundAudio from './hooks/useBackgroundAudio';
 
 const Index = () => {
@@ -58,6 +59,8 @@ const Index = () => {
             <Banner />
             
             <CountdownSection />
+
+            <LightStory />
 
             <Divider />
 
