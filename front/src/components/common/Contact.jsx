@@ -1,12 +1,25 @@
 import { useState, useEffect, useRef } from 'react';
-import { Quote, AlertCircle, CheckCircle } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Quote, AlertCircle, ArrowRight, Check } from 'lucide-react';
 import { apiFetch } from '../../util/api';
 import FadeIn from './FadeIn';
+import TiltCard from '../fx/TiltCard';
+import SuccessBurst from '../fx/SuccessBurst';
+import useShake from '../fx/useShake';
+
+const EXPO = [0.16, 1, 0.3, 1];
+
+const feedback = {
+    initial: { opacity: 0, height: 0, y: -10 },
+    animate: { opacity: 1, height: 'auto', y: 0, transition: { duration: 0.45, ease: EXPO } },
+    exit: { opacity: 0, height: 0, transition: { duration: 0.3 } },
+};
 
 const Contact = ({ verset }) => {
     const [form, setForm] = useState({ nom: '', email: '', message: '' });
     const [status, setStatus] = useState('idle');
     const [error, setError] = useState('');
+    const [formRef, shake] = useShake();
     // U3: Use a ref to cancel setState calls if the component unmounts before the timer fires
     const isMountedRef = useRef(true);
 
@@ -20,14 +33,19 @@ const Contact = ({ verset }) => {
         setError('');
     };
 
+    const fail = (message) => {
+        setError(message);
+        shake();
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (!form.nom.trim() || !form.email.trim() || !form.message.trim()) {
-            setError('Tous les champs sont requis.');
+            fail('Tous les champs sont requis.');
             return;
         }
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)) {
-            setError('Adresse email invalide.');
+            fail('Adresse email invalide.');
             return;
         }
 
@@ -45,15 +63,17 @@ const Contact = ({ verset }) => {
             }
         } catch (err) {
             if (isMountedRef.current) {
-                setError(err.message || 'Une erreur est survenue.');
+                fail(err.message || 'Une erreur est survenue.');
                 setStatus('error');
                 setTimeout(() => { if (isMountedRef.current) setStatus('idle'); }, 5000);
             }
         }
     };
 
+    const words = verset.verset.split(' ');
+
     return (
-        <div className="section-container" style={{ maxWidth: '1100px', position: 'relative', zIndex: 10 }}>
+        <div className="section-container ct" style={{ maxWidth: '1100px', position: 'relative', zIndex: 10 }}>
             <FadeIn stagger={0} direction="up">
                 <div style={{ textAlign: 'center', marginBottom: 'var(--space-xxl)' }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 'var(--space-md)', marginBottom: 'var(--space-sm)' }}>
@@ -71,29 +91,25 @@ const Contact = ({ verset }) => {
 
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 350px), 1fr))', gap: 'var(--space-md)' }}>
                 <FadeIn stagger={1} direction="up">
-                    <div style={{
-                        background: 'rgba(255,255,255,0.02)',
-                        border: '1px solid rgba(255,255,255,0.06)',
-                        padding: 'var(--space-xl)',
-                    }}>
+                    <motion.div ref={formRef} className="ct-card glass-gold gold-border">
+                        <span className="ct-glow" aria-hidden="true" />
+
                         {/* A6: aria-live region for dynamic status messages */}
-                        <div
-                            role="status"
-                            aria-live="polite"
-                            aria-atomic="true"
-                        >
-                            {status === 'success' && (
-                                <div style={{ marginBottom: 'var(--space-lg)', padding: '12px 16px', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.3)', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                    <CheckCircle size={18} style={{ color: '#22c55e', flexShrink: 0 }} aria-hidden="true" />
-                                    <p style={{ color: '#86efac', fontSize: '14px', margin: 0 }}>Message envoyé avec succès !</p>
-                                </div>
-                            )}
-                            {error && (
-                                <div style={{ marginBottom: 'var(--space-lg)', padding: '12px 16px', background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '8px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                                    <AlertCircle size={18} style={{ color: '#ef4444', flexShrink: 0 }} aria-hidden="true" />
-                                    <p style={{ color: '#fca5a5', fontSize: '14px', margin: 0 }}>{error}</p>
-                                </div>
-                            )}
+                        <div role="status" aria-live="polite" aria-atomic="true">
+                            <AnimatePresence initial={false}>
+                                {status === 'success' && (
+                                    <motion.div key="ok" {...feedback} className="gx-feedback gx-feedback--ok">
+                                        <SuccessBurst size={44} />
+                                        <p>Message envoyé avec succès !</p>
+                                    </motion.div>
+                                )}
+                                {error && (
+                                    <motion.div key="err" {...feedback} className="gx-feedback gx-feedback--err">
+                                        <AlertCircle size={18} aria-hidden="true" />
+                                        <p>{error}</p>
+                                    </motion.div>
+                                )}
+                            </AnimatePresence>
                         </div>
 
                         <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-lg)' }} noValidate>
@@ -101,105 +117,127 @@ const Contact = ({ verset }) => {
                                 { label: 'Nom complet', name: 'nom', type: 'text', placeholder: 'Jean Kouassi', autocomplete: 'name' },
                                 { label: 'Adresse email', name: 'email', type: 'email', placeholder: 'vous@email.com', autocomplete: 'email' },
                             ].map(({ label, name, type, placeholder, autocomplete }) => (
-                                <div key={name}>
-                                    <label
-                                        htmlFor={`contact-${name}`}
-                                        className="t-meta"
-                                        style={{ display: 'block', color: 'var(--color-stone)', marginBottom: 'var(--space-xs)', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 500 }}
-                                    >
+                                <div key={name} className="gx-group">
+                                    <label htmlFor={`contact-${name}`} className="gx-label">
                                         {label}
                                     </label>
-                                    <input
-                                        id={`contact-${name}`}
-                                        type={type}
-                                        name={name}
-                                        value={form[name]}
+                                    <div className="gx-field">
+                                        <input
+                                            id={`contact-${name}`}
+                                            type={type}
+                                            name={name}
+                                            value={form[name]}
+                                            onChange={handleChange}
+                                            placeholder={placeholder}
+                                            autoComplete={autocomplete}
+                                            className="gx-input"
+                                            disabled={status === 'loading'}
+                                            required
+                                        />
+                                        <Check size={16} className="gx-ok" aria-hidden="true" />
+                                    </div>
+                                </div>
+                            ))}
+                            <div className="gx-group">
+                                <label htmlFor="contact-message" className="gx-label">
+                                    Message
+                                </label>
+                                <div className="gx-field">
+                                    <textarea
+                                        id="contact-message"
+                                        name="message"
+                                        value={form.message}
                                         onChange={handleChange}
-                                        placeholder={placeholder}
-                                        autoComplete={autocomplete}
-                                        className="input-field"
+                                        placeholder="Comment pouvons-nous vous aider ?"
+                                        className="gx-input"
+                                        style={{ height: '120px', resize: 'none' }}
                                         disabled={status === 'loading'}
                                         required
                                     />
+                                    <Check size={16} className="gx-ok gx-ok--top" aria-hidden="true" />
                                 </div>
-                            ))}
-                            <div>
-                                <label
-                                    htmlFor="contact-message"
-                                    className="t-meta"
-                                    style={{ display: 'block', color: 'var(--color-stone)', marginBottom: 'var(--space-xs)', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 500 }}
-                                >
-                                    Message
-                                </label>
-                                <textarea
-                                    id="contact-message"
-                                    name="message"
-                                    value={form.message}
-                                    onChange={handleChange}
-                                    placeholder="Comment pouvons-nous vous aider ?"
-                                    className="input-field"
-                                    style={{ height: '120px', resize: 'none' }}
-                                    disabled={status === 'loading'}
-                                    required
-                                />
                             </div>
                             <button
                                 type="submit"
                                 disabled={status === 'loading'}
-                                className="btn-primary"
-                                style={{ width: '100%', height: '44px', marginTop: 'var(--space-xs)' }}
+                                className={`btn-engage gx-submit ${status === 'loading' ? 'is-loading' : ''}`}
                                 aria-busy={status === 'loading'}
                             >
-                                {status === 'loading' ? 'Envoi en cours...' : 'Envoyer le message'}
+                                {status === 'loading' ? (
+                                    <>
+                                        <span className="gx-spinner" aria-hidden="true" />
+                                        <span>Envoi en cours...</span>
+                                    </>
+                                ) : (
+                                    <>
+                                        <span>Envoyer le message</span>
+                                        <ArrowRight size={16} className="btn-engage-arrow" />
+                                    </>
+                                )}
                             </button>
                         </form>
-                    </div>
+                    </motion.div>
                 </FadeIn>
 
                 <FadeIn stagger={2} direction="up">
-                    <div style={{
-                        position: 'relative',
-                        background: 'rgba(0,0,0,0.5)',
-                        border: '1px solid rgba(255,255,255,0.06)',
-                        padding: 'var(--space-xl)',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        overflow: 'hidden',
-                        minHeight: '300px',
-                    }}>
-                        <div style={{ position: 'absolute', top: 0, right: 0, width: '160px', height: '160px', background: 'rgba(217,119,6,0.06)', borderRadius: '50%', filter: 'blur(60px)' }} aria-hidden="true" />
+                    <TiltCard max={5} className="ct-verse glass-gold">
+                        <span className="ct-verse-glow" aria-hidden="true" />
 
                         <div style={{ position: 'relative', zIndex: 10, textAlign: 'center' }}>
-                            <div style={{
-                                width: '32px',
-                                height: '32px',
-                                border: '1px solid rgba(217,119,6,0.25)',
-                                display: 'flex',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                margin: '0 auto var(--space-xl)',
-                            }} aria-hidden="true">
-                                <Quote size={14} style={{ color: 'rgba(217,119,6,0.5)' }} />
-                            </div>
+                            <motion.div
+                                className="ct-quote"
+                                initial={{ scale: 0, rotate: -90 }}
+                                whileInView={{ scale: 1, rotate: 0 }}
+                                viewport={{ once: true }}
+                                transition={{ type: 'spring', stiffness: 160, damping: 12, delay: 0.2 }}
+                                aria-hidden="true"
+                            >
+                                <Quote size={14} />
+                            </motion.div>
 
                             <span className="t-eyebrow" style={{ color: 'rgba(217,119,6,0.6)', display: 'block', marginBottom: 'var(--space-lg)', fontSize: '11px', letterSpacing: '2px' }}>
                                 {verset.ref}
                             </span>
 
+                            {/* Le verset s'illumine mot par mot */}
                             <blockquote>
-                                <p className="t-heading-sm" style={{ color: 'var(--color-on-primary)', lineHeight: 1.4, marginBottom: 'var(--space-xl)' }}>
-                                    {verset.verset}
-                                </p>
+                                <motion.p
+                                    className="t-heading-sm"
+                                    style={{ color: 'var(--color-on-primary)', lineHeight: 1.4, marginBottom: 'var(--space-xl)' }}
+                                    initial="hidden"
+                                    whileInView="visible"
+                                    viewport={{ once: true, amount: 0.4 }}
+                                    variants={{ visible: { transition: { staggerChildren: 0.045, delayChildren: 0.3 } } }}
+                                >
+                                    {words.map((w, i) => (
+                                        <motion.span
+                                            key={i}
+                                            className="ct-word"
+                                            variants={{
+                                                hidden: { opacity: 0.08, y: 14, filter: 'blur(6px)' },
+                                                visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.7, ease: EXPO } },
+                                            }}
+                                        >
+                                            {w}{' '}
+                                        </motion.span>
+                                    ))}
+                                </motion.p>
                             </blockquote>
 
-                            <div style={{ width: '40px', height: '1px', background: 'rgba(217,119,6,0.3)', margin: '0 auto var(--space-lg)' }} aria-hidden="true" />
+                            <motion.div
+                                style={{ width: '40px', height: '1px', background: 'rgba(217,119,6,0.6)', margin: '0 auto var(--space-lg)' }}
+                                initial={{ scaleX: 0 }}
+                                whileInView={{ scaleX: 1 }}
+                                viewport={{ once: true }}
+                                transition={{ duration: 1, delay: 1, ease: EXPO }}
+                                aria-hidden="true"
+                            />
 
                             <p className="t-micro-caps" style={{ color: 'var(--color-mute)' }}>
                                 Église Jeunes Prodiges
                             </p>
                         </div>
-                    </div>
+                    </TiltCard>
                 </FadeIn>
             </div>
         </div>

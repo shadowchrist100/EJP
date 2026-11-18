@@ -1,86 +1,73 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import React, { useState, useRef, useLayoutEffect, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Nav, Footer, Contact } from '../'
-import { Heart, ArrowRight, Mail, User, Phone } from 'lucide-react';
+import { Heart, ArrowRight, Mail, User, Phone, Lock, Check, AlertCircle } from 'lucide-react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { SplitText } from 'gsap/SplitText';
 import { apiFetch } from '../../util/api';
+import GoldParticles from '../fx/GoldParticles';
+import TiltCard from '../fx/TiltCard';
+import SuccessBurst from '../fx/SuccessBurst';
+import useScrollReveal from '../fx/useScrollReveal';
+import useShake from '../fx/useShake';
+
+gsap.registerPlugin(ScrollTrigger, SplitText);
+
+const EXPO = [0.16, 1, 0.3, 1];
 
 /* ─── Animation Variants ─────────────────────────────────────────────── */
 
-const fadeInUp = {
-    hidden: { opacity: 0, y: 40 },
-    visible: (delay = 0) => ({
-        opacity: 1,
-        y: 0,
-        transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1], delay }
-    })
-};
-
-const fadeInScale = {
-    hidden: { opacity: 0, scale: 0.92 },
-    visible: (delay = 0) => ({
-        opacity: 1,
-        scale: 1,
-        transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1], delay }
-    })
-};
-
-const slideInLeft = {
-    hidden: { opacity: 0, x: -50 },
-    visible: (delay = 0) => ({
-        opacity: 1,
-        x: 0,
-        transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1], delay }
-    })
-};
-
-const stagger = {
-    hidden: {},
-    visible: { transition: { staggerChildren: 0.12 } }
-};
-
 const stepTransition = {
-    initial: { opacity: 0, x: 60, filter: 'blur(4px)' },
-    animate: { opacity: 1, x: 0, filter: 'blur(0px)', transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } },
-    exit: { opacity: 0, x: -60, filter: 'blur(4px)', transition: { duration: 0.35, ease: 'easeIn' } }
+    initial: { opacity: 0, y: 60, scale: 0.97, filter: 'blur(10px)' },
+    animate: { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)', transition: { duration: 0.8, ease: EXPO } },
+    exit: { opacity: 0, y: -40, scale: 0.97, filter: 'blur(10px)', transition: { duration: 0.35, ease: 'easeIn' } }
 };
 
-/* ─── Floating Orb (décoratif) ────────────────────────────────────────── */
-const FloatingOrb = ({ className, delay = 0 }) => (
-    <motion.div
-        className={className}
-        animate={{ y: [0, -20, 0], opacity: [0.15, 0.25, 0.15] }}
-        transition={{ duration: 6 + delay, repeat: Infinity, ease: 'easeInOut', delay }}
-    />
-);
+const feedback = {
+    initial: { opacity: 0, height: 0, y: -10 },
+    animate: { opacity: 1, height: 'auto', y: 0, transition: { duration: 0.45, ease: EXPO } },
+    exit: { opacity: 0, height: 0, transition: { duration: 0.3 } },
+};
 
 /* ─── Hero Banner ─────────────────────────────────────────────────────── */
-const HeroBanner = ({ onPrayClick }) => {
-    return (
-        <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden px-4 md:px-8">
-            {/* Background orbs */}
-            <FloatingOrb
-                className="absolute -top-40 -right-40 w-80 h-80 bg-amber-500/20 rounded-full blur-3xl pointer-events-none"
-                delay={0}
-            />
-            <FloatingOrb
-                className="absolute -bottom-40 -left-40 w-80 h-80 bg-yellow-500/10 rounded-full blur-3xl pointer-events-none"
-                delay={1.5}
-            />
-            <div className="absolute inset-0 bg-linear-to-b from-black via-black/95 to-zinc-900" />
+const HeroBanner = () => {
+    const ref = useRef(null);
 
-            <div className="container mx-auto max-w-4xl relative z-10">
-                <motion.div
-                    className="text-center"
-                    initial="hidden"
-                    animate="visible"
-                    variants={stagger}
-                >
+    useLayoutEffect(() => {
+        const mm = gsap.matchMedia();
+        const ctx = gsap.context(() => {
+            mm.add('(prefers-reduced-motion: no-preference)', () => {
+                const a = SplitText.create('.sv-title-a', { type: 'words,chars', mask: 'chars' });
+                const b = SplitText.create('.sv-title-b', { type: 'words,chars', mask: 'chars', charsClass: 'shimmer-gold' });
+                const lead = SplitText.create('.sv-lead', { type: 'words' });
+                gsap.timeline({ defaults: { ease: 'expo.out' } })
+                    .fromTo('.sv-beam', { scaleY: 0, opacity: 0 }, { scaleY: 1, opacity: 1, duration: 2.2, ease: 'expo.inOut' }, 0)
+                    .fromTo('.sv-badge', { y: 30, opacity: 0, scale: 0.8 }, { y: 0, opacity: 1, scale: 1, duration: 1, clearProps: 'transform' }, 0.5)
+                    .from(a.chars, { yPercent: 120, duration: 1.2, stagger: 0.04 }, 0.65)
+                    .from(b.chars, { yPercent: 120, rotate: 8, duration: 1.3, stagger: 0.035 }, 0.8)
+                    .from(lead.words, { opacity: 0, y: 18, filter: 'blur(8px)', duration: 0.9, stagger: 0.025 }, 1.2)
+                    .fromTo('.sv-cta', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 1, clearProps: 'transform,opacity' }, 1.6);
+
+                // Scroll: the content rises into the light while the beam opens wide.
+                gsap.timeline({ scrollTrigger: { trigger: ref.current, start: 'top top', end: 'bottom top', scrub: true } })
+                    .to('.sv-hero-copy', { yPercent: -30, opacity: 0, ease: 'none' }, 0)
+                    .to('.sv-beam', { scaleX: 3.2, opacity: 0.5, ease: 'none' }, 0);
+            });
+        }, ref);
+        return () => { mm.revert(); ctx.revert(); };
+    }, []);
+
+    return (
+        <section ref={ref} className="sv-hero">
+            <GoldParticles variant="rise" count={700} speed={1.5} />
+            <span className="sv-beam" aria-hidden="true" />
+            <span className="sv-halo" aria-hidden="true" />
+
+            <div className="container mx-auto max-w-4xl relative z-10 sv-hero-copy">
+                <div className="text-center">
                     {/* Badge */}
-                    <motion.div
-                        variants={fadeInUp}
-                        custom={0}
-                        className="inline-flex items-center gap-3 mb-8 px-4 py-2 bg-amber-500/10 border border-amber-500/30 rounded-full backdrop-blur-sm group hover:bg-amber-500/20 transition-all duration-300 cursor-default"
-                    >
+                    <div className="sv-badge inline-flex items-center gap-3 mb-8 px-4 py-2 glass-gold rounded-full">
                         <motion.div
                             animate={{ scale: [1, 1.3, 1] }}
                             transition={{ duration: 1.5, repeat: Infinity, ease: 'easeInOut' }}
@@ -90,43 +77,30 @@ const HeroBanner = ({ onPrayClick }) => {
                         <span className="text-amber-500 font-bold tracking-[0.3em] uppercase text-xs">
                             Un Nouveau Commencement
                         </span>
-                    </motion.div>
+                    </div>
 
                     {/* Title */}
-                    <motion.h1
-                        variants={fadeInUp}
-                        custom={0.1}
-                        className="text-5xl sm:text-6xl md:text-7xl font-black text-white mb-6 tracking-tighter leading-none"
-                    >
-                        La{' '}
-                        <span className="text-transparent bg-clip-text bg-linear-to-r from-amber-200 via-yellow-400 to-amber-600">
-                            Prière du Salut
-                        </span>
-                    </motion.h1>
+                    <h1 className="sv-title text-5xl sm:text-6xl md:text-8xl font-black text-white mb-8 tracking-tighter leading-none">
+                        <span className="sv-title-a">La</span>{' '}
+                        <span className="sv-title-b">Prière du Salut</span>
+                    </h1>
 
                     {/* Subtitle */}
-                    <motion.p
-                        variants={fadeInUp}
-                        custom={0.2}
-                        className="text-lg md:text-xl text-gray-300 font-light mb-10 leading-relaxed max-w-3xl mx-auto"
-                    >
+                    <p className="sv-lead text-lg md:text-xl text-gray-300 font-light mb-12 leading-relaxed max-w-3xl mx-auto">
                         Accepte Jésus-Christ comme ton Seigneur et Sauveur personnel. C'est le moment de transformer ta vie et de commencer un nouveau voyage spirituel.
-                    </motion.p>
+                    </p>
 
                     {/* CTA */}
-                    <motion.div variants={fadeInUp} custom={0.3}>
-                        <motion.a
-                            href="#prayer"
-                            whileHover={{ scale: 1.05, boxShadow: '0 0 40px rgba(245,158,11,0.4)' }}
-                            whileTap={{ scale: 0.97 }}
-                            className="bg-linear-to-r from-amber-500 to-yellow-500 text-black px-10 py-4 rounded-full font-black uppercase text-sm tracking-widest inline-flex items-center gap-2"
-                        >
+                    <div className="sv-cta">
+                        <a href="#prayer" className="btn-engage">
                             <Heart size={18} />
                             <span>Faire la prière</span>
-                        </motion.a>
-                    </motion.div>
-                </motion.div>
+                        </a>
+                    </div>
+                </div>
             </div>
+
+            <span className="sv-scroll" aria-hidden="true"><i /></span>
         </section>
     );
 };
@@ -140,128 +114,118 @@ const prayerPoints = [
 ];
 
 const PrayerCard = ({ point, idx }) => (
-    <motion.div
-        variants={fadeInUp}
-        custom={idx * 0.1}
-        whileHover={{ y: -8, boxShadow: '0 20px 60px rgba(245,158,11,0.15)' }}
-        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-        className="group bg-linear-to-r from-zinc-950 to-black border border-white/10 hover:border-amber-500/50 rounded-2xl p-8 transition-colors duration-300 cursor-default"
-    >
-        <motion.div
-            className="text-5xl mb-4"
-            whileHover={{ rotate: [0, -10, 10, 0], scale: 1.2 }}
-            transition={{ duration: 0.4 }}
-        >
-            {point.icon}
-        </motion.div>
-        <h3 className="text-2xl font-black text-white mb-3 tracking-tight group-hover:text-amber-400 transition-colors">
-            {point.title}
-        </h3>
-        <p className="text-gray-400 font-light leading-relaxed">{point.description}</p>
-    </motion.div>
+    <div className={`sv-step ${idx % 2 ? 'is-right' : 'is-left'}`}>
+        <span className="sv-node" aria-hidden="true">{String(idx + 1).padStart(2, '0')}</span>
+        <TiltCard max={6} className="sv-step-card glass-gold">
+            <span className="sv-step-num" aria-hidden="true">{String(idx + 1).padStart(2, '0')}</span>
+            <div className="sv-step-icon">{point.icon}</div>
+            <h3 className="text-2xl font-black text-white mb-3 tracking-tight">
+                {point.title}
+            </h3>
+            <p className="text-gray-400 font-light leading-relaxed">{point.description}</p>
+        </TiltCard>
+    </div>
 );
 
 /* ─── Step 1 ──────────────────────────────────────────────────────────── */
 const StepPrayer = ({ onNext }) => {
+    const ref = useRef(null);
+    useScrollReveal(ref);
+
     const faqs = [
         { q: "Qu'est-ce que la prière du salut?", a: "C'est une prière personnelle d'acceptation de Jésus-Christ comme Seigneur et Sauveur. C'est le début de ta relation avec Dieu." },
         { q: "Que se passe-t-il après la prière?", a: "Tu es sauvé et deviens enfant de Dieu. Il est important de te connecter à une communauté chrétienne et de commencer à apprendre la Bible." },
         { q: "Dois-je faire quelque chose de spécial?", a: "Après la prière, nous te recommandons de trouver une église, de lire la Bible et de partager ta décision avec d'autres." }
     ];
 
+    /* Narration au scroll : le chemin doré se dessine, chaque étape s'allume à son passage,
+       puis la prière s'illumine mot à mot. */
+    useLayoutEffect(() => {
+        const root = ref.current;
+        const mm = gsap.matchMedia();
+        const ctx = gsap.context(() => {
+            mm.add('(prefers-reduced-motion: no-preference)', () => {
+                gsap.fromTo('.sv-path-fill', { scaleY: 0 }, {
+                    scaleY: 1, ease: 'none',
+                    scrollTrigger: { trigger: '.sv-path', start: 'top 70%', end: 'bottom 60%', scrub: 0.6 },
+                });
+
+                gsap.utils.toArray('.sv-step', root).forEach((step) => {
+                    const fromX = step.classList.contains('is-right') ? 110 : -110;
+                    gsap.timeline({ scrollTrigger: { trigger: step, start: 'top 72%', once: true } })
+                        .add(() => step.classList.add('is-lit'), 0)
+                        .fromTo(step.querySelector('.sv-node'), { scale: 0 }, { scale: 1, duration: 0.8, ease: 'back.out(2.5)', clearProps: 'transform' }, 0)
+                        .fromTo(step.querySelector('.sv-step-card'),
+                            { x: fromX, opacity: 0, rotateY: fromX > 0 ? -25 : 25 },
+                            { x: 0, opacity: 1, rotateY: 0, duration: 1.3, ease: 'expo.out', clearProps: 'transform,opacity' }, 0.1);
+                });
+
+                const words = SplitText.create('.sv-prayer-text', { type: 'words' }).words;
+                gsap.fromTo(words, { opacity: 0.1, filter: 'blur(3px)' }, {
+                    opacity: 1, filter: 'blur(0px)', stagger: 0.12, ease: 'none',
+                    scrollTrigger: { trigger: '.sv-prayer', start: 'top 65%', end: 'bottom 75%', scrub: 0.5 },
+                });
+                gsap.fromTo('.sv-prayer-halo', { scale: 0.4, opacity: 0 }, {
+                    scale: 1.1, opacity: 1, ease: 'none',
+                    scrollTrigger: { trigger: '.sv-prayer', start: 'top 80%', end: 'center center', scrub: true },
+                });
+            });
+        }, root);
+        return () => { mm.revert(); ctx.revert(); };
+    }, []);
+
     return (
-        <motion.div {...stepTransition}>
+        <motion.div ref={ref} {...stepTransition}>
             {/* Prayer Points */}
-            <motion.div className="mb-20" initial="hidden" animate="visible" variants={stagger}>
-                <motion.h2 variants={fadeInUp} custom={0} className="text-4xl md:text-5xl font-black text-white mb-4 tracking-tighter">
+            <div className="mb-24">
+                <h2 className="text-4xl md:text-6xl font-black text-white mb-4 tracking-tighter text-center" data-reveal="chars">
                     Les 4 étapes du <span className="text-amber-500">Salut</span>
-                </motion.h2>
-                <motion.div
-                    variants={{ hidden: { scaleX: 0 }, visible: { scaleX: 1, transition: { duration: 0.8, delay: 0.2 } } }}
-                    className="w-16 h-1 bg-linear-to-r from-amber-500 to-yellow-500 rounded-full mb-12 origin-left"
-                />
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                </h2>
+                <div className="w-16 h-1 bg-linear-to-r from-amber-500 to-yellow-500 rounded-full mb-16 mx-auto" data-reveal="up" />
+
+                <div className="sv-path">
+                    <span className="sv-path-line" aria-hidden="true"><span className="sv-path-fill" /></span>
                     {prayerPoints.map((point, idx) => (
                         <PrayerCard key={idx} point={point} idx={idx} />
                     ))}
                 </div>
-            </motion.div>
+            </div>
 
             {/* Prayer Text Box */}
-            <motion.div
-                id="prayer"
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: '-80px' }}
-                transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-                className="bg-linear-to-r from-amber-500/10 to-yellow-500/5 border-2 border-amber-500/30 rounded-3xl p-12 mb-12"
-            >
-                <motion.h3
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.3 }}
-                    className="text-3xl font-black text-white mb-8 tracking-tight text-center"
-                >
+            <div id="prayer" className="sv-prayer glass-gold gold-border">
+                <span className="sv-prayer-halo" aria-hidden="true" />
+                <h3 className="text-3xl md:text-4xl font-black text-white mb-10 tracking-tight text-center" data-reveal="chars">
                     Récite cette Prière
-                </motion.h3>
+                </h3>
 
-                <motion.div
-                    initial={{ opacity: 0 }}
-                    whileInView={{ opacity: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.5, duration: 1 }}
-                    className="text-gray-300 font-light leading-relaxed max-w-3xl mx-auto mb-8"
-                >
-                    <p>
+                <div className="text-gray-200 font-light max-w-3xl mx-auto mb-12 text-xl md:text-2xl leading-relaxed text-center">
+                    <p className="sv-prayer-text">
                         <span className="text-amber-400 font-bold">"Seigneur Jésus,</span> je reconnais que je suis un pécheur. Je crois que Tu es mort et ressuscité pour mes péchés. Je T'accepte maintenant comme mon Seigneur et Sauveur personnel. Pardonne-moi et transforms ma vie. Je veux Te suivre et vivre pour Toi. Amen."
                     </p>
-                </motion.div>
-
-                <div className="text-center">
-                    <motion.button
-                        onClick={onNext}
-                        whileHover={{ scale: 1.05, boxShadow: '0 0 40px rgba(245,158,11,0.35)' }}
-                        whileTap={{ scale: 0.96 }}
-                        className="bg-linear-to-r from-amber-500 to-yellow-500 text-black px-12 py-4 rounded-full font-black uppercase text-sm tracking-widest inline-flex items-center gap-2 mx-auto"
-                    >
-                        <span>J'ai Prié - S'inscrire Maintenant</span>
-                        <motion.span
-                            animate={{ x: [0, 4, 0] }}
-                            transition={{ duration: 1.2, repeat: Infinity }}
-                        >
-                            <ArrowRight size={16} />
-                        </motion.span>
-                    </motion.button>
                 </div>
-            </motion.div>
+
+                <div className="text-center relative">
+                    <button type="button" onClick={onNext} className="btn-engage">
+                        <span>J'ai Prié - S'inscrire Maintenant</span>
+                        <ArrowRight size={16} className="btn-engage-arrow" />
+                    </button>
+                </div>
+            </div>
 
             {/* FAQ */}
-            <motion.div
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, margin: '-60px' }}
-                variants={stagger}
-                className="mb-12"
-            >
-                <motion.h3 variants={fadeInUp} custom={0} className="text-3xl font-black text-white mb-8 tracking-tighter">
+            <div className="mb-12">
+                <h3 className="text-3xl font-black text-white mb-8 tracking-tighter" data-reveal="chars">
                     Questions <span className="text-amber-500">Fréquentes</span>
-                </motion.h3>
+                </h3>
                 <div className="space-y-4">
                     {faqs.map((faq, idx) => (
-                        <motion.div
-                            key={idx}
-                            variants={fadeInUp}
-                            custom={idx * 0.1}
-                            whileHover={{ x: 6, borderColor: 'rgba(245,158,11,0.4)' }}
-                            className="bg-white/5 border border-white/10 rounded-xl p-6 transition-colors cursor-default"
-                        >
+                        <div key={idx} className="sv-faq" data-reveal="up">
                             <h4 className="font-black text-white mb-2 text-lg">{faq.q}</h4>
                             <p className="text-gray-400 font-light text-sm">{faq.a}</p>
-                        </motion.div>
+                        </div>
                     ))}
                 </div>
-            </motion.div>
+            </div>
         </motion.div>
     );
 };
@@ -273,25 +237,31 @@ const StepForm = ({ onBack, onSuccess }) => {
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [error, setError] = useState('');
+    const [cardRef, shake] = useShake();
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
     };
 
+    const fail = (message) => {
+        setError(message);
+        shake();
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (!formData.lastName.trim() || !formData.firstName.trim() || !formData.email.trim() || !formData.password.trim()) {
-            setError('Veuillez remplir tous les champs obligatoires.');
+            fail('Veuillez remplir tous les champs obligatoires.');
             return;
         }
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-            setError('Adresse email invalide.');
+            fail('Adresse email invalide.');
             return;
         }
         if (formData.password.length < 8) {
-            setError('Le mot de passe doit contenir au moins 8 caractères.');
+            fail('Le mot de passe doit contenir au moins 8 caractères.');
             return;
         }
 
@@ -301,42 +271,36 @@ const StepForm = ({ onBack, onSuccess }) => {
             await apiFetch("/salvation", { method: "POST", body: JSON.stringify(formData) });
             onSuccess();
         } catch (err) {
-            setError(err.message || "Une erreur est survenue lors de l'envoi");
+            fail(err.message || "Une erreur est survenue lors de l'envoi");
         } finally {
             setIsSubmitting(false);
         }
     };
 
-    const inputCls = "w-full bg-black border-2 border-white/10 focus:border-amber-500 text-white px-6 py-4 rounded-xl outline-none transition-all duration-300 placeholder-gray-600";
-
     const fields = [
-        { label: 'Ton Nom', icon: <User size={16} className="inline mr-2" />, inputs: [
+        { label: 'Ton Nom', icon: <User size={14} />, inputs: [
             { name: 'lastName', placeholder: 'Dupont', type: 'text', autoComplete: 'family-name' },
             { name: 'firstName', placeholder: 'Jean', type: 'text', autoComplete: 'given-name' }
         ]},
-        { label: 'Email', icon: <Mail size={16} className="inline mr-2" />, inputs: [
+        { label: 'Email', icon: <Mail size={14} />, inputs: [
             { name: 'email', placeholder: 'jean@example.com', type: 'email', autoComplete: 'email' }
         ]},
-        { label: 'Password', icon: null, inputs: [
-            { name: 'password', placeholder: 'Mot de passe', type: 'password', autoComplete: 'new-password' }
+        { label: 'Password', icon: <Lock size={14} />, inputs: [
+            { name: 'password', placeholder: 'Mot de passe', type: 'password', autoComplete: 'new-password', minLength: 8 }
         ]},
-        { label: 'Téléphone (optionnel)', icon: <Phone size={16} className="inline mr-2" />, inputs: [
+        { label: 'Téléphone (optionnel)', icon: <Phone size={14} />, inputs: [
             { name: 'telephone', placeholder: '+229 XX XXX XXX', type: 'tel' }
         ]},
     ];
 
     return (
         <motion.div {...stepTransition} className="max-w-2xl mx-auto">
-            <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="bg-linear-to-br from-zinc-950 to-black border-2 border-white/10 rounded-3xl p-12"
-            >
+            <motion.div ref={cardRef} className="sv-form glass-gold gold-border">
+                <span className="ct-glow" aria-hidden="true" />
                 <motion.h2
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.2, duration: 0.6 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2, duration: 0.8, ease: EXPO }}
                     className="text-4xl font-black text-white mb-2 tracking-tighter"
                 >
                     Bienvenue en Famille! 🎉
@@ -350,103 +314,102 @@ const StepForm = ({ onBack, onSuccess }) => {
                     Remplis ce formulaire pour que nous puissions te soutenir dans ton nouveau voyage spirituel.
                 </motion.p>
 
-                <AnimatePresence>
-                    {error && (
-                        <motion.div
-                            initial={{ opacity: 0, height: 0 }}
-                            animate={{ opacity: 1, height: 'auto' }}
-                            exit={{ opacity: 0, height: 0 }}
-                            className="mb-6 border border-red-500/30 bg-red-500/10 px-5 py-4 rounded-xl text-red-300 text-sm font-bold"
-                        >
-                            {error}
-                        </motion.div>
-                    )}
-                </AnimatePresence>
+                <div role="status" aria-live="polite">
+                    <AnimatePresence>
+                        {error && (
+                            <motion.div key="err" {...feedback} className="gx-feedback gx-feedback--err">
+                                <AlertCircle size={18} aria-hidden="true" />
+                                <p>{error}</p>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+                </div>
 
-                <motion.form
-                    onSubmit={handleSubmit}
-                    className="space-y-6"
-                    initial="hidden"
-                    animate="visible"
-                    variants={stagger}
-                >
+                <form onSubmit={handleSubmit} onInvalidCapture={shake} className="space-y-6">
                     {fields.map(({ label, icon, inputs }, fi) => (
-                        <motion.div key={fi} variants={fadeInUp} custom={fi * 0.08}>
-                            <label className="block text-white font-bold text-sm mb-3 uppercase tracking-widest">
+                        <motion.div
+                            key={fi}
+                            className="gx-group"
+                            initial={{ opacity: 0, x: -30 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            transition={{ duration: 0.7, ease: EXPO, delay: 0.3 + fi * 0.08 }}
+                        >
+                            <label htmlFor={`sv-${inputs[0].name}`} className="gx-label">
                                 {icon}{label}
                             </label>
-                            {inputs.map(({ name, placeholder, type, autoComplete }, ii) => (
-                                <motion.input
-                                    key={ii}
-                                    type={type}
-                                    name={name}
-                                    value={formData[name]}
-                                    onChange={handleInputChange}
-                                    placeholder={placeholder}
-                                    autoComplete={autoComplete}
-                                    className={`${inputCls} ${ii > 0 ? 'mt-4' : ''}`}
-                                    required={name !== 'telephone'}
-                                    whileFocus={{ borderColor: '#f59e0b', scale: 1.005 }}
-                                />
+                            {inputs.map(({ name, placeholder, type, autoComplete, minLength }, ii) => (
+                                <div key={ii} className={`gx-field ${ii > 0 ? 'mt-4' : ''}`}>
+                                    <input
+                                        id={`sv-${name}`}
+                                        type={type}
+                                        name={name}
+                                        value={formData[name]}
+                                        onChange={handleInputChange}
+                                        placeholder={placeholder}
+                                        autoComplete={autoComplete}
+                                        minLength={minLength}
+                                        className="gx-input"
+                                        required={name !== 'telephone'}
+                                    />
+                                    <Check size={16} className="gx-ok" aria-hidden="true" />
+                                </div>
                             ))}
                         </motion.div>
                     ))}
 
                     {/* Message */}
-                    <motion.div variants={fadeInUp} custom={0.5}>
-                        <label className="block text-white font-bold text-sm mb-3 uppercase tracking-widest">
+                    <motion.div
+                        className="gx-group"
+                        initial={{ opacity: 0, x: -30 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.7, ease: EXPO, delay: 0.62 }}
+                    >
+                        <label htmlFor="sv-message" className="gx-label">
                             Message (optionnel)
                         </label>
-                        <motion.textarea
-                            name="message"
-                            value={formData.message}
-                            onChange={handleInputChange}
-                            placeholder="Partage comment tu te sens maintenant..."
-                            rows="4"
-                            className={`${inputCls} resize-none`}
-                            whileFocus={{ borderColor: '#f59e0b', scale: 1.005 }}
-                        />
+                        <div className="gx-field">
+                            <textarea
+                                id="sv-message"
+                                name="message"
+                                value={formData.message}
+                                onChange={handleInputChange}
+                                placeholder="Partage comment tu te sens maintenant..."
+                                rows="4"
+                                className="gx-input resize-none"
+                            />
+                        </div>
                     </motion.div>
 
                     {/* Submit */}
-                    <motion.div variants={fadeInUp} custom={0.6} className="space-y-4 pt-2">
-                        <motion.button
+                    <div className="space-y-4 pt-2">
+                        <button
                             type="submit"
                             disabled={isSubmitting}
-                            whileHover={!isSubmitting ? { scale: 1.02, boxShadow: '0 0 40px rgba(245,158,11,0.35)' } : {}}
-                            whileTap={!isSubmitting ? { scale: 0.97 } : {}}
-                            className="w-full bg-linear-to-r from-amber-500 to-yellow-500 disabled:from-zinc-700 disabled:to-zinc-600 text-black disabled:text-zinc-400 px-10 py-4 rounded-xl font-black uppercase text-sm tracking-widest flex items-center justify-center gap-2 transition-colors duration-300"
+                            className={`btn-engage gx-submit ${isSubmitting ? 'is-loading' : ''}`}
+                            aria-busy={isSubmitting}
                         >
                             {isSubmitting ? (
                                 <>
-                                    <motion.svg
-                                        animate={{ rotate: 360 }}
-                                        transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-                                        width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-                                    >
-                                        <path d="M21 12a9 9 0 1 1-6.219-8.56" />
-                                    </motion.svg>
+                                    <span className="gx-spinner" aria-hidden="true" />
                                     <span>Envoi en cours...</span>
                                 </>
                             ) : (
                                 <>
                                     <span>Confirmer mon Inscription</span>
-                                    <ArrowRight size={16} />
+                                    <ArrowRight size={16} className="btn-engage-arrow" />
                                 </>
                             )}
-                        </motion.button>
+                        </button>
 
-                        <motion.button
+                        <button
                             type="button"
                             onClick={onBack}
-                            whileHover={{ scale: 1.01, backgroundColor: 'rgba(255,255,255,0.08)' }}
-                            whileTap={{ scale: 0.98 }}
-                            className="w-full bg-white/5 border border-white/20 text-white px-10 py-3 rounded-xl font-bold uppercase text-[10px] tracking-widest"
+                            className="btn-engage btn-engage--ghost gx-submit"
                         >
-                            Retour
-                        </motion.button>
-                    </motion.div>
-                </motion.form>
+                            <span>Retour</span>
+                        </button>
+                    </div>
+                </form>
             </motion.div>
         </motion.div>
     );
@@ -458,14 +421,17 @@ const StepConfirmation = () => (
         <motion.div
             initial={{ opacity: 0, scale: 0.85 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="bg-linear-to-br from-amber-500/20 to-yellow-500/10 border-2 border-amber-500/50 rounded-3xl p-16"
+            transition={{ duration: 0.7, ease: EXPO }}
+            className="sv-confirm glass-gold gold-border"
         >
+            <GoldParticles variant="rise" count={260} speed={2.2} />
+            <SuccessBurst size={96} className="mb-6" />
+
             <motion.div
                 initial={{ scale: 0, rotate: -30 }}
                 animate={{ scale: 1, rotate: 0 }}
-                transition={{ delay: 0.3, duration: 0.6, type: 'spring', stiffness: 200 }}
-                className="text-7xl mb-6 inline-block"
+                transition={{ delay: 0.9, duration: 0.6, type: 'spring', stiffness: 200 }}
+                className="text-6xl mb-6 inline-block"
             >
                 ✝️
             </motion.div>
@@ -511,14 +477,13 @@ const StepConfirmation = () => (
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1.0 }}
             >
-                <motion.button
+                <button
+                    type="button"
                     onClick={() => window.location.href = '/login'}
-                    whileHover={{ scale: 1.04, backgroundColor: 'rgba(255,255,255,0.1)' }}
-                    whileTap={{ scale: 0.97 }}
-                    className="bg-white/5 border border-white/20 text-white px-10 py-3 rounded-xl font-bold uppercase text-[10px] tracking-widest"
+                    className="btn-engage btn-engage--ghost"
                 >
-                    Connecte toi
-                </motion.button>
+                    <span>Connecte toi</span>
+                </button>
             </motion.div>
         </motion.div>
     </motion.div>
@@ -531,70 +496,75 @@ const testimonies = [
     { name: "Sophie Martin", role: "Nouvelle convertie", text: "C'est la meilleure décision que j'ai jamais prise. Gloire à Dieu!", image: "S" }
 ];
 
-const TestimoniesSection = () => (
-    <section className="py-32 px-4 md:px-8 relative bg-zinc-950 border-y border-white/5">
-        <div className="container mx-auto max-w-6xl relative z-10">
-            <motion.h2
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
-                className="text-4xl md:text-5xl font-black text-white mb-16 tracking-tighter text-center"
-            >
-                Témoignages de <span className="text-amber-500">Transformation</span>
-            </motion.h2>
+const TestimoniesSection = () => {
+    const ref = useRef(null);
+    useScrollReveal(ref);
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {testimonies.map((testimony, idx) => (
-                    <motion.div
-                        key={idx}
-                        initial={{ opacity: 0, y: 50 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true, margin: '-50px' }}
-                        transition={{ duration: 0.7, delay: idx * 0.15, ease: [0.16, 1, 0.3, 1] }}
-                        whileHover={{ y: -8, boxShadow: '0 20px 60px rgba(245,158,11,0.15)', borderColor: 'rgba(245,158,11,0.3)' }}
-                        className="bg-linear-to-br from-zinc-900 to-black border border-white/10 rounded-2xl p-8 transition-colors duration-300 cursor-default"
-                    >
-                        <div className="flex items-center gap-4 mb-6">
-                            <motion.div
-                                whileHover={{ rotate: 5, scale: 1.1 }}
-                                className="w-14 h-14 bg-linear-to-br from-amber-500 to-yellow-500 rounded-full flex items-center justify-center font-black text-black text-xl"
-                            >
-                                {testimony.image}
-                            </motion.div>
-                            <div>
-                                <p className="font-black text-white">{testimony.name}</p>
-                                <p className="text-amber-500 text-xs font-bold uppercase tracking-widest">{testimony.role}</p>
-                            </div>
+    return (
+        <section ref={ref} className="py-32 px-4 md:px-8 relative bg-zinc-950 border-y border-white/5 overflow-hidden">
+            <div className="container mx-auto max-w-6xl relative z-10">
+                <h2 className="text-4xl md:text-5xl font-black text-white mb-16 tracking-tighter text-center" data-reveal="chars">
+                    Témoignages de <span className="text-amber-500">Transformation</span>
+                </h2>
+
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    {testimonies.map((testimony, idx) => (
+                        <div key={idx} data-reveal="up">
+                            <TiltCard max={8} className="sv-testi glass-gold">
+                                <span className="sv-testi-halo" aria-hidden="true" />
+                                <span className="sv-testi-quote" aria-hidden="true">“</span>
+                                <div className="flex items-center gap-4 mb-6 relative">
+                                    <div className="sv-avatar">
+                                        {testimony.image}
+                                    </div>
+                                    <div>
+                                        <p className="font-black text-white">{testimony.name}</p>
+                                        <p className="text-amber-500 text-xs font-bold uppercase tracking-widest">{testimony.role}</p>
+                                    </div>
+                                </div>
+                                <p className="text-gray-300 font-light leading-relaxed italic relative">"{testimony.text}"</p>
+                            </TiltCard>
                         </div>
-                        <p className="text-gray-400 font-light leading-relaxed italic">"{testimony.text}"</p>
-                    </motion.div>
-                ))}
+                    ))}
+                </div>
             </div>
-        </div>
-    </section>
-);
+        </section>
+    );
+};
 
 /* ─── Page Principale ─────────────────────────────────────────────────── */
 const SalvationPrayer = () => {
     const [step, setStep] = useState(1);
+    const stepsRef = useRef(null);
+    const shownStep = useRef(step);
 
-    const handleSuccess = () => {
-        setStep(3);
-        setTimeout(() => setStep(1), 5000);
-    };
+    // Each step change brings the step stage back into view (step 1 is much taller than 2/3).
+    useEffect(() => {
+        if (shownStep.current === step) return;
+        shownStep.current = step;
+        const top = stepsRef.current.getBoundingClientRect().top + window.scrollY - 90;
+        window.scrollTo({ top, behavior: 'smooth' });
+    }, [step]);
+
+    useEffect(() => {
+        if (step !== 3) return undefined;
+        const t = setTimeout(() => setStep(1), 5000);
+        return () => clearTimeout(t);
+    }, [step]);
+
+    const handleSuccess = () => setStep(3);
 
     return (
-        <div className="relative flex min-h-screen flex-col bg-black text-gray-400">
+        <div className="sv-page relative flex min-h-screen flex-col bg-black text-gray-400">
             <div className="fixed top-0 right-0 left-0 z-50">
                 <Nav />
             </div>
 
-            <main className="grow pt-20">
+            <main className="grow">
                 <HeroBanner />
 
                 {/* Steps Section */}
-                <section className="py-20 px-4 md:px-8 relative">
+                <section ref={stepsRef} className="py-20 px-4 md:px-8 relative">
                     <div className="absolute inset-0 bg-linear-to-b from-black via-zinc-900/50 to-black pointer-events-none" />
                     <div className="container mx-auto max-w-6xl relative z-10">
                         <AnimatePresence mode="wait">

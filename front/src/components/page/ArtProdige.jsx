@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useLayoutEffect } from 'react';
 import { createPortal } from 'react-dom';
 import {
     motion,
@@ -15,6 +15,8 @@ import {
     Sparkles, BookMarkedIcon,
 } from 'lucide-react';
 import { art1, art2 } from '../../assets';
+import gsap from 'gsap';
+import TiltCard from '../fx/TiltCard';
 
 // ─── Particle Canvas ──────────────────────────────────────────────────────────
 const ParticleField = () => {
@@ -314,25 +316,9 @@ const WorkCard = ({ work, idx, onExpand, hoveredCard, setHoveredCard, getYoutube
     const youtubeId = isYoutube ? getYoutubeId(work.youtubeUrl) : null;
     const thumbnailUrl = isYoutube ? getYoutubeThumbnail(youtubeId) : work.image;
 
-    const cardRef = useRef(null);
-    const rotateX = useMotionValue(0);
-    const rotateY = useMotionValue(0);
-    const springRotX = useSpring(rotateX, { stiffness: 200, damping: 20 });
-    const springRotY = useSpring(rotateY, { stiffness: 200, damping: 20 });
-
-    const handleMouseMove = (e) => {
-        if (!cardRef.current) return;
-        const rect = cardRef.current.getBoundingClientRect();
-        const px = (e.clientX - rect.left) / rect.width - 0.5;
-        const py = (e.clientY - rect.top) / rect.height - 0.5;
-        rotateX.set(-py * 10);
-        rotateY.set(px * 10);
-    };
-    const handleMouseLeave = () => { rotateX.set(0); rotateY.set(0); };
-
-    const handleClick = () => {
+    const handleClick = (e) => {
         if (isYoutube) window.open(work.youtubeUrl, '_blank');
-        else onExpand(work);
+        else onExpand(work, e);
     };
 
     return (
@@ -340,28 +326,25 @@ const WorkCard = ({ work, idx, onExpand, hoveredCard, setHoveredCard, getYoutube
         // On utilise juste motion.div ici pour le tilt 3D, pas pour l'entrée
         <motion.div
             variants={cardVariants}
-            className="group cursor-pointer"
-            style={{ perspective: 800 }}
+            className="ap-card group cursor-pointer"
             onMouseEnter={() => setHoveredCard(work.id)}
-            onMouseLeave={() => { setHoveredCard(null); handleMouseLeave(); }}
-            onMouseMove={handleMouseMove}
+            onMouseLeave={() => setHoveredCard(null)}
         >
-            <motion.div
-                ref={cardRef}
-                style={{ rotateX: springRotX, rotateY: springRotY, transformStyle: 'preserve-3d' }}
-            >
+          <div className="ap-focus">
+            <TiltCard max={10} className="ap-tilt">
+                <span className="ap-halo" aria-hidden="true" />
                 <div
                     onClick={handleClick}
                     className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-zinc-950 to-black border border-white/10 hover:border-amber-500/50 transition-colors duration-300"
                 >
                     {/* Image */}
                     <div className="aspect-square overflow-hidden bg-gradient-to-br from-zinc-800 to-black relative">
-                        <motion.img
+                        <img
                             src={thumbnailUrl}
                             alt={work.title}
-                            className="w-full h-full object-cover"
-                            whileHover={{ scale: 1.1, filter: 'brightness(1.1)' }}
-                            transition={{ type: 'spring', stiffness: 180, damping: 20 }}
+                            loading="lazy"
+                            decoding="async"
+                            className="ap-img w-full h-full object-cover"
                         />
                         {/* Glint sweep — déclenché par index, pas par whileInView */}
                         <motion.div
@@ -439,7 +422,7 @@ const WorkCard = ({ work, idx, onExpand, hoveredCard, setHoveredCard, getYoutube
                         transition={{ duration: 0.3 }}
                     />
                 </div>
-            </motion.div>
+            </TiltCard>
 
             {/* Info below card */}
             <div className="mt-4 space-y-1">
@@ -455,6 +438,7 @@ const WorkCard = ({ work, idx, onExpand, hoveredCard, setHoveredCard, getYoutube
                     </p>
                 )}
             </div>
+          </div>
         </motion.div>
     );
 };
@@ -463,7 +447,8 @@ const WorkCard = ({ work, idx, onExpand, hoveredCard, setHoveredCard, getYoutube
 // FIX 3 : on remplace overflow-y-auto + my-8 sur la modale par un layout
 //   centré avec padding vertical sur le backdrop. Cela garantit que la modale
 //   est toujours centrée dans le viewport fixe, quel que soit le scroll de la page.
-const WorkModal = ({ work, onClose, categories }) => {
+const WorkModal = ({ work, origin, onClose, categories }) => {
+    const at = `${origin?.x ?? window.innerWidth / 2}px ${origin?.y ?? window.innerHeight / 2}px`;
     // Bloquer le scroll body pendant l'ouverture
     useEffect(() => {
         const prev = document.body.style.overflow;
@@ -481,12 +466,10 @@ const WorkModal = ({ work, onClose, categories }) => {
     return createPortal(
         // Backdrop : fixed + flex centré. PAS de overflow-y-auto ici.
         <motion.div
-            className="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-8"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1, backdropFilter: 'blur(12px)' }}
-            exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
-            transition={{ duration: 0.3 }}
-            style={{ backgroundColor: 'rgba(0,0,0,0.80)' }}
+            className="ap-modal-backdrop fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-8"
+            initial={{ clipPath: `circle(0px at ${at})` }}
+            animate={{ clipPath: `circle(150vmax at ${at})`, transition: { duration: 0.75, ease: [0.76, 0, 0.24, 1] } }}
+            exit={{ clipPath: `circle(0px at ${at})`, transition: { duration: 0.5, ease: [0.76, 0, 0.24, 1], delay: 0.1 } }}
             onClick={onClose}
         >
             {/*
@@ -497,13 +480,12 @@ const WorkModal = ({ work, onClose, categories }) => {
             <motion.div
                 className="relative w-full max-w-2xl overflow-y-auto rounded-3xl"
                 style={{ maxHeight: 'calc(100vh - 4rem)' }}
-                initial={{ opacity: 0, scale: 0.88, y: 40 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.82, y: 30 }}
-                transition={{ type: 'spring', stiffness: 280, damping: 26, mass: 0.8 }}
+                initial={{ opacity: 0, scale: 0.8, y: 60, rotateX: 16 }}
+                animate={{ opacity: 1, scale: 1, y: 0, rotateX: 0, transition: { type: 'spring', stiffness: 220, damping: 24, mass: 0.9, delay: 0.25 } }}
+                exit={{ opacity: 0, scale: 0.9, y: 20, transition: { duration: 0.25 } }}
                 onClick={(e) => e.stopPropagation()}
             >
-                <div className="bg-gradient-to-br from-zinc-900 to-black border-2 border-white/10 rounded-3xl relative overflow-hidden">
+                <div className="ap-modal-panel glass-gold gold-border rounded-3xl relative overflow-hidden">
                     {/* Corner glows */}
                     <div className="absolute top-0 right-0 w-40 h-40 bg-amber-500/10 rounded-bl-[80px] blur-2xl pointer-events-none" />
                     <div className="absolute bottom-0 left-0 w-32 h-32 bg-yellow-500/8 rounded-tr-[60px] blur-xl pointer-events-none" />
@@ -617,10 +599,69 @@ const WorkModal = ({ work, onClose, categories }) => {
     );
 };
 
+// ─── Floating works (hero) ───────────────────────────────────────────────────
+// Œuvres existantes en cartes flottantes : entrée GSAP en profondeur, parallaxe curseur.
+const FLOAT_SLOTS = [
+    { cls: 'tl', depth: 1.5, rot: -8 },
+    { cls: 'bl', depth: 0.9, rot: 6 },
+    { cls: 'tr', depth: 1.2, rot: 7 },
+    { cls: 'br', depth: 1.8, rot: -5 },
+];
+
+const FloatingWorks = ({ images }) => {
+    const ref = useRef(null);
+
+    useLayoutEffect(() => {
+        const root = ref.current;
+        const mm = gsap.matchMedia();
+        const ctx = gsap.context(() => {
+            mm.add('(prefers-reduced-motion: no-preference) and (min-width: 1280px)', () => {
+                gsap.fromTo('.ap-float-in',
+                    { opacity: 0, scale: 0.3, z: -600, rotate: (i) => [-40, 30, 35, -30][i] },
+                    { opacity: 1, scale: 1, z: 0, rotate: 0, duration: 1.8, ease: 'expo.out', stagger: 0.14, delay: 0.4 });
+                const movers = gsap.utils.toArray('.ap-float').map((el) => ({
+                    d: Number(el.dataset.depth),
+                    x: gsap.quickTo(el, 'x', { duration: 1.2, ease: 'power3.out' }),
+                    y: gsap.quickTo(el, 'y', { duration: 1.2, ease: 'power3.out' }),
+                    ry: gsap.quickTo(el, 'rotationY', { duration: 1.2, ease: 'power3.out' }),
+                }));
+                const onMove = (e) => {
+                    const nx = (e.clientX / window.innerWidth) * 2 - 1;
+                    const ny = (e.clientY / window.innerHeight) * 2 - 1;
+                    movers.forEach((m) => { m.x(nx * 30 * m.d); m.y(ny * 20 * m.d); m.ry(nx * 16); });
+                };
+                window.addEventListener('pointermove', onMove, { passive: true });
+                return () => window.removeEventListener('pointermove', onMove);
+            });
+        }, root);
+        return () => { mm.revert(); ctx.revert(); };
+    }, []);
+
+    return (
+        <div ref={ref} className="ap-floats hidden xl:block" aria-hidden="true">
+            {FLOAT_SLOTS.map((slot, i) => (
+                <div key={slot.cls} className={`ap-float ap-float--${slot.cls}`} data-depth={slot.depth}>
+                    <div className="ap-float-in">
+                        <div className="ap-float-card gold-border" style={{ rotate: `${slot.rot}deg` }}>
+                            <img src={images[i]} alt="" loading="lazy" decoding="async" />
+                        </div>
+                    </div>
+                </div>
+            ))}
+        </div>
+    );
+};
+
 // ─── Main Component ───────────────────────────────────────────────────────────
 const ArtProdige = () => {
     const [selectedCategory, setSelectedCategory] = useState('all');
     const [expandedWork, setExpandedWork] = useState(null);
+    const [modalOrigin, setModalOrigin] = useState(null);
+    const openWork = (work, e) => {
+        const fromKeyboard = !e || (e.clientX === 0 && e.clientY === 0);
+        setModalOrigin(fromKeyboard ? null : { x: e.clientX, y: e.clientY });
+        setExpandedWork(work);
+    };
     const [hoveredCard, setHoveredCard] = useState(null);
 
     // FIX 4 : on scope useScroll sur le conteneur principal, pas window,
@@ -709,8 +750,16 @@ const ArtProdige = () => {
                 {/* ══════════════════════ HERO ══════════════════════ */}
                 <section
                     ref={heroRef}
-                    className="relative min-h-[60vh] flex items-center justify-center overflow-hidden px-4 md:px-8"
+                    className="ap-hero relative min-h-[80vh] flex items-center justify-center overflow-hidden px-4 md:px-8"
                 >
+                    <FloatingWorks
+                        images={[
+                            '/sentinelles.jpeg',
+                            art1,
+                            art2,
+                            getYoutubeThumbnail(getYoutubeId(works[2].youtubeUrl)),
+                        ]}
+                    />
                     <div className="absolute inset-0">
                         <ParticleField />
                     </div>
@@ -975,9 +1024,9 @@ const ArtProdige = () => {
                                 transition={{ type: 'spring', stiffness: 80, damping: 16, delay: 0.15 }}
                                 className="lg:col-span-1"
                             >
-                                <div className="sticky top-40 bg-gradient-to-br from-zinc-950 to-black border border-white/10 rounded-2xl p-6 backdrop-blur-sm hover:border-amber-500/25 transition-all duration-300">
+                                <div className="sticky top-32 glass-gold gold-border rounded-2xl p-6">
                                     <h3 className="text-xl font-black text-white mb-6 tracking-tight">Catégories</h3>
-                                    <div className="space-y-2">
+                                    <div className="ap-cats space-y-2">
                                         {categories.map((cat) => {
                                             const Icon = cat.icon;
                                             const isSelected = selectedCategory === cat.id;
@@ -988,7 +1037,7 @@ const ArtProdige = () => {
                                                     whileHover="hover"
                                                     whileTap="tap"
                                                     onClick={() => setSelectedCategory(cat.id)}
-                                                    className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 text-left group relative overflow-hidden ${isSelected
+                                                    className={`ap-cat w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 text-left group relative overflow-hidden ${isSelected ? 'is-active ' : ''}${isSelected
                                                         ? 'bg-gradient-to-r from-amber-500 to-yellow-500 text-black font-bold shadow-lg shadow-amber-500/25'
                                                         : 'text-gray-300 hover:bg-white/5 hover:text-amber-400 border border-transparent hover:border-amber-500/25'
                                                         }`}
@@ -1070,15 +1119,15 @@ const ArtProdige = () => {
                                     {filteredWorks.length > 0 ? (
                                         <motion.div
                                             key={selectedCategory}
-                                            className="grid grid-cols-1 md:grid-cols-2 gap-8"
+                                            className="ap-grid grid grid-cols-1 md:grid-cols-2 gap-8"
                                             initial="hidden"
                                             animate="visible"
-                                            exit={{ opacity: 0, transition: { duration: 0.15 } }}
+                                            exit={{ opacity: 0, scale: 0.88, filter: 'blur(12px)', transition: { duration: 0.3, ease: 'easeIn' } }}
                                             variants={{
-                                                hidden: { opacity: 0 },
+                                                hidden: { opacity: 0, scale: 1.08, filter: 'blur(12px)' },
                                                 visible: {
-                                                    opacity: 1,
-                                                    transition: { staggerChildren: 0.08, delayChildren: 0.05 },
+                                                    opacity: 1, scale: 1, filter: 'blur(0px)',
+                                                    transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1], staggerChildren: 0.08, delayChildren: 0.05 },
                                                 },
                                             }}
                                         >
@@ -1087,7 +1136,7 @@ const ArtProdige = () => {
                                                     key={work.id}
                                                     work={work}
                                                     idx={idx}
-                                                    onExpand={setExpandedWork}
+                                                    onExpand={openWork}
                                                     hoveredCard={hoveredCard}
                                                     setHoveredCard={setHoveredCard}
                                                     getYoutubeId={getYoutubeId}
@@ -1124,6 +1173,7 @@ const ArtProdige = () => {
                     <WorkModal
                         key={expandedWork.id}
                         work={expandedWork}
+                        origin={modalOrigin}
                         onClose={() => setExpandedWork(null)}
                         categories={categories}
                     />

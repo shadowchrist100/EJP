@@ -1,20 +1,32 @@
 import { Nav, Footer, Contact } from '../'
-import React, { useEffect, useState, useRef, useCallback } from 'react';
+import React, { useEffect, useLayoutEffect, useState, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import {
     motion,
     AnimatePresence,
     useScroll,
-    useTransform,
     useAnimation,
     useInView,
     useSpring,
-    useMotionValue,
 } from 'framer-motion';
+import gsap from 'gsap';
+import { SplitText } from 'gsap/SplitText';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import GoldParticles from '../fx/GoldParticles';
+import TiltCard from '../fx/TiltCard';
+import ScrollMarquee from '../fx/ScrollMarquee';
+import useScrollReveal from '../fx/useScrollReveal';
+import fijHero1 from '../../assets/images/fij1.jpeg';
+import fijHero2 from '../../assets/images/fij2.jpeg';
+import fijHero3 from '../../assets/images/fij3.jpeg';
+import fijHero4 from '../../assets/images/fij4.jpeg';
+import fijHero5 from '../../assets/images/fij5.jpeg';
 import { useNearestFij } from '../../hooks/useNearestFij';
 import { useContentApi } from '../../hooks/useContentApi';
 import ContentManager from '../admin/ContentManager';
 import { fijFields, fijColumns } from '../../util/contentConfigs';
+
+gsap.registerPlugin(SplitText, ScrollTrigger);
 
 /* ─── Styles globaux ────────────────────────────────────────────────── */
 
@@ -121,44 +133,6 @@ const lineGrow = {
     visible: { scaleX: 1, transition: { duration: 1, ease: [0.25, 0.46, 0.45, 0.94] } }
 };
 
-/* ─── Titre animé lettre par lettre ────────────────────────────────── */
-
-const AnimatedWord = ({ text, className, delay = 0, style = {} }) => {
-    const chars = Array.from(text);
-    return (
-        <div className="overflow-clip" style={style}>
-            <motion.span
-                className={className}
-                style={{ display: 'inline-block' }}
-                initial="hidden"
-                animate="visible"
-                variants={{
-                    hidden: {},
-                    visible: { transition: { staggerChildren: 0.032, delayChildren: delay } }
-                }}
-                aria-label={text}
-            >
-                {chars.map((char, i) => (
-                    <motion.span
-                        key={i}
-                        style={{ display: 'inline-block' }}
-                        variants={{
-                            hidden: { y: '110%', opacity: 0 },
-                            visible: {
-                                y: 0,
-                                opacity: 1,
-                                transition: { duration: 0.7, ease: [0.76, 0, 0.24, 1] }
-                            }
-                        }}
-                    >
-                        {char === ' ' ? '\u00A0' : char}
-                    </motion.span>
-                ))}
-            </motion.span>
-        </div>
-    );
-};
-
 /* ─── Barre de progression scroll ──────────────────────────────────── */
 
 const ScrollProgress = () => {
@@ -167,117 +141,155 @@ const ScrollProgress = () => {
     return <motion.div className="scroll-progress" style={{ scaleX }} />;
 };
 
-/* ─── Banner avec parallax ──────────────────────────────────────────── */
+/* ─── Hero : typographie cinétique + particules accélérées ──────────── */
 
-const Banner = () => {
+// Photos du diaporama d'origine de la bannière FIJ (fij1 → fij5), restaurées.
+const HERO_PHOTOS = [fijHero1, fijHero2, fijHero3, fijHero4, fijHero5];
+const HERO_SLIDE_MS = 5000;
+
+const FijHero = () => {
     const ref = useRef(null);
-    const { scrollY } = useScroll();
-    const y = useTransform(scrollY, [0, 600], [0, 90]);
-    const opacity = useTransform(scrollY, [0, 400], [1, 0]);
+    const [slide, setSlide] = useState(0);
+    const compact = typeof window !== 'undefined' && window.matchMedia('(max-width: 768px)').matches;
+
+    useEffect(() => {
+        const id = setInterval(() => setSlide((s) => (s + 1) % HERO_PHOTOS.length), HERO_SLIDE_MS);
+        return () => clearInterval(id);
+    }, []);
+
+    useLayoutEffect(() => {
+        const root = ref.current;
+        const mm = gsap.matchMedia();
+        const ctx = gsap.context(() => {
+            mm.add('(prefers-reduced-motion: no-preference)', () => {
+                const lines = gsap.utils.toArray('.fij-line');
+                const splits = lines.map((l) => SplitText.create(l, { type: 'chars', mask: 'chars' }));
+
+                const tl = gsap.timeline({ delay: 0.25, defaults: { ease: 'expo.out' } });
+                tl.fromTo('.fij-hero-photos', { scale: 1.35, opacity: 0 }, { scale: 1, opacity: 1, duration: 2.4, ease: 'power3.out' }, 0)
+                    .fromTo('.fij-tag-line', { scaleX: 0 }, { scaleX: 1, duration: 1.2 }, 0.2)
+                    .fromTo('.fij-tag-text', { opacity: 0, letterSpacing: '1.1em' }, { opacity: 1, letterSpacing: '0.3em', duration: 1.6 }, 0.2);
+                splits.forEach((s, i) => {
+                    tl.from(s.chars, {
+                        yPercent: i === 1 ? -130 : 130,
+                        rotateX: i === 1 ? 100 : -100,
+                        scale: 1.6,
+                        duration: 1.3,
+                        stagger: { each: 0.04, from: i === 1 ? 'center' : 'start' },
+                    }, 0.35 + i * 0.22);
+                });
+                tl.fromTo('.fij-sub', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 1.1, clearProps: 'transform,opacity' }, 1.1)
+                    .fromTo('.fij-ctas', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 1.1, clearProps: 'transform,opacity' }, 1.25)
+                    .fromTo('.fij-scroll', { opacity: 0 }, { opacity: 0.7, duration: 1 }, 1.8);
+
+                // Scroll: the three lines slide apart in opposite directions (kinetic type)
+                gsap.timeline({ scrollTrigger: { trigger: root, start: 'top top', end: 'bottom top', scrub: 0.5 } })
+                    .to(lines[0], { xPercent: -24, ease: 'none' }, 0)
+                    .to(lines[1], { xPercent: 26, ease: 'none' }, 0)
+                    .to(lines[2], { xPercent: -14, scale: 1.12, ease: 'none' }, 0)
+                    .to('.fij-hero-bg', { yPercent: 16, scale: 1.12, ease: 'none' }, 0)
+                    .to('.fij-sub, .fij-ctas', { y: -60, opacity: 0, ease: 'none' }, 0);
+
+                // Cursor: each line floats at its own depth
+                const movers = lines.map((el, i) => ({
+                    d: [1, -1.6, 2.2][i],
+                    x: gsap.quickTo(el, 'x', { duration: 1, ease: 'power3.out' }),
+                    y: gsap.quickTo(el, 'y', { duration: 1, ease: 'power3.out' }),
+                }));
+                const onMove = (e) => {
+                    const nx = (e.clientX / window.innerWidth) * 2 - 1;
+                    const ny = (e.clientY / window.innerHeight) * 2 - 1;
+                    movers.forEach((m) => { m.x(nx * 18 * m.d); m.y(ny * 8 * m.d); });
+                };
+                window.addEventListener('pointermove', onMove, { passive: true });
+                return () => window.removeEventListener('pointermove', onMove);
+            });
+        }, root);
+        return () => { mm.revert(); ctx.revert(); };
+    }, []);
 
     return (
-        <motion.div
-            ref={ref}
-            style={{ y, opacity }}
-            className="relative z-10 w-full max-w-6xl mx-auto px-6 font-body"
-        >
-            {/* Tag avec lignes qui s'étirent */}
-            <motion.div
-                initial="hidden"
-                animate="visible"
-                variants={staggerContainer}
-                className="mb-8 flex items-center gap-3"
-            >
-                <motion.span
-                    variants={lineGrow}
-                    className="w-8 h-px bg-amber-500 origin-left inline-block"
-                />
-                <motion.span
-                    variants={fadeInUp}
-                    className="text-amber-400 tracking-[0.3em] text-xs uppercase font-bold"
-                >
-                    Église des Jeunes Prodiges
-                </motion.span>
-                <motion.span
-                    variants={lineGrow}
-                    className="w-8 h-px bg-amber-500 origin-right inline-block"
-                />
-            </motion.div>
-
-            {/* Titres — lettre par lettre */}
-            <div className="mb-4 leading-none">
-                <AnimatedWord
-                    text="LES FAMILLES"
-                    className="font-display text-[clamp(2rem,10vw,10rem)] sm:text-[clamp(3.5rem,12vw,10rem)] leading-none tracking-wide text-white"
-                    delay={0.2}
-                />
-                <AnimatedWord
-                    text="D'IMPACT"
-                    className="font-display text-[clamp(2rem,10vw,10rem)] sm:text-[clamp(3.5rem,12vw,10rem)] leading-none tracking-wide text-stroke"
-                    delay={0.45}
-                />
-                <AnimatedWord
-                    text="JEUNES"
-                    className="font-display text-[clamp(2rem,10vw,10rem)] sm:text-[clamp(3.5rem,12vw,10rem)] leading-none tracking-wide text-amber-400"
-                    delay={0.68}
-                />
+        <section ref={ref} className="fij-hero hero-grain">
+            <div className="fij-hero-bg" aria-hidden="true">
+                <div className="fij-hero-photos">
+                    {HERO_PHOTOS.map((src, i) => (
+                        <img
+                            key={src}
+                            src={src}
+                            alt=""
+                            className={`fij-hero-photo ${i === slide ? 'is-active' : ''}`}
+                            loading={i === 0 ? 'eager' : 'lazy'}
+                            decoding="async"
+                        />
+                    ))}
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-black/40" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30" />
             </div>
 
-            {/* Sous-titre */}
-            <motion.p
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.9, delay: 1.1, ease: [0.25, 0.46, 0.45, 0.94] }}
-                className="text-gray-300 text-lg leading-relaxed font-light mb-12 max-w-xl"
-            >
-                Découvre les cellules vivantes de l'EJP — des communautés de jeunes qui transforment
-                leurs quartiers et leurs villes pour Christ.
-            </motion.p>
+            <GoldParticles count={compact ? 600 : 1600} variant="rise" speed={2.8} />
+            <span className="fij-hero-flare" aria-hidden="true" />
 
-            {/* CTAs */}
+            {/* Ligne verticale gauche */}
             <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.9, delay: 1.3, ease: [0.25, 0.46, 0.45, 0.94] }}
-                className="flex items-center gap-6"
-            >
-                <motion.a
-                    whileHover={{ scale: 1.04 }}
-                    whileTap={{ scale: 0.96 }}
-                    href="#fij-list"
-                    className="group relative overflow-hidden bg-amber-500 text-black px-10 py-4 font-bold text-sm tracking-[0.15em] uppercase"
-                >
-                    {/* Shimmer au hover */}
-                    <motion.span
-                        className="absolute inset-0 bg-amber-400 -translate-x-full skew-x-[-15deg]"
-                        whileHover={{ translateX: '0%' }}
-                        transition={{ duration: 0.45, ease: [0.76, 0, 0.24, 1] }}
-                    />
-                    <span className="relative z-10 flex items-center gap-3">
-                        Trouver ma FIJ
-                        <svg
-                            className="w-4 h-4 btn-arrow-icon"
-                            fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                        >
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                        </svg>
+                initial={{ scaleY: 0 }}
+                animate={{ scaleY: 1 }}
+                transition={{ duration: 1.2, delay: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
+                className="absolute left-4 lg:left-8 top-24 bottom-24 w-px bg-gradient-to-b from-transparent via-amber-600/30 to-transparent origin-top"
+            />
+
+            <OrbitalShapes />
+
+            <div className="relative z-10 w-full max-w-6xl mx-auto px-6 font-body">
+                <div className="mb-8 flex items-center gap-3">
+                    <span className="fij-tag-line w-8 h-px bg-amber-500 origin-left inline-block" />
+                    <span className="fij-tag-text text-amber-400 tracking-[0.3em] text-xs uppercase font-bold">
+                        Église des Jeunes Prodiges
                     </span>
-                </motion.a>
-                <a
-                    href="#apropos"
-                    className="text-gray-400 hover:text-white transition-colors text-sm tracking-widest uppercase font-medium link-underline"
-                >
-                    En savoir plus
-                </a>
-            </motion.div>
+                    <span className="fij-tag-line w-8 h-px bg-amber-500 origin-right inline-block" />
+                </div>
+
+                <h1 className="fij-title mb-6" aria-label="Les Familles d'Impact Jeunes">
+                    <span className="fij-line font-display text-white" aria-hidden="true">LES FAMILLES</span>
+                    <span className="fij-line font-display text-stroke" aria-hidden="true">D'IMPACT</span>
+                    <span className="fij-line font-display text-amber-400" aria-hidden="true">JEUNES</span>
+                </h1>
+
+                <p className="fij-sub text-gray-300 text-lg leading-relaxed font-light mb-12 max-w-xl">
+                    Découvre les cellules vivantes de l'EJP — des communautés de jeunes qui transforment
+                    leurs quartiers et leurs villes pour Christ.
+                </p>
+
+                <div className="fij-ctas flex items-center gap-6">
+                    <motion.a
+                        whileHover={{ scale: 1.04 }}
+                        whileTap={{ scale: 0.96 }}
+                        href="#fij-list"
+                        className="group relative overflow-hidden bg-amber-500 text-black px-10 py-4 font-bold text-sm tracking-[0.15em] uppercase btn-glow"
+                    >
+                        <motion.span
+                            className="absolute inset-0 bg-amber-400 -translate-x-full skew-x-[-15deg]"
+                            whileHover={{ translateX: '0%' }}
+                            transition={{ duration: 0.45, ease: [0.76, 0, 0.24, 1] }}
+                        />
+                        <span className="relative z-10 flex items-center gap-3">
+                            Trouver ma FIJ
+                            <svg className="w-4 h-4 btn-arrow-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                        </span>
+                    </motion.a>
+                    <a
+                        href="#apropos"
+                        className="text-gray-400 hover:text-white transition-colors text-sm tracking-widest uppercase font-medium link-underline"
+                    >
+                        En savoir plus
+                    </a>
+                </div>
+            </div>
 
             {/* Indicateur scroll animé */}
-            <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 0.7 }}
-                transition={{ delay: 2, duration: 1 }}
-                className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-            >
+            <div className="fij-scroll absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 z-10">
                 <span className="text-gray-500 text-[10px] tracking-[0.3em] uppercase">Scroll</span>
                 <div className="w-px h-12 overflow-hidden">
                     <motion.div
@@ -287,8 +299,8 @@ const Banner = () => {
                         style={{ height: '100%' }}
                     />
                 </div>
-            </motion.div>
-        </motion.div>
+            </div>
+        </section>
     );
 };
 
@@ -306,17 +318,9 @@ const Aboutfij = () => (
             <motion.p variants={fadeInUp} className="text-amber-500 tracking-[0.3em] text-xs uppercase font-bold mb-6">
                 Comprendre les FIJ
             </motion.p>
-            <div className="overflow-clip">
-                <motion.h2
-                    variants={{
-                        hidden: { y: '100%', opacity: 0 },
-                        visible: { y: 0, opacity: 1, transition: { duration: 0.9, ease: [0.76, 0, 0.24, 1] } }
-                    }}
-                    className="font-display text-[clamp(2.5rem,7vw,5rem)] text-white leading-none mb-8"
-                >
-                    C'EST QUOI UNE FIJ ?
-                </motion.h2>
-            </div>
+            <h2 data-reveal="chars" className="font-display text-[clamp(2.5rem,7vw,5rem)] text-white leading-none mb-8">
+                C'EST QUOI UNE FIJ ?
+            </h2>
             <motion.div variants={lineGrow} className="w-16 h-px bg-amber-600 mx-auto mb-8 origin-center" />
             <motion.p variants={fadeInUp} className="text-gray-300 text-lg leading-relaxed font-light">
                 Les FIJ sont les cellules de l'Église des Jeunes Prodiges. Les jeunes se réunissent{' '}
@@ -328,15 +332,17 @@ const Aboutfij = () => (
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-px bg-gray-800">
             {/* Box 1 – image */}
-            <motion.div
-                initial={{ opacity: 0, x: -60 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: '-50px' }}
-                transition={{ duration: 0.9, ease: [0.25, 0.46, 0.45, 0.94] }}
-                className="relative h-[480px] overflow-hidden group bg-black"
+            <div
+                data-reveal="mask"
+                className="fij-about-media relative h-[480px] overflow-hidden group bg-black"
             >
-                <div className="absolute inset-0 bg-center bg-cover transition-transform duration-700 group-hover:scale-105"
-                    style={{ backgroundImage: 'url("/images/fij6.jpeg")' }} />
+                <div className="absolute inset-0" data-reveal-media>
+                    <div className="absolute -inset-y-[12%] inset-x-0" data-parallax="8">
+                        <div className="absolute inset-0 bg-center bg-cover transition-transform duration-700 group-hover:scale-105"
+                            style={{ backgroundImage: 'url("/images/fij6.jpeg")' }} />
+                    </div>
+                </div>
+                <div className="fij-about-glow" aria-hidden="true" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
                 <div className="absolute bottom-0 left-0 p-10">
                     <span className="text-amber-500 text-xs tracking-[0.3em] uppercase font-bold mb-3 block">01</span>
@@ -352,7 +358,7 @@ const Aboutfij = () => (
                         </motion.h3>
                     </div>
                 </div>
-            </motion.div>
+            </div>
 
             {/* Box 1 – texte */}
             <motion.div
@@ -421,15 +427,17 @@ const Aboutfij = () => (
             </motion.div>
 
             {/* Box 2 – image */}
-            <motion.div
-                initial={{ opacity: 0, x: 60 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: '-50px' }}
-                transition={{ duration: 0.9, ease: [0.25, 0.46, 0.45, 0.94] }}
-                className="relative h-[480px] overflow-hidden group bg-black order-1 lg:order-none"
+            <div
+                data-reveal="mask"
+                className="fij-about-media relative h-[480px] overflow-hidden group bg-black order-1 lg:order-none"
             >
-                <div className="absolute inset-0 bg-center bg-cover transition-transform duration-700 group-hover:scale-105"
-                    style={{ backgroundImage: 'url("/images/fij3.jpeg")' }} />
+                <div className="absolute inset-0" data-reveal-media>
+                    <div className="absolute -inset-y-[12%] inset-x-0" data-parallax="8">
+                        <div className="absolute inset-0 bg-center bg-cover transition-transform duration-700 group-hover:scale-105"
+                            style={{ backgroundImage: 'url("/images/fij3.jpeg")' }} />
+                    </div>
+                </div>
+                <div className="fij-about-glow" aria-hidden="true" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
                 <div className="absolute bottom-0 left-0 p-10">
                     <span className="text-amber-500 text-xs tracking-[0.3em] uppercase font-bold mb-3 block">02</span>
@@ -445,7 +453,7 @@ const Aboutfij = () => (
                         </motion.h3>
                     </div>
                 </div>
-            </motion.div>
+            </div>
         </div>
     </div>
 );
@@ -504,7 +512,10 @@ const Divider = () => {
 
 /* ─── Modale Carte ───────────────────────────────────────────────────── */
 
-const MapModal = ({ fij, onClose }) => {
+const MapModal = ({ fij, origin, onClose }) => {
+    // L'ouverture part du bouton cliqué : cercle de lumière qui s'étend (clip-path).
+    const at = `${origin?.x ?? window.innerWidth / 2}px ${origin?.y ?? window.innerHeight / 2}px`;
+
     useEffect(() => {
         const prev = document.body.style.overflow;
         document.body.style.overflow = 'hidden';
@@ -519,20 +530,17 @@ const MapModal = ({ fij, onClose }) => {
 
     return createPortal(
         <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-[9999] flex items-center justify-center p-4 md:p-10"
-            style={{ background: 'rgba(0,0,0,0.88)', backdropFilter: 'blur(8px)' }}
+            initial={{ clipPath: `circle(0px at ${at})` }}
+            animate={{ clipPath: `circle(150vmax at ${at})`, transition: { duration: 0.75, ease: [0.76, 0, 0.24, 1] } }}
+            exit={{ clipPath: `circle(0px at ${at})`, transition: { duration: 0.5, ease: [0.76, 0, 0.24, 1], delay: 0.1 } }}
+            className="fij-modal-backdrop fixed inset-0 z-[9999] flex items-center justify-center p-4 md:p-10"
             onClick={onClose}
         >
             <motion.div
-                initial={{ opacity: 0, scale: 0.88, y: 32 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.92, y: 20 }}
-                transition={{ type: 'spring', stiffness: 340, damping: 28, mass: 0.8 }}
-                className="relative w-full max-w-3xl bg-zinc-900 border border-amber-500/30 shadow-[0_0_80px_rgba(217,119,6,0.15)] overflow-hidden flex flex-col"
+                initial={{ opacity: 0, scale: 0.8, y: 60, rotateX: 18 }}
+                animate={{ opacity: 1, scale: 1, y: 0, rotateX: 0, transition: { type: 'spring', stiffness: 220, damping: 24, mass: 0.9, delay: 0.25 } }}
+                exit={{ opacity: 0, scale: 0.92, y: 20, transition: { duration: 0.25 } }}
+                className="relative w-full max-w-3xl glass-gold gold-border fij-modal-panel overflow-hidden flex flex-col"
                 style={{ height: 'min(580px, 88vh)' }}
                 onClick={(e) => e.stopPropagation()}
             >
@@ -629,35 +637,32 @@ const MapModal = ({ fij, onClose }) => {
     );
 };
 
-/* ─── Card FIJ — description expandable + boutons toujours accessibles ── */
+/* ─── Card FIJ — verre dépoli, tilt 3D, description dépliable fluide ─── */
 
 const FijCard = ({ fij, index, onMapClick }) => {
-    const cardRef = useRef(null);
     const [expanded, setExpanded] = useState(false);
 
-    const handleMouseMove = useCallback((e) => {
-        if (!cardRef.current) return;
-        const rect = cardRef.current.getBoundingClientRect();
-        const x = ((e.clientX - rect.left) / rect.width * 100).toFixed(1);
-        const y = ((e.clientY - rect.top) / rect.height * 100).toFixed(1);
-        cardRef.current.style.setProperty('--mx', `${x}%`);
-        cardRef.current.style.setProperty('--my', `${y}%`);
-    }, []);
-
-    /* Détecte si la description dépasse 3 lignes pour afficher le bouton "Lire plus" */
+    /* Mesure la description : 3 lignes repliée, hauteur réelle dépliée (transition fluide) */
     const descRef = useRef(null);
-    const [isTruncated, setIsTruncated] = useState(false);
-    useEffect(() => {
+    const [heights, setHeights] = useState({ collapsed: 0, full: 0 });
+    useLayoutEffect(() => {
         const el = descRef.current;
-        if (!el) return;
-        /* scrollHeight > clientHeight quand le texte est tronqué */
-        setIsTruncated(el.scrollHeight > el.clientHeight + 2);
+        if (!el) return undefined;
+        const measure = () => {
+            const lh = parseFloat(getComputedStyle(el).lineHeight) || 22;
+            setHeights({ collapsed: Math.round(lh * 3), full: el.scrollHeight });
+        };
+        measure();
+        const ro = new ResizeObserver(measure);
+        ro.observe(el);
+        return () => ro.disconnect();
     }, [fij.description]);
+    const isTruncated = heights.full > heights.collapsed + 2;
+    const descHeight = !heights.full ? 'auto' : (expanded || !isTruncated ? heights.full : heights.collapsed);
 
     return (
-        <motion.div
-            ref={cardRef}
-            onMouseMove={handleMouseMove}
+        <TiltCard
+            max={7}
             variants={{
                 hidden: { opacity: 0, y: 60 },
                 visible: {
@@ -666,7 +671,7 @@ const FijCard = ({ fij, index, onMapClick }) => {
                     transition: { duration: 0.7, type: 'spring', stiffness: 80, damping: 18 }
                 }
             }}
-            className="card-root w-full bg-zinc-900 border border-zinc-800 hover:border-amber-500/30 transition-colors duration-300 flex flex-col overflow-hidden relative"
+            className="card-root fij-card glass-gold gold-border w-full flex flex-col overflow-hidden"
         >
             {/* Couche de lumière mouse-tracking */}
             <div className="card-shine-layer" />
@@ -676,7 +681,9 @@ const FijCard = ({ fij, index, onMapClick }) => {
                 <img
                     src={fij.image || '/api/placeholder/400/320'}
                     alt={fij.nom}
-                    className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
+                    loading="lazy"
+                    decoding="async"
+                    className="fij-card-img w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-zinc-900 via-zinc-900/20 to-transparent" />
                 <div className="absolute top-4 left-4">
@@ -706,14 +713,20 @@ const FijCard = ({ fij, index, onMapClick }) => {
 
                 {/* Description avec expand/collapse animé */}
                 <div className="relative mb-1">
-                    <div className="overflow-hidden">
+                    <motion.div
+                        className="fij-desc-wrap"
+                        initial={false}
+                        animate={{ height: descHeight }}
+                        transition={{ duration: 0.65, ease: [0.76, 0, 0.24, 1] }}
+                        data-collapsed={isTruncated && !expanded}
+                    >
                         <p
                             ref={descRef}
-                            className={`text-gray-400 text-sm leading-relaxed font-light ${expanded ? '' : 'line-clamp-3'}`}
+                            className="text-gray-400 text-sm leading-relaxed font-light"
                         >
                             {fij.description}
                         </p>
-                    </div>
+                    </motion.div>
 
                     {/* Bouton lire plus / moins — visible seulement si texte tronqué */}
                     {(isTruncated || expanded) && (
@@ -775,7 +788,7 @@ const FijCard = ({ fij, index, onMapClick }) => {
                     <motion.button
                         whileHover={fij.mapURL ? { scale: 1.02, backgroundColor: '#fbbf24' } : {}}
                         whileTap={fij.mapURL ? { scale: 0.95 } : {}}
-                        onClick={() => fij.mapURL && onMapClick(fij)}
+                        onClick={(e) => fij.mapURL && onMapClick(fij, e)}
                         disabled={!fij.mapURL}
                         className={`flex-1 text-xs font-black py-3 tracking-[0.15em] uppercase transition-colors flex items-center justify-center gap-2 ${
                             fij.mapURL
@@ -808,7 +821,7 @@ const FijCard = ({ fij, index, onMapClick }) => {
                     )}
                 </div>
             </div>
-        </motion.div>
+        </TiltCard>
     );
 };
 
@@ -867,6 +880,12 @@ const FijGrid = () => {
     const hasDistances = sortedFijs.length > 0 && sortedFijs[0].distance !== undefined;
     const isFiltered = searchQuery.trim() !== '' || hasDistances;
 
+    // Mémorise le point de clic pour l'ouverture cinématique de la carte
+    const openMap = (fij, e) => {
+        const fromKeyboard = !e || (e.clientX === 0 && e.clientY === 0);
+        setActiveMap({ fij, x: fromKeyboard ? undefined : e.clientX, y: fromKeyboard ? undefined : e.clientY });
+    };
+
     const handleReset = () => {
         setSearchQuery('');
         resetFijs();
@@ -881,7 +900,7 @@ const FijGrid = () => {
                         placeholder="Rechercher par quartier proche (ex: Tokpota, Ouando...)" 
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className="w-full bg-zinc-900 border border-zinc-700 text-white px-4 py-3 rounded-none focus:outline-none focus:border-amber-500 transition-colors text-sm"
+                        className="fij-search w-full text-white px-4 py-3 focus:outline-none text-sm"
                     />
                     {searchQuery && (
                         <button 
@@ -957,7 +976,7 @@ const FijGrid = () => {
                             key={index}
                             fij={fij}
                             index={index}
-                            onMapClick={setActiveMap}
+                            onMapClick={openMap}
                         />
                     ))
                 ) : (
@@ -969,7 +988,7 @@ const FijGrid = () => {
 
             <AnimatePresence mode="wait">
                 {activeMap && (
-                    <MapModal fij={activeMap} onClose={() => setActiveMap(null)} />
+                    <MapModal fij={activeMap.fij} origin={activeMap} onClose={() => setActiveMap(null)} />
                 )}
             </AnimatePresence>
 
@@ -1038,8 +1057,12 @@ const OrbitalShapes = () => (
 
 /* ─── Page principale ────────────────────────────────────────────────── */
 
-const Fij = () => (
-    <section className="bg-black font-body">
+const Fij = () => {
+    const pageRef = useRef(null);
+    useScrollReveal(pageRef);
+
+    return (
+    <section ref={pageRef} className="fij-page bg-black font-body">
         <GlobalStyles />
         <ScrollProgress />
 
@@ -1050,31 +1073,8 @@ const Fij = () => (
                     <Nav />
                 </div>
 
-                {/* Spacer nav */}
-                <div className="h-10 lg:h-32" />
-
                 {/* Hero */}
-                <section className="relative min-h-screen flex items-center overflow-hidden hero-grain">
-                    <div className="absolute banner-fij inset-0 bg-cover bg-center">
-                        <div className="absolute inset-0 bg-gradient-to-r from-black via-black/80 to-black/40" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/30" />
-                    </div>
-
-                    {/* Ligne verticale gauche */}
-                    <motion.div
-                        initial={{ scaleY: 0 }}
-                        animate={{ scaleY: 1 }}
-                        transition={{ duration: 1.2, delay: 0.5, ease: [0.25, 0.46, 0.45, 0.94] }}
-                        className="absolute left-4 lg:left-8 top-24 bottom-24 w-px bg-gradient-to-b from-transparent via-amber-600/30 to-transparent origin-top"
-                    />
-
-                    {/* Formes orbitales */}
-                    <OrbitalShapes />
-
-                    <div className="relative z-10 w-full">
-                        <Banner />
-                    </div>
-                </section>
+                <FijHero />
 
                 {/* À propos */}
                 <section id="apropos" className="bg-black">
@@ -1084,8 +1084,9 @@ const Fij = () => (
                 <Divider />
 
                 {/* Liste FIJ */}
-                <section id="fij-list" className="py-24 bg-zinc-950">
-                    <div className="container mx-auto px-4">
+                <section id="fij-list" className="relative py-24 bg-zinc-950 overflow-hidden">
+                    <ScrollMarquee text="Familles d'Impact" from="0%" to="-40%" style={{ top: '2rem' }} />
+                    <div className="container mx-auto px-4 relative z-10">
                         <div className="mb-20 flex flex-col lg:flex-row lg:items-end lg:justify-between gap-8 max-w-7xl mx-auto px-4">
                             <motion.div
                                 initial="hidden"
@@ -1099,21 +1100,9 @@ const Fij = () => (
                                 >
                                     Communautés locales
                                 </motion.p>
-                                <div className="overflow-clip">
-                                    <motion.h2
-                                        variants={{
-                                            hidden: { y: '100%', opacity: 0 },
-                                            visible: {
-                                                y: 0,
-                                                opacity: 1,
-                                                transition: { duration: 0.9, ease: [0.76, 0, 0.24, 1] }
-                                            }
-                                        }}
-                                        className="font-display text-[clamp(2.5rem,8vw,6rem)] text-white leading-none"
-                                    >
-                                        REJOINS<br />UNE FIJ
-                                    </motion.h2>
-                                </div>
+                                <h2 data-reveal="chars" className="font-display text-[clamp(2.5rem,8vw,6rem)] text-white leading-none">
+                                    REJOINS<br />UNE FIJ
+                                </h2>
                             </motion.div>
                             <motion.p
                                 initial={{ opacity: 0, x: 30 }}
@@ -1143,6 +1132,7 @@ const Fij = () => (
             </div>
         </PageTransition>
     </section>
-);
+    );
+};
 
 export default Fij;
